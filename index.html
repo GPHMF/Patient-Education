@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Simplified - GPHMF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e8f0; /* slate-200 */
+            color: #1e293b; /* slate-800 */
+            overflow-x: hidden;
+        }
+        .animated-bg {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(-45deg, #dbeafe, #e0e7ff, #f3f4f6, #dbeafe);
+            background-size: 400% 400%;
+            animation: gradient 30s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .card-content { max-height: 0; overflow: hidden; transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1), padding 0.7s cubic-bezier(0.4, 0, 0.2, 1); padding: 0 1.5rem; }
+        .card-content.show { max-height: 3000px; padding-top: 1rem; padding-bottom: 1.5rem; }
+        .card-header .chevron-icon { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-header.open .chevron-icon { transform: rotate(180deg); }
+
+        .sub-accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+        .sub-accordion-content.show { max-height: 1500px; }
+        .sub-accordion-button .fa-chevron-down { transition: transform 0.3s ease-in-out; }
+        .sub-accordion-button.open .fa-chevron-down { transform: rotate(180deg); }
+
+        .card { transition: transform 0.4s ease, box-shadow 0.4s ease; opacity: 0; transform: translateY(30px); }
+        .card.visible { opacity: 1; transform: translateY(0px); }
+        .card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
+
+        /* --- Translation Widget Styles --- */
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0ea5e9; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple { background-color: white !important; border: 1px solid #e2e8f0 !important; border-radius: 0.375rem !important; padding: 0.25rem 0.5rem !important; display: inline-block; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #334155 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .goog-te-menu-frame { border-radius: 0.5rem !important; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important; border: 1px solid #e2e8f0 !important; background: white !important; }
+        .goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div { font-family: 'Inter', sans-serif !important; background-color: white !important; color: #334155 !important; padding: 0.5rem 1rem !important; }
+        .goog-te-menu2-item-selected div, .goog-te-menu2-item:hover div { background-color: #f0f9ff !important; color: #0284c7 !important; }
+    </style>
+</head>
+<body class="text-slate-800">
+    <div class="animated-bg"></div>
+
+    <!-- Header -->
+    <header class="bg-slate-50/70 backdrop-blur-lg shadow-sm sticky top-0 z-20 border-b border-slate-200/80">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="text-left">
+                <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-teal-600">Wellness Simplified</h1>
+                <p class="text-sm text-slate-500 hidden sm:block">An initiative by the GPHMF</p>
+            </div>
+             <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-slate-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md text-slate-600">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md text-slate-600">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="back_button">Back</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative py-20 md:py-32">
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h2 class="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight tracking-tight" data-translate="hero_title"></h2>
+            <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-slate-600" data-translate="hero_subtitle"></p>
+            <div class="mt-10">
+                <a href="#topics" class="bg-gradient-to-r from-sky-500 to-teal-500 hover:from-sky-600 hover:to-teal-600 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 shadow-2xl shadow-sky-500/20 text-lg" data-translate="hero_button"></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main id="topics" class="container mx-auto px-4 md:px-6 py-16">
+        <div id="card-container" class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-10"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-100/50 text-slate-600 mt-16 border-t border-slate-300/70">
+        <div class="container mx-auto px-6 py-10 text-left md:text-center">
+            <div class="max-w-4xl mx-auto space-y-4 text-sm">
+                <p><strong class="font-semibold text-slate-700" data-translate="footer_disclaimer_title"></strong> <span data-translate="footer_disclaimer_text"></span></p>
+                <p><strong class="font-semibold text-slate-700" data-translate="footer_source_title"></strong> <span data-translate="footer_source_text"></span></p>
+            </div>
+            <p class="mt-8 text-center text-xs text-slate-500">&copy; 2024 Global Population Health Management Forum. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        const ACCENT_COLOR_FROM = "sky";
+        const ACCENT_COLOR_TO = "teal";
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                back_button: "Back",
+                hero_title: "Your Journey to Better Health",
+                hero_subtitle: "Empowering you with clear, reliable, and accessible information to manage your health and well-being effectively. Explore our guides to understand conditions, treatments, and healthy habits.",
+                hero_button: "Explore Health Topics",
+                section_lifestyle: "Lifestyle Diseases",
+                desc_lifestyle: "Learn about managing chronic conditions that are often linked to daily habits, and discover steps to improve your quality of life.",
+                section_mental: "Mental Health",
+                desc_mental: "Explore resources on mental well-being, from understanding different conditions to finding effective coping strategies and treatments.",
+                section_vaccination: "Vaccination",
+                desc_vaccination: "Get the facts about vaccines. Our guides provide reliable information to help you make informed decisions for your family's health.",
+                section_organ: "Chronic Organ Diseases",
+                desc_organ: "Find in-depth information on long-term organ conditions, including how they affect the body and available treatment options.",
+                topic_t2dm: "Type 2 Diabetes Mellitus",
+                topic_t2dm_homepage: "Understanding Type 2 Diabetes",
+                topic_hypertension: "Hypertension",
+                topic_hypertension_homepage: "Understanding Hypertension",
+                topic_obesity: "Obesity & Weight Loss",
+                topic_obesity_homepage: "Understanding Obesity",
+                topic_mental_conditions: "Mental Health Conditions",
+                topic_mental_conditions_homepage: "Understanding Mental Health",
+                topic_vaccination: "Vaccination",
+                topic_vaccination_homepage: "Countering Myths with Facts",
+                topic_ckd: "Chronic Kidney Disease",
+                topic_ckd_homepage: "Understanding CKD",
+                topic_cld: "Chronic Liver Disease",
+                topic_cld_homepage: "Understanding CLD",
+                topic_copd: "Chronic Obstructive Pulmonary Disease (COPD)",
+                topic_copd_homepage: "Understanding COPD",
+                topic_arthritis: "Chronic Joint Diseases (Arthritis)",
+                topic_arthritis_homepage: "Understanding Arthritis",
+                subtopic_details_button: "View Detailed Topics",
+                footer_disclaimer_title: "Disclaimer:",
+                footer_disclaimer_text: "These guides are for educational purposes only and are not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                footer_source_title: "Source Material:",
+                footer_source_text: "Information is primarily adapted from reputable sources such as the CDC, WHO, and other national databases (e.g., NIMH, NIDDK, etc.).",
+                
+                // Subtopic Headers
+                sub_htn_comp_title: "Potential Complications", sub_htn_mgmt_title: "Management",
+                sub_obesity_comp_title: "Reducing Complication Risks", sub_obesity_diet_title: "Diet Plans",
+                sub_mental_overview_title: "Detailed Overviews", sub_mental_mgmt_title: "Management",
+                sub_ckd_basics_title: "The Basics", sub_ckd_comp_title: "Complications", sub_ckd_treat_title: "Treatment Options",
+                sub_cld_stages_title: "Stages of Chronic Liver Disease", sub_cld_causes_title: "Causes", sub_cld_comp_title: "Complications", sub_cld_diag_title: "Diagnosis", sub_cld_treat_title: "Treatment",
+                sub_copd_causes_title: "Causes of COPD", sub_copd_diag_title: "Diagnosis", sub_copd_treat_title: "Treatment",
+                sub_arthritis_types_title: "Common Types", sub_arthritis_diag_title: "Diagnosis", sub_arthritis_treat_title: "Treatment",
+
+                // Subpage translations
+                sub_t2dm_1: "Complications of Type 2 Diabetes", sub_t2dm_2: "Fitness Tips", sub_t2dm_3: "The Plate Method for Diabetes", sub_t2dm_4: "Medications used in the Treatment of Type 2 Diabetes", sub_t2dm_5: "Diabetes and Mental Wellness",
+                sub_htn_comp_1: "Heart Failure", sub_htn_comp_2: "Heart Attack", sub_htn_comp_3: "Stroke", sub_htn_comp_4: "Kidney Failure",
+                sub_htn_mgmt_1: "DASH Diet Plan", sub_htn_mgmt_2: "Reducing Sodium Intake", sub_htn_mgmt_3: "Exercise", sub_htn_mgmt_4: "Healthy Weight & BMI", sub_htn_mgmt_5: "Quitting Smoking",
+                sub_obesity_comp_1: "Heart", sub_obesity_comp_2: "Type 2 Diabetes", sub_obesity_comp_3: "Joint Pain/Arthritis",
+                sub_obesity_diet_1: "Mediterranean Diet", sub_obesity_diet_2: "DASH Diet", sub_obesity_diet_3: "Plant-Powered Diet",
+                sub_mental_overview_1: "Anxiety", sub_mental_overview_2: "Depression", sub_mental_overview_3: "Bipolar Disorder", sub_mental_overview_4: "Post-Traumatic Stress Disorder (PTSD)", sub_mental_overview_5: "Schizophrenia",
+                sub_mental_mgmt_1: "Psychotherapy", sub_mental_mgmt_2: "Medications",
+                sub_vax_1: "Measles, Mumps, and Rubella (MMR) Vaccine", sub_vax_2: "Diphtheria, Tetanus, and Pertussis (DTaP / Tdap) Vaccine", sub_vax_3: "Polio Vaccine", sub_vax_4: "Human Papilloma Virus (HPV) Vaccine", sub_vax_5: "Influenza / Flu Vaccine", sub_vax_6: "COVID-19 Vaccines",
+                sub_ckd_basics_1: "How Kidneys Function", sub_ckd_basics_2: "Preventing CKD",
+                sub_ckd_comp_1: "Kidney-Heart Connection", sub_ckd_comp_2: "Anemia", sub_ckd_comp_3: "Bone & Mineral Disorders",
+                sub_ckd_treat_1: "Medications used for CKD Patients", sub_ckd_treat_2: "Dialysis", sub_ckd_treat_3: "Kidney Transplant",
+                sub_cld_stages_1: "Stages",
+                sub_cld_causes_1: "Alcohol Abuse", sub_cld_causes_2: "Metabolic Diseases", sub_cld_causes_3: "Viral Hepatitis",
+                sub_cld_comp_1: "Hepatic Encephalopathy", sub_cld_comp_2: "Variceal Bleeding", sub_cld_comp_3: "Liver Cancer",
+                sub_cld_diag_1: "Liver Function Tests", sub_cld_diag_2: "Fibroscan", sub_cld_diag_3: "Liver Biopsy",
+                sub_cld_treat_1: "Diet for Cirrhosis", sub_cld_treat_2: "Medications", sub_cld_treat_3: "Liver Transplant",
+                sub_copd_causes_1: "Smoking and its association with COPD", sub_copd_causes_2: "Alpha-1 Antitrypsin Deficiency (AATD)",
+                sub_copd_diag_1: "Spirometry (Pulmonary Function Testing)",
+                sub_copd_treat_1: "Smoking Cessation", sub_copd_treat_2: "Pulmonary Rehabilitation", sub_copd_treat_3: "Diet for COPD", sub_copd_treat_4: "Medications",
+                sub_arthritis_types_1: "Osteoarthritis", sub_arthritis_types_2: "Gout", sub_arthritis_types_3: "Rheumatoid Arthritis", sub_arthritis_types_4: "Psoriatic Arthritis",
+                sub_arthritis_diag_1: "Diagnosis",
+                sub_arthritis_treat_1: "Physical Therapy", sub_arthritis_treat_2: "Medications", sub_arthritis_treat_3: "Surgery",
+            },
+            es: {
+                back_button: "Volver",
+                hero_title: "Su Viaje Hacia una Mejor Salud",
+                hero_subtitle: "Empoderándole con información clara, confiable y accesible para manejar su salud y bienestar de manera efectiva. Explore nuestras guías para entender condiciones, tratamientos y hábitos saludables.",
+                hero_button: "Explorar Temas de Salud",
+                section_lifestyle: "Enfermedades del Estilo de Vida",
+                desc_lifestyle: "Aprenda sobre el manejo de condiciones crónicas que a menudo están vinculadas a hábitos diarios y descubra pasos para mejorar su calidad de vida.",
+                section_mental: "Salud Mental",
+                desc_mental: "Explore recursos sobre el bienestar mental, desde la comprensión de diferentes condiciones hasta la búsqueda de estrategias y tratamientos efectivos.",
+                section_vaccination: "Vacunación",
+                desc_vaccination: "Obtenga los hechos sobre las vacunas. Nuestras guías proporcionan información confiable para ayudarle a tomar decisiones informadas para la salud de su familia.",
+                section_organ: "Enfermedades Crónicas de Órganos",
+                desc_organ: "Encuentre información detallada sobre condiciones de órganos a largo plazo, incluyendo cómo afectan al cuerpo y las opciones de tratamiento disponibles.",
+                topic_t2dm: "Diabetes Mellitus Tipo 2",
+                topic_t2dm_homepage: "Entendiendo la Diabetes Tipo 2",
+                topic_hypertension: "Hipertensión",
+                topic_hypertension_homepage: "Entendiendo la Hipertensión",
+                topic_obesity: "Obesidad y Pérdida de Peso",
+                topic_obesity_homepage: "Entendiendo la Obesidad",
+                topic_mental_conditions: "Condiciones de Salud Mental",
+                topic_mental_conditions_homepage: "Entendiendo la Salud Mental",
+                topic_vaccination: "Vacunación",
+                topic_vaccination_homepage: "Contrarrestando Mitos con Hechos",
+                topic_ckd: "Enfermedad Renal Crónica",
+                topic_ckd_homepage: "Entendiendo la ERC",
+                topic_cld: "Enfermedad Hepática Crónica",
+                topic_cld_homepage: "Entendiendo la EHC",
+                topic_copd: "Enfermedad Pulmonar Obstructiva Crónica (EPOC)",
+                topic_copd_homepage: "Entendiendo la EPOC",
+                topic_arthritis: "Enfermedades Articulares Crónicas (Artritis)",
+                topic_arthritis_homepage: "Entendiendo la Artritis",
+                subtopic_details_button: "Ver Temas Detallados",
+                footer_disclaimer_title: "Descargo de Responsabilidad:",
+                footer_disclaimer_text: "Estas guías son solo para fines educativos y no sustituyen el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+                footer_source_title: "Fuente del Material:",
+                footer_source_text: "La información se adapta principalmente de fuentes acreditadas como los CDC, la OMS y otras bases de datos nacionales (por ejemplo, NIMH, NIDDK, etc.).",
+                
+                // Subtopic Headers (Spanish)
+                sub_htn_comp_title: "Complicaciones Potenciales", sub_htn_mgmt_title: "Manejo",
+                sub_obesity_comp_title: "Reducción de Riesgos", sub_obesity_diet_title: "Planes de Dieta",
+                sub_mental_overview_title: "Descripciones Detalladas", sub_mental_mgmt_title: "Manejo",
+                sub_ckd_basics_title: "Conceptos Básicos", sub_ckd_comp_title: "Complicaciones", sub_ckd_treat_title: "Opciones de Tratamiento",
+                sub_cld_stages_title: "Etapas de la Enfermedad Hepática Crónica", sub_cld_causes_title: "Causas", sub_cld_comp_title: "Complicaciones", sub_cld_diag_title: "Diagnóstico", sub_cld_treat_title: "Tratamiento",
+                sub_copd_causes_title: "Causas de la EPOC", sub_copd_diag_title: "Diagnóstico", sub_copd_treat_title: "Tratamiento",
+                sub_arthritis_types_title: "Tipos Comunes", sub_arthritis_diag_title: "Diagnóstico", sub_arthritis_treat_title: "Tratamiento",
+
+                // Subpage translations (Spanish)
+                sub_t2dm_1: "Complicaciones de la Diabetes Tipo 2", sub_t2dm_2: "Consejos de Fitness", sub_t2dm_3: "El Método del Plato para la Diabetes", sub_t2dm_4: "Medicamentos para la Diabetes Tipo 2", sub_t2dm_5: "Diabetes y Bienestar Mental",
+                sub_htn_comp_1: "Insuficiencia Cardíaca", sub_htn_comp_2: "Ataque al Corazón", sub_htn_comp_3: "ACV", sub_htn_comp_4: "Insuficiencia Renal",
+                sub_htn_mgmt_1: "Plan de Dieta DASH", sub_htn_mgmt_2: "Reducción del Consumo de Sodio", sub_htn_mgmt_3: "Ejercicio", sub_htn_mgmt_4: "Peso Saludable e IMC", sub_htn_mgmt_5: "Dejar de Fumar",
+                sub_obesity_comp_1: "Corazón", sub_obesity_comp_2: "Diabetes Tipo 2", sub_obesity_comp_3: "Dolor Articular/Artritis",
+                sub_obesity_diet_1: "Dieta Mediterránea", sub_obesity_diet_2: "Dieta DASH", sub_obesity_diet_3: "Dieta Basada en Plantas",
+                sub_mental_overview_1: "Ansiedad", sub_mental_overview_2: "Depresión", sub_mental_overview_3: "Trastorno Bipolar", sub_mental_overview_4: "Trastorno de Estrés Postraumático (TEPT)", sub_mental_overview_5: "Esquizofrenia",
+                sub_mental_mgmt_1: "Psicoterapia", sub_mental_mgmt_2: "Medicamentos",
+                sub_vax_1: "Vacuna Triple Vírica (Sarampión, Paperas y Rubéola)", sub_vax_2: "Vacuna DTaP / Tdap", sub_vax_3: "Vacuna contra la Polio", sub_vax_4: "Vacuna contra el VPH", sub_vax_5: "Vacuna contra la Influenza / Gripe", sub_vax_6: "Vacunas COVID-19",
+                sub_ckd_basics_1: "Cómo Funcionan los Riñones", sub_ckd_basics_2: "Prevención de la ERC",
+                sub_ckd_comp_1: "Conexión Riñón-Corazón", sub_ckd_comp_2: "Anemia", sub_ckd_comp_3: "Trastornos Óseos y Minerales",
+                sub_ckd_treat_1: "Medicamentos para Pacientes con ERC", sub_ckd_treat_2: "Diálisis", sub_ckd_treat_3: "Trasplante de Riñón",
+                sub_cld_stages_1: "Etapas",
+                sub_cld_causes_1: "Abuso de Alcohol", sub_cld_causes_2: "Enfermedades Metabólicas", sub_cld_causes_3: "Hepatitis Viral",
+                sub_cld_comp_1: "Encefalopatía Hepática", sub_cld_comp_2: "Sangrado Variceal", sub_cld_comp_3: "Cáncer de Hígado",
+                sub_cld_diag_1: "Pruebas de Función Hepática", sub_cld_diag_2: "Fibroscan", sub_cld_diag_3: "Biopsia de Hígado",
+                sub_cld_treat_1: "Dieta para la Cirrosis", sub_cld_treat_2: "Medicamentos", sub_cld_treat_3: "Trasplante de Hígado",
+                sub_copd_causes_1: "El tabaquismo y su asociación con la EPOC", sub_copd_causes_2: "Deficiencia de Alfa-1 Antitripsina (DAAT)",
+                sub_copd_diag_1: "Espirometría (Prueba de Función Pulmonar)",
+                sub_copd_treat_1: "Dejar de Fumar", sub_copd_treat_2: "Rehabilitación Pulmonar", sub_copd_treat_3: "Dieta para la EPOC", sub_copd_treat_4: "Medicamentos",
+                sub_arthritis_types_1: "Osteoartritis", sub_arthritis_types_2: "Gota", sub_arthritis_types_3: "Artritis Reumatoide", sub_arthritis_types_4: "Artritis Psoriásica",
+                sub_arthritis_diag_1: "Diagnóstico",
+                sub_arthritis_treat_1: "Terapia Física", sub_arthritis_treat_2: "Medicamentos", sub_arthritis_treat_3: "Cirugía",
+            }
+        };
+
+        const contentData = [
+            {
+                sectionKey: "section_lifestyle", descriptionKey: "desc_lifestyle",
+                svg: `<svg class="w-16 h-16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`,
+                topics: [
+                    { titleKey: "topic_t2dm", homepage: { nameKey: "topic_t2dm_homepage", url: "T2DM-Multilingual/landing.html" }, subpages: [ { nameKey: "sub_t2dm_1", url: "T2DM-Multilingual/pages/complications.html" }, { nameKey: "sub_t2dm_2", url: "T2DM-Multilingual/pages/fitness.html" }, { nameKey: "sub_t2dm_3", url: "T2DM-Multilingual/pages/plate-method.html" }, { nameKey: "sub_t2dm_4", url: "T2DM-Multilingual/pages/medications.html" }, { nameKey: "sub_t2dm_5", url: "T2DM-Multilingual/pages/mental-health.html" } ] },
+                    { titleKey: "topic_hypertension", homepage: { nameKey: "topic_hypertension_homepage", url: "Hypertension-Multilingual/landing.html" }, subtopics: [ { nameKey: "sub_htn_comp_title", pages: [ { nameKey: "sub_htn_comp_1", url: "Hypertension-Multilingual/pages/heart-failure.html" }, { nameKey: "sub_htn_comp_2", url: "Hypertension-Multilingual/pages/heart-attack.html" }, { nameKey: "sub_htn_comp_3", url: "Hypertension-Multilingual/pages/stroke.html" }, { nameKey: "sub_htn_comp_4", url: "Hypertension-Multilingual/pages/kidney.html" } ] }, { nameKey: "sub_htn_mgmt_title", pages: [ { nameKey: "sub_htn_mgmt_1", url: "Hypertension-Multilingual/pages/dash.html" }, { nameKey: "sub_htn_mgmt_2", url: "Hypertension-Multilingual/pages/sodium.html" }, { nameKey: "sub_htn_mgmt_3", url: "Hypertension-Multilingual/pages/exercise.html" }, { nameKey: "sub_htn_mgmt_4", url: "Hypertension-Multilingual/pages/weight.html" }, { nameKey: "sub_htn_mgmt_5", url: "Hypertension-Multilingual/pages/smoking.html" } ] } ] },
+                    { titleKey: "topic_obesity", homepage: { nameKey: "topic_obesity_homepage", url: "Obesity-Multilingual/landing.html" }, subtopics: [ { nameKey: "sub_obesity_comp_title", pages: [ { nameKey: "sub_obesity_comp_1", url: "Obesity-Multilingual/pages/heart.html" }, { nameKey: "sub_obesity_comp_2", url: "Obesity-Multilingual/pages/diabetes.html" }, { nameKey: "sub_obesity_comp_3", url: "Obesity-Multilingual/pages/arthritis.html" } ] }, { nameKey: "sub_obesity_diet_title", pages: [ { nameKey: "sub_obesity_diet_1", url: "Obesity-Multilingual/pages/mediterranean.html" }, { nameKey: "sub_obesity_diet_2", url: "Obesity-Multilingual/pages/dash.html" }, { nameKey: "sub_obesity_diet_3", url: "Obesity-Multilingual/pages/plant-based.html" } ] } ] }
+                ]
+            },
+            {
+                sectionKey: "section_mental", descriptionKey: "desc_mental",
+                svg: `<svg class="w-16 h-16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v0A2.5 2.5 0 0 1 9.5 7v0A2.5 2.5 0 0 1 7 4.5v0A2.5 2.5 0 0 1 9.5 2zM14.5 2a2.5 2.5 0 0 1 2.5 2.5v0a2.5 2.5 0 0 1-2.5 2.5v0a2.5 2.5 0 0 1-2.5-2.5v0A2.5 2.5 0 0 1 14.5 2zM4.5 9.5A2.5 2.5 0 0 1 7 12v0a2.5 2.5 0 0 1-2.5 2.5v0A2.5 2.5 0 0 1 2 12v0A2.5 2.5 0 0 1 4.5 9.5zM19.5 9.5a2.5 2.5 0 0 1 2.5 2.5v0a2.5 2.5 0 0 1-2.5 2.5v0a2.5 2.5 0 0 1-2.5-2.5v0a2.5 2.5 0 0 1 2.5-2.5zM9.5 17a2.5 2.5 0 0 1 2.5 2.5v0a2.5 2.5 0 0 1-2.5 2.5v0a2.5 2.5 0 0 1-2.5-2.5v0A2.5 2.5 0 0 1 9.5 17zM14.5 17a2.5 2.5 0 0 1 2.5 2.5v0a2.5 2.5 0 0 1-2.5 2.5v0a2.5 2.5 0 0 1-2.5-2.5v0a2.5 2.5 0 0 1 2.5-2.5z" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 4.5 C 12 7, 7 7, 7 4.5" fill="currentColor"/><path d="M12 4.5 C 12 7, 17 7, 17 4.5" fill="currentColor"/><path d="M7 12 C 4.5 12, 4.5 7, 7 4.5" fill="currentColor"/><path d="M17 12 C 19.5 12, 19.5 7, 17 4.5" fill="currentColor"/></svg>`,
+                 topics: [
+                     { titleKey: "topic_mental_conditions", homepage: { nameKey: "topic_mental_conditions_homepage", url: "Mental-Health-Multilingual/landing.html" }, subtopics: [ { nameKey: "sub_mental_overview_title", pages: [ { nameKey: "sub_mental_overview_1", url: "Mental-Health-Multilingual/pages/anxiety.html" }, { nameKey: "sub_mental_overview_2", url: "Mental-Health-Multilingual/pages/depression.html" }, { nameKey: "sub_mental_overview_3", url: "Mental-Health-Multilingual/pages/bipolar.html" }, { nameKey: "sub_mental_overview_4", url: "Mental-Health-Multilingual/pages/ptsd.html" }, { nameKey: "sub_mental_overview_5", url: "Mental-Health-Multilingual/pages/psychosis.html" } ] }, { nameKey: "sub_mental_mgmt_title", pages: [ { nameKey: "sub_mental_mgmt_1", url: "Mental-Health-Multilingual/pages/psychotherapies.html" }, { nameKey: "sub_mental_mgmt_2", url: "Mental-Health-Multilingual/pages/medications.html" } ] } ] }
+                ]
+            },
+            {
+                sectionKey: "section_vaccination", descriptionKey: "desc_vaccination",
+                svg: `<svg class="w-16 h-16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z" fill="currentColor" opacity="0.5" /><path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z" stroke="currentColor" stroke-width="1.5"/></svg>`,
+                topics: [
+                    { titleKey: "topic_vaccination", homepage: { nameKey: "topic_vaccination_homepage", url: "Vaccination-Multilingual/landing.html" }, subpages: [ { nameKey: "sub_vax_1", url: "Vaccination-Multilingual/pages/mmr.html" }, { nameKey: "sub_vax_2", url: "Vaccination-Multilingual/pages/dtap.html" }, { nameKey: "sub_vax_3", url: "Vaccination-Multilingual/pages/polio.html" }, { nameKey: "sub_vax_4", url: "Vaccination-Multilingual/pages/hpv.html" }, { nameKey: "sub_vax_5", url: "Vaccination-Multilingual/pages/flu.html" }, { nameKey: "sub_vax_6", url: "Vaccination-Multilingual/pages/covid.html" } ] }
+                ]
+            },
+            {
+                sectionKey: "section_organ", descriptionKey: "desc_organ",
+                svg: `<svg class="w-16 h-16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M10 20.5c.83.67 1.83 1.17 2.93 1.45.26.06.53.09.8.09.27 0 .54-.03.8-.09 1.1-.28 2.1-.78 2.93-1.45C20.83 18.67 22 16.33 22 14c0-2.33-1.17-4.67-3.5-6.5C16.33 5.67 14.17 4.5 12 4.5s-4.33 1.17-6.5 3C3.17 9.33 2 11.67 2 14c0 2.33 1.17 4.67 3.5 6.5.5.33 1 .67 1.5.93V10l-2-2 1-1 2 2v10.5zM17 10l-2-2 1-1 2 2v11.43c.5-.26 1-.6 1.5-.93C20.83 18.67 22 16.33 22 14c0-2.33-1.17-4.67-3.5-6.5z"/></svg>`,
+                topics: [
+                    { titleKey: "topic_ckd", homepage: { nameKey: "topic_ckd_homepage", url: "CKD-Multilingual/landing.html" }, subtopics: [ { nameKey: "sub_ckd_basics_title", pages: [ { nameKey: "sub_ckd_basics_1", url: "CKD-Multilingual/pages/work.html" }, { nameKey: "sub_ckd_basics_2", url: "CKD-Multilingual/pages/prevention.html" } ] }, { nameKey: "sub_ckd_comp_title", pages: [ { nameKey: "sub_ckd_comp_1", url: "CKD-Multilingual/pages/heart.html" }, { nameKey: "sub_ckd_comp_2", url: "CKD-Multilingual/pages/anemia.html" }, { nameKey: "sub_ckd_comp_3", url: "CKD-Multilingual/pages/bone.html" } ] }, { nameKey: "sub_ckd_treat_title", pages: [ { nameKey: "sub_ckd_treat_1", url: "CKD-Multilingual/pages/medications.html" }, { nameKey: "sub_ckd_treat_2", url: "CKD-Multilingual/pages/dialysis.html" }, { nameKey: "sub_ckd_treat_3", url: "CKD-Multilingual/pages/transplant.html" } ] } ] },
+                    { titleKey: "topic_cld", homepage: { nameKey: "topic_cld_homepage", url: "CLD-Multilingual/landing.html" }, subtopics: [ { nameKey: "sub_cld_stages_title", pages: [{ nameKey: "sub_cld_stages_1", url: "CLD-Multilingual/pages/stages.html"}] }, { nameKey: "sub_cld_causes_title", pages: [ { nameKey: "sub_cld_causes_1", url: "CLD-Multilingual/pages/alcohol.html" }, { nameKey: "sub_cld_causes_2", url: "CLD-Multilingual/pages/metabolic.html" }, { nameKey: "sub_cld_causes_3", url: "CLD-Multilingual/pages/hepatitis.html" } ] }, { nameKey: "sub_cld_comp_title", pages: [ { nameKey: "sub_cld_comp_1", url: "CLD-Multilingual/pages/encephalopathy.html" }, { nameKey: "sub_cld_comp_2", url: "CLD-Multilingual/pages/varices.html" }, { nameKey: "sub_cld_comp_3", url: "CLD-Multilingual/pages/cancer.html" } ] }, { nameKey: "sub_cld_diag_title", pages: [ { nameKey: "sub_cld_diag_1", url: "CLD-Multilingual/pages/LFT.html" }, { nameKey: "sub_cld_diag_2", url: "CLD-Multilingual/pages/fibroscan.html" }, { nameKey: "sub_cld_diag_3", url: "CLD-Multilingual/pages/biopsy.html" } ] }, { nameKey: "sub_cld_treat_title", pages: [ { nameKey: "sub_cld_treat_1", url: "CLD-Multilingual/pages/diet.html" }, { nameKey: "sub_cld_treat_2", url: "CLD-Multilingual/pages/medications.html" }, { nameKey: "sub_cld_treat_3", url: "CLD-Multilingual/pages/transplant.html" } ] } ] },
+                    { titleKey: "topic_copd", homepage: { nameKey: "topic_copd_homepage", url: "COPD-Multilingual/landing.html" }, subtopics: [ { nameKey: "sub_copd_causes_title", pages: [ { nameKey: "sub_copd_causes_1", url: "COPD-Multilingual/pages/smoking.html" }, { nameKey: "sub_copd_causes_2", url: "COPD-Multilingual/pages/AATD.html" } ] }, { nameKey: "sub_copd_diag_title", pages: [ { nameKey: "sub_copd_diag_1", url: "COPD-Multilingual/pages/spirometry.html" } ] }, { nameKey: "sub_copd_treat_title", pages: [ { nameKey: "sub_copd_treat_1", url: "COPD-Multilingual/pages/smoking-cessation.html" }, { nameKey: "sub_copd_treat_2", url: "COPD-Multilingual/pages/rehab.html" }, { nameKey: "sub_copd_treat_3", url: "COPD-Multilingual/pages/diet.html" }, { nameKey: "sub_copd_treat_4", url: "COPD-Multilingual/pages/medications.html" } ] } ] },
+                    { titleKey: "topic_arthritis", homepage: { nameKey: "topic_arthritis_homepage", url: "Arthritis-Multilingual/landing.html" }, subtopics: [ { nameKey: "sub_arthritis_types_title", pages: [ { nameKey: "sub_arthritis_types_1", url: "Arthritis-Multilingual/pages/osteo.html" }, { nameKey: "sub_arthritis_types_2", url: "Arthritis-Multilingual/pages/gout.html" }, { nameKey: "sub_arthritis_types_3", url: "Arthritis-Multilingual/pages/rheumatoid.html" }, { nameKey: "sub_arthritis_types_4", url: "Arthritis-Multilingual/pages/psoriatic.html" } ] }, { nameKey: "sub_arthritis_diag_title", pages: [ { nameKey: "sub_arthritis_diag_1", url: "Arthritis-Multilingual/pages/diagnosis.html" } ] }, { nameKey: "sub_arthritis_treat_title", pages: [ { nameKey: "sub_arthritis_treat_1", url: "Arthritis-Multilingual/pages/therapy.html" }, { nameKey: "sub_arthritis_treat_2", url: "Arthritis-Multilingual/pages/medications.html" }, { nameKey: "sub_arthritis_treat_3", url: "Arthritis-Multilingual/pages/surgery.html" } ] } ] }
+                ]
+            }
+        ];
+
+        const cardContainer = document.getElementById('card-container');
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+
+        function createSubLink(item, lang) {
+            const t = translations[lang];
+            return `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="flex items-center text-slate-600 hover:text-sky-600 hover:bg-sky-50 p-3 rounded-lg transition-all duration-200 ease-in-out group"><i class="fa-solid fa-arrow-up-right-from-square fa-sm mr-4 text-slate-400 group-hover:text-sky-500 transition-colors"></i><span class="flex-1 font-medium">${t[item.nameKey]}</span></a>`;
+        }
+        
+        function renderContent(lang) {
+            const t = translations[lang];
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+
+            cardContainer.innerHTML = '';
+            contentData.forEach((section) => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card glass-card rounded-2xl overflow-hidden shadow-lg';
+                
+                let topicsHtml = section.topics.map(topic => {
+                    let subpagesHtml = (topic.subpages || []).map(page => createSubLink(page, lang)).join('');
+                    let subtopicsHtml = (topic.subtopics || []).map(subtopic => `<div class="mt-4"><h4 class="font-semibold text-slate-700 mb-2 text-md">${t[subtopic.nameKey]}</h4><div class="space-y-1 pl-3 border-l-2 border-slate-200">${subtopic.pages.map(page => createSubLink(page, lang)).join('')}</div></div>`).join('');
+                    const hasSubLinks = (topic.subpages?.length > 0) || (topic.subtopics?.length > 0);
+
+                    return `<div class="p-1 border-t border-slate-200/80 first:border-t-0"><div class="p-6 rounded-lg"><h3 class="text-xl font-bold text-slate-800 mb-5">${t[topic.titleKey]}</h3><a href="${topic.homepage.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-full bg-gradient-to-r from-${ACCENT_COLOR_FROM}-500 to-${ACCENT_COLOR_TO}-500 hover:from-${ACCENT_COLOR_FROM}-600 hover:to-${ACCENT_COLOR_TO}-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg shadow-sky-500/30"><i class="fas fa-book-open mr-3"></i><span>${t[topic.homepage.nameKey]}</span></a>${hasSubLinks ? `<div class="mt-6 text-center"><button class="sub-accordion-button text-sky-600 font-semibold py-2 px-4 rounded-lg hover:bg-sky-100/60 transition duration-200 w-full"><span class="text-sm">${t.subtopic_details_button}</span><i class="fas fa-chevron-down ml-2 text-xs"></i></button><div class="sub-accordion-content text-left mt-2"><div class="pt-4 space-y-2 border-t-2 border-dashed border-slate-200">${subpagesHtml}${subtopicsHtml}</div></div></div>` : ''}</div></div>`;
+                }).join('');
+
+                cardEl.innerHTML = `
+                    <button class="card-header w-full flex justify-between items-center p-6 text-left cursor-pointer">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 w-20 h-20 flex items-center justify-center bg-gradient-to-br from-sky-100 to-teal-100 rounded-2xl text-sky-600 shadow-inner">
+                                ${section.svg || ''}
+                            </div>
+                            <div class="ml-5">
+                                <h2 class="text-2xl font-bold text-slate-800">${t[section.sectionKey]}</h2>
+                                <p class="text-slate-500 text-sm mt-1">${t[section.descriptionKey]}</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down text-2xl text-slate-400 chevron-icon"></i>
+                    </button>
+                    <div class="card-content bg-slate-100/50 px-6">
+                        <div class="space-y-4">
+                            ${topicsHtml}
+                        </div>
+                    </div>
+                `;
+                cardContainer.appendChild(cardEl);
+            });
+
+            document.querySelectorAll('.card').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent(lang);
+        }
+
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        document.getElementById('show-google-translate').addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        document.getElementById('back-to-native').addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const currentCookie = document.cookie.split('; ').find(row => row.startsWith('googtrans='));
+            if (currentCookie) {
+                document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+            }
+            location.reload();
+        });
+
+        cardContainer.addEventListener('click', function(e) {
+            const header = e.target.closest('.card-header');
+            if (header) {
+                header.classList.toggle('open');
+                header.nextElementSibling.classList.toggle('show');
+                return;
+            }
+            const subButton = e.target.closest('.sub-accordion-button');
+            if (subButton) {
+                subButton.classList.toggle('open');
+                subButton.nextElementSibling.classList.toggle('show');
+            }
+        });
+
+        document.querySelector('a[href="#topics"]').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        changeLanguage('en'); 
+
+    </script>
+</body>
+</html>

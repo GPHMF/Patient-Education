@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mediterranean Diet - Healthier You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hero-bg {
+            background-image: linear-gradient(to right, #60A5FA, #3B82F6);
+        }
+        .info-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .pyramid-level {
+            clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
+        }
+        .pyramid-top {
+            clip-path: polygon(35% 0, 65% 0, 85% 100%, 15% 100%);
+        }
+         .pyramid-base {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #2563EB; color: white; } /* blue-600 */
+
+        /* --- Google Translate Widget Styles (Blue Theme) --- */
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #3B82F6 !important; /* blue-500 */
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #1D4ED8 !important; /* blue-700 */
+        }
+        
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+
+        .goog-te-menu-frame {
+            border-radius: 0.5rem !important;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        .goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div {
+            font-family: 'Inter', sans-serif !important;
+            background-color: white !important;
+            color: #334155 !important; /* slate-700 */
+            padding: 0.5rem 1rem !important;
+        }
+        .goog-te-menu2-item-selected div, .goog-te-menu2-item:hover div {
+            background-color: #EFF6FF !important; /* blue-50 */
+            color: #2563EB !important; /* blue-600 */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div>
+                <a href="../landing.html" class="text-sm font-medium text-emerald-600 hover:underline" data-key="back_link">&larr; Back to Main Site</a>
+            </div>
+            <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                <div id="native-lang-toggle" class="flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5">
+                        <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div id="google-lang-toggle" class="hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button id="back-to-native" class="ml-2 text-sm font-semibold text-blue-600 hover:underline">Back</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-bg py-20 md:py-24">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-center text-center md:text-left">
+                 <div class="md:w-3/5">
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4" data-key="hero_title">Eat for Life, the Mediterranean Way</h1>
+                    <p class="text-lg md:text-xl text-white max-w-2xl" data-key="hero_subtitle">Discover a heart-healthy way of eating inspired by the sun-drenched coasts of the Mediterranean. It's not a strict diet, but a joyful lifestyle built on fresh, flavorful foods.</p>
+                </div>
+                <div class="md:w-2/5 mt-8 md:mt-0 flex justify-center">
+                    <!-- SVG Graphic -->
+                    <svg class="w-32 h-32 md:w-48 md:h-48 text-white" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="sunGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FBBF24;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M20 70 Q 35 60, 50 70 T 80 70" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round" />
+                        <path d="M25 80 Q 40 70, 55 80 T 85 80" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round" />
+                        <path d="M30 90 Q 45 80, 60 90 T 90 90" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round" />
+                        <circle cx="50" cy="40" r="15" fill="url(#sunGradient)"/>
+                        <g transform="translate(50 40)">
+                            <line x1="0" y1="-18" x2="0" y2="-22" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="0" y1="18" x2="0" y2="22" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="-18" y1="0" x2="-22" y2="0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="18" y1="0" x2="22" y2="0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="-13" y1="-13" x2="-16" y2="-16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="13" y1="13" x2="16" y2="16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="-13" y1="13" x2="-16" y2="16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="13" y1="-13" x2="16" y2="-16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                        </g>
+                        <path d="M75 20 C 70 30, 70 40, 75 50" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        <ellipse cx="78" cy="18" rx="2" ry="3" fill="currentColor"/>
+                        <ellipse cx="72" cy="25" rx="2" ry="3" fill="currentColor"/>
+                        <ellipse cx="78" cy="32" rx="2" ry="3" fill="currentColor"/>
+                        <ellipse cx="72" cy="40" rx="2" ry="3" fill="currentColor"/>
+                        <ellipse cx="78" cy="48" rx="2" ry="3" fill="currentColor"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- What is the Diet Section -->
+        <section class="py-16 md:py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="what_is_title">What is the Mediterranean Diet?</h2>
+                    <p class="text-gray-600 mt-4 max-w-3xl mx-auto" data-key="what_is_text">It’s a way of eating based on the traditional foods and drinks of countries bordering the Mediterranean Sea. Recognized by the World Health Organization as a healthy and sustainable dietary pattern, it's more of a joyful lifestyle than a restrictive diet. Research shows it can help reduce the risk of heart disease, type 2 diabetes, and support long-term health. The foundation is simple: enjoy plenty of plant-based foods, healthy fats, and an active, social lifestyle.</p>
+                </div>
+                
+                <!-- Food Pyramid -->
+                <div class="max-w-2xl mx-auto">
+                    <h3 class="text-2xl font-bold text-center mb-8 text-gray-800" data-key="pyramid_title">The Mediterranean Food & Lifestyle Pyramid</h3>
+                    <div class="space-y-1 text-center text-white font-bold">
+                        <!-- Level 4 -->
+                        <div class="pyramid-top bg-red-400 p-4 mx-auto w-1/2">
+                            <span data-key="pyramid_l4">MEATS & SWEETS</span><br><span class="font-normal text-sm" data-key="pyramid_l4_freq">Less Often</span>
+                        </div>
+                        <!-- Level 3 -->
+                        <div class="pyramid-level bg-orange-400 p-4 mx-auto w-3/4">
+                            <span data-key="pyramid_l3">POULTRY, EGGS, CHEESE & YOGURT</span><br><span class="font-normal text-sm" data-key="pyramid_l3_freq">Moderate Portions, Daily to Weekly</span>
+                        </div>
+                        <!-- Level 2 -->
+                        <div class="pyramid-level bg-yellow-400 p-4 mx-auto w-11/12">
+                             <span data-key="pyramid_l2">FISH & SEAFOOD</span><br><span class="font-normal text-sm" data-key="pyramid_l2_freq">Often, At Least 2x Per Week</span>
+                        </div>
+                         <!-- Level 1 -->
+                        <div class="pyramid-base bg-green-500 p-6 mx-auto w-full">
+                             <span data-key="pyramid_l1">FRUITS, VEGETABLES, GRAINS, OLIVE OIL, BEANS, NUTS, LEGUMES & SEEDS</span><br><span class="font-normal text-sm" data-key="pyramid_l1_freq">Base Every Meal</span>
+                        </div>
+                         <!-- Foundation -->
+                        <div class="pyramid-base bg-emerald-700 p-4 mx-auto w-full flex justify-around items-center">
+                            <span data-key="pyramid_l0_1">Be Physically Active</span>
+                            <span data-key="pyramid_l0_2">Enjoy Meals with Others</span>
+                        </div>
+                    </div>
+                     <p class="text-center text-sm text-gray-500 mt-4" data-key="pyramid_wine">And remember to drink water. Wine can be enjoyed in moderation with meals.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core of the Diet Section -->
+        <section class="py-16 md:py-20 bg-gray-100">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="core_title">The Core of the Diet</h2>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="core_subtitle">Let's look closer at the key components that make this eating pattern so powerful.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="info-card bg-white rounded-lg shadow-lg p-6">
+                        <h3 class="font-bold text-xl text-emerald-800 mb-2" data-key="core1_title">Embrace Healthy Fats</h3>
+                        <p class="text-gray-600" data-key="core1_text">Olive oil is the primary source of fat, replacing butter and margarine. Avocados, nuts, and seeds are also key, providing heart-healthy monounsaturated and polyunsaturated fats.</p>
+                    </div>
+                    <div class="info-card bg-white rounded-lg shadow-lg p-6">
+                        <h3 class="font-bold text-xl text-emerald-800 mb-2" data-key="core2_title">Eat a Rainbow of Produce</h3>
+                        <p class="text-gray-600" data-key="core2_text">Vegetables and fruits are the foundation of most meals. Aim for a wide variety to get a full spectrum of vitamins, minerals, and antioxidants.</p>
+                    </div>
+                    <div class="info-card bg-white rounded-lg shadow-lg p-6">
+                        <h3 class="font-bold text-xl text-emerald-800 mb-2" data-key="core3_title">Focus on Fish</h3>
+                        <p class="text-gray-600" data-key="core3_text">Eat fish and seafood, especially fatty fish like salmon, mackerel, and sardines, at least twice a week. They are rich in omega-3 fatty acids.</p>
+                    </div>
+                     <div class="info-card bg-white rounded-lg shadow-lg p-6">
+                        <h3 class="font-bold text-xl text-emerald-800 mb-2" data-key="core4_title">Choose Whole Grains</h3>
+                        <p class="text-gray-600" data-key="core4_text">Select whole grains like oats, brown rice, quinoa, and whole-wheat bread and pasta over refined grains for more fiber and nutrients.</p>
+                    </div>
+                    <div class="info-card bg-white rounded-lg shadow-lg p-6">
+                        <h3 class="font-bold text-xl text-emerald-800 mb-2" data-key="core5_title">Rethink Your Protein</h3>
+                        <p class="text-gray-600" data-key="core5_text">Enjoy poultry, eggs, and dairy (like cheese and yogurt) in moderation. Red and processed meats are eaten only occasionally.</p>
+                    </div>
+                     <div class="info-card bg-white rounded-lg shadow-lg p-6">
+                        <h3 class="font-bold text-xl text-emerald-800 mb-2" data-key="core6_title">Flavor with Herbs & Spices</h3>
+                        <p class="text-gray-600" data-key="core6_text">Use generous amounts of herbs and spices like garlic, oregano, rosemary, and basil to flavor food instead of relying on salt.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lifestyle Section -->
+        <section class="py-16 md:py-20 bg-emerald-50">
+             <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800" data-key="lifestyle_title">More Than a Diet: A Lifestyle</h2>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto" data-key="lifestyle_text">The health benefits come not just from the food, but from embracing the Mediterranean way of life.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="info-card bg-white rounded-lg shadow-lg p-6 text-center">
+                        <div class="text-5xl mb-4">🚶‍♀️</div>
+                        <h3 class="font-bold text-xl text-emerald-800 mb-2" data-key="lifestyle1_title">Move Naturally</h3>
+                        <p class="text-gray-600" data-key="lifestyle1_text">Incorporate movement into your day. Walk with friends, garden, or choose stairs. The goal is consistent, enjoyable activity.</p>
+                    </div>
+                    <div class="info-card bg-white rounded-lg shadow-lg p-6 text-center">
+                        <div class="text-5xl mb-4">👨‍👩‍👧‍👦</div>
+                        <h3 class="font-bold text-xl text-emerald-800 mb-2" data-key="lifestyle2_title">Eat Together</h3>
+                        <p class="text-gray-600" data-key="lifestyle2_text">Sharing meals with family and friends is a cornerstone. It slows down eating, improves digestion, and fosters connection.</p>
+                    </div>
+                     <div class="info-card bg-white rounded-lg shadow-lg p-6 text-center">
+                        <div class="text-5xl mb-4">😋</div>
+                        <h3 class="font-bold text-xl text-emerald-800 mb-2" data-key="lifestyle3_title">Savor Your Food</h3>
+                        <p class="text-gray-600" data-key="lifestyle3_text">Focus on the flavors and textures of your meals. Mindful eating increases satisfaction and helps you recognize fullness.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="mb-6 border-t border-gray-700 pt-6">
+                <p class="text-sm text-gray-400" data-key="source_summary">This page is a summary based on information from the Mayo Clinic. For more detailed information, please <a href='https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/mediterranean-diet/art-20047801' target='_blank' rel='noopener noreferrer' class='text-emerald-400 hover:underline'>visit their website</a>.</p>
+            </div>
+            <p data-key="footer_copyright">&copy; 2025 Healthier You Initiative. All rights reserved.</p>
+            <p class="text-sm text-gray-400 mt-2" data-key="footer_disclaimer">This information is for educational purposes and is not a substitute for professional medical advice. Always consult with your doctor.</p>
+        </div>
+    </footer>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- Main Page Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let currentLanguage = 'en';
+
+            // --- ELEMENT SELECTORS ---
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+            const langEnBtn = document.getElementById('lang-en');
+            const langEsBtn = document.getElementById('lang-es');
+
+            // --- TRANSLATION DATA ---
+            const translations = {
+                en: {
+                    back_link: "&larr; Back to Main Site",
+                    hero_title: "Eat for Life, the Mediterranean Way",
+                    hero_subtitle: "Discover a heart-healthy way of eating inspired by the sun-drenched coasts of the Mediterranean. It's not a strict diet, but a joyful lifestyle built on fresh, flavorful foods.",
+                    what_is_title: "What is the Mediterranean Diet?",
+                    what_is_text: "It’s a way of eating based on the traditional foods and drinks of countries bordering the Mediterranean Sea. Recognized by the World Health Organization as a healthy and sustainable dietary pattern, it's more of a joyful lifestyle than a restrictive diet. Research shows it can help reduce the risk of heart disease, type 2 diabetes, and support long-term health. The foundation is simple: enjoy plenty of plant-based foods, healthy fats, and an active, social lifestyle.",
+                    pyramid_title: "The Mediterranean Food & Lifestyle Pyramid",
+                    pyramid_l4: "MEATS & SWEETS",
+                    pyramid_l4_freq: "Less Often",
+                    pyramid_l3: "POULTRY, EGGS, CHEESE & YOGURT",
+                    pyramid_l3_freq: "Moderate Portions, Daily to Weekly",
+                    pyramid_l2: "FISH & SEAFOOD",
+                    pyramid_l2_freq: "Often, At Least 2x Per Week",
+                    pyramid_l1: "FRUITS, VEGETABLES, GRAINS, OLIVE OIL, BEANS, NUTS, LEGUMES & SEEDS",
+                    pyramid_l1_freq: "Base Every Meal",
+                    pyramid_l0_1: "Be Physically Active",
+                    pyramid_l0_2: "Enjoy Meals with Others",
+                    pyramid_wine: "And remember to drink water. Wine can be enjoyed in moderation with meals.",
+                    core_title: "The Core of the Diet",
+                    core_subtitle: "Let's look closer at the key components that make this eating pattern so powerful.",
+                    core1_title: "Embrace Healthy Fats",
+                    core1_text: "Olive oil is the primary source of fat, replacing butter and margarine. Avocados, nuts, and seeds are also key, providing heart-healthy monounsaturated and polyunsaturated fats.",
+                    core2_title: "Eat a Rainbow of Produce",
+                    core2_text: "Vegetables and fruits are the foundation of most meals. Aim for a wide variety to get a full spectrum of vitamins, minerals, and antioxidants.",
+                    core3_title: "Focus on Fish",
+                    core3_text: "Eat fish and seafood, especially fatty fish like salmon, mackerel, and sardines, at least twice a week. They are rich in omega-3 fatty acids.",
+                    core4_title: "Choose Whole Grains",
+                    core4_text: "Select whole grains like oats, brown rice, quinoa, and whole-wheat bread and pasta over refined grains for more fiber and nutrients.",
+                    core5_title: "Rethink Your Protein",
+                    core5_text: "Enjoy poultry, eggs, and dairy (like cheese and yogurt) in moderation. Red and processed meats are eaten only occasionally.",
+                    core6_title: "Flavor with Herbs & Spices",
+                    core6_text: "Use generous amounts of herbs and spices like garlic, oregano, rosemary, and basil to flavor food instead of relying on salt.",
+                    lifestyle_title: "More Than a Diet: A Lifestyle",
+                    lifestyle_text: "The health benefits come not just from the food, but from embracing the Mediterranean way of life.",
+                    lifestyle1_title: "Move Naturally",
+                    lifestyle1_text: "Incorporate movement into your day. Walk with friends, garden, or choose stairs. The goal is consistent, enjoyable activity.",
+                    lifestyle2_title: "Eat Together",
+                    lifestyle2_text: "Sharing meals with family and friends is a cornerstone. It slows down eating, improves digestion, and fosters connection.",
+                    lifestyle3_title: "Savor Your Food",
+                    lifestyle3_text: "Focus on the flavors and textures of your meals. Mindful eating increases satisfaction and helps you recognize fullness.",
+                    source_summary: "This page is a summary based on information from the Mayo Clinic. For more detailed information, please <a href='https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/mediterranean-diet/art-20047801' target='_blank' rel='noopener noreferrer' class='text-emerald-400 hover:underline'>visit their website</a>.",
+                    footer_copyright: "&copy; 2025 Healthier You Initiative. All rights reserved.",
+                    footer_disclaimer: "This information is for educational purposes and is not a substitute for professional medical advice. Always consult with your doctor."
+                },
+                es: {
+                    back_link: "&larr; Volver al Sitio Principal",
+                    hero_title: "Come para Vivir, al Estilo Mediterráneo",
+                    hero_subtitle: "Descubre una forma de comer saludable para el corazón, inspirada en las costas bañadas por el sol del Mediterráneo. No es una dieta estricta, sino un estilo de vida alegre basado en alimentos frescos y sabrosos.",
+                    what_is_title: "¿Qué es la Dieta Mediterránea?",
+                    what_is_text: "Es una forma de comer basada en los alimentos y bebidas tradicionales de los países que bordean el Mar Mediterráneo. Reconocida por la Organización Mundial de la Salud como un patrón dietético saludable y sostenible, es más un estilo de vida alegre que una dieta restrictiva. Las investigaciones demuestran que puede ayudar a reducir el riesgo de enfermedades cardíacas, diabetes tipo 2 y a mantener la salud a largo plazo. La base es simple: disfruta de muchos alimentos de origen vegetal, grasas saludables y un estilo de vida activo y social.",
+                    pyramid_title: "La Pirámide Alimenticia y de Estilo de Vida Mediterráneo",
+                    pyramid_l4: "CARNES Y DULCES",
+                    pyramid_l4_freq: "Con Menos Frecuencia",
+                    pyramid_l3: "AVES, HUEVOS, QUESO Y YOGUR",
+                    pyramid_l3_freq: "Porciones Moderadas, Diarias a Semanales",
+                    pyramid_l2: "PESCADO Y MARISCOS",
+                    pyramid_l2_freq: "A Menudo, Al Menos 2 Veces por Semana",
+                    pyramid_l1: "FRUTAS, VERDURAS, GRANOS, ACEITE DE OLIVA, FRIJOLES, NUECES, LEGUMBRES Y SEMILLAS",
+                    pyramid_l1_freq: "Base de Cada Comida",
+                    pyramid_l0_1: "Mantente Físicamente Activo",
+                    pyramid_l0_2: "Disfruta las Comidas con Otros",
+                    pyramid_wine: "Y recuerda beber agua. El vino se puede disfrutar con moderación con las comidas.",
+                    core_title: "El Corazón de la Dieta",
+                    core_subtitle: "Veamos más de cerca los componentes clave que hacen que este patrón de alimentación sea tan poderoso.",
+                    core1_title: "Adopta las Grasas Saludables",
+                    core1_text: "El aceite de oliva es la principal fuente de grasa, reemplazando la mantequilla y la margarina. Los aguacates, las nueces y las semillas también son clave, ya que proporcionan grasas monoinsaturadas y poliinsaturadas saludables para el corazón.",
+                    core2_title: "Come un Arcoíris de Productos Frescos",
+                    core2_text: "Las verduras y las frutas son la base de la mayoría de las comidas. Intenta consumir una amplia variedad para obtener un espectro completo de vitaminas, minerales y antioxidantes.",
+                    core3_title: "Enfócate en el Pescado",
+                    core3_text: "Come pescado y mariscos, especialmente pescados grasos como el salmón, la caballa y las sardinas, al menos dos veces por semana. Son ricos en ácidos grasos omega-3.",
+                    core4_title: "Elige Granos Integrales",
+                    core4_text: "Selecciona granos integrales como avena, arroz integral, quinua y pan y pasta de trigo integral en lugar de granos refinados para obtener más fibra y nutrientes.",
+                    core5_title: "Reconsidera tu Proteína",
+                    core5_text: "Disfruta de aves, huevos y lácteos (como queso y yogur) con moderación. Las carnes rojas y procesadas se consumen solo ocasionalmente.",
+                    core6_title: "Sazona con Hierbas y Especias",
+                    core6_text: "Usa generosas cantidades de hierbas y especias como ajo, orégano, romero y albahaca para dar sabor a la comida en lugar de depender de la sal.",
+                    lifestyle_title: "Más Que una Dieta: Un Estilo de Vida",
+                    lifestyle_text: "Los beneficios para la salud no provienen solo de la comida, sino de adoptar el estilo de vida mediterráneo.",
+                    lifestyle1_title: "Muévete con Naturalidad",
+                    lifestyle1_text: "Incorpora el movimiento en tu día. Camina con amigos, trabaja en el jardín o elige las escaleras. El objetivo es una actividad constante y agradable.",
+                    lifestyle2_title: "Comer Juntos",
+                    lifestyle2_text: "Compartir comidas con familiares y amigos es una piedra angular. Ralentiza la alimentación, mejora la digestión y fomenta la conexión.",
+                    lifestyle3_title: "Saborea tu Comida",
+                    lifestyle3_text: "Concéntrate en los sabores y texturas de tus comidas. Comer conscientemente aumenta la satisfacción y te ayuda a reconocer la saciedad.",
+                    source_summary: "Esta página es un resumen basado en información de la Clínica Mayo. Para obtener información más detallada, por favor <a href='https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/mediterranean-diet/art-20047801' target='_blank' rel='noopener noreferrer' class='text-emerald-400 hover:underline'>visit their website</a>.",
+                    footer_copyright: "&copy; 2025 Iniciativa Healthier You. Todos los derechos reservados.",
+                    footer_disclaimer: "Esta información es para fines educativos y no sustituye el consejo médico profesional. Siempre consulta con tu médico."
+                }
+            };
+
+            // --- LANGUAGE SELECTOR LOGIC ---
+            const setLanguage = (lang) => {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+
+                langEnBtn.classList.toggle('active', lang === 'en');
+                langEsBtn.classList.toggle('active', lang === 'es');
+
+                const translation = translations[lang];
+                document.querySelectorAll('[data-key]').forEach(elem => {
+                    const key = elem.dataset.key;
+                    if (translation[key]) {
+                        elem.innerHTML = translation[key];
+                    }
+                });
+            };
+
+            langEnBtn.addEventListener('click', () => setLanguage('en'));
+            langEsBtn.addEventListener('click', () => setLanguage('es'));
+
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                setLanguage(currentLanguage);
+            });
+
+            // Set initial language
+            setLanguage('en');
+        });
+    </script>
+</body>
+</html>
