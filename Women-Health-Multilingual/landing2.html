@@ -72,6 +72,15 @@
         .lang-btn { transition: background-color 0.2s, color 0.2s; }
         .lang-btn.active { background-color: #D97706; color: white; }
 
+        .tab-active {
+            background-color: #FBBF24;
+            color: #422006;
+        }
+        .tab-inactive {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+
         .goog-te-banner-frame.skiptranslate { display: none !important; } 
         body { top: 0px !important; }
         .goog-te-gadget-simple {
@@ -154,134 +163,158 @@
         </section>
 
         <section id="menstrual-cycle" class="content-section">
-            <h2 class="text-3xl font-bold text-center mb-8 text-amber-900" data-translate="mc_title"></h2>
-            
-            <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="mc_phases_title"></h3>
-                <p class="mb-6 text-gray-600" data-translate="mc_phases_p1"></p>
-                <div class="flex flex-col md:flex-row items-center gap-8">
-                    <div class="w-full md:w-1/2 flex justify-center items-center">
-                        <div class="cycle-graphic">
-                            <div id="phase-menstrual" class="phase-item bg-rose-100 rounded-full flex flex-col justify-center items-center text-center p-2 cursor-pointer transition-transform duration-300" style="top: 0; left: 50%; transform: translateX(-50%);">
-                                <span class="text-3xl">💧</span>
-                                <span class="text-xs font-semibold text-rose-800" data-translate="mc_phase_menstrual"></span>
+            <div class="space-y-8">
+                <h2 class="text-3xl font-bold text-center text-amber-900" data-translate="mc_title"></h2>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="mc_phases_title"></h3>
+                    <p class="mb-6 text-gray-600" data-translate="mc_phases_p1"></p>
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="w-full md:w-1/2 flex justify-center items-center">
+                            <div class="cycle-graphic">
+                                <div id="phase-menstrual" class="phase-item bg-rose-100 rounded-full flex flex-col justify-center items-center text-center p-2 cursor-pointer transition-transform duration-300" style="top: 0; left: 50%; transform: translateX(-50%);">
+                                    <span class="text-3xl">💧</span>
+                                    <span class="text-xs font-semibold text-rose-800" data-translate="mc_phase_menstrual"></span>
+                                </div>
+                                <div id="phase-follicular" class="phase-item bg-emerald-100 rounded-full flex flex-col justify-center items-center text-center p-2 cursor-pointer transition-transform duration-300" style="top: 50%; right: 0; transform: translateY(-50%);">
+                                    <span class="text-3xl">🌱</span>
+                                    <span class="text-xs font-semibold text-emerald-800" data-translate="mc_phase_follicular"></span>
+                                </div>
+                                <div id="phase-ovulation" class="phase-item bg-yellow-100 rounded-full flex flex-col justify-center items-center text-center p-2 cursor-pointer transition-transform duration-300" style="bottom: 0; left: 50%; transform: translateX(-50%);">
+                                     <span class="text-3xl">☀️</span>
+                                    <span class="text-xs font-semibold text-yellow-800" data-translate="mc_phase_ovulation"></span>
+                                </div>
+                                <div id="phase-luteal" class="phase-item bg-indigo-100 rounded-full flex flex-col justify-center items-center text-center p-2 cursor-pointer transition-transform duration-300" style="top: 50%; left: 0; transform: translateY(-50%);">
+                                    <span class="text-3xl">🌙</span>
+                                    <span class="text-xs font-semibold text-indigo-800" data-translate="mc_phase_luteal"></span>
+                                </div>
+                                <div class="cycle-arrow" style="top: 25%; right: 25%; transform: rotate(45deg);">⤵</div>
+                                <div class="cycle-arrow" style="bottom: 25%; right: 25%; transform: rotate(135deg);">⤵</div>
+                                <div class="cycle-arrow" style="bottom: 25%; left: 25%; transform: rotate(225deg);">⤵</div>
+                                <div class="cycle-arrow" style="top: 25%; left: 25%; transform: rotate(315deg);">⤵</div>
                             </div>
-                            <div id="phase-follicular" class="phase-item bg-emerald-100 rounded-full flex flex-col justify-center items-center text-center p-2 cursor-pointer transition-transform duration-300" style="top: 50%; right: 0; transform: translateY(-50%);">
-                                <span class="text-3xl">🌱</span>
-                                <span class="text-xs font-semibold text-emerald-800" data-translate="mc_phase_follicular"></span>
-                            </div>
-                            <div id="phase-ovulation" class="phase-item bg-yellow-100 rounded-full flex flex-col justify-center items-center text-center p-2 cursor-pointer transition-transform duration-300" style="bottom: 0; left: 50%; transform: translateX(-50%);">
-                                 <span class="text-3xl">☀️</span>
-                                <span class="text-xs font-semibold text-yellow-800" data-translate="mc_phase_ovulation"></span>
-                            </div>
-                            <div id="phase-luteal" class="phase-item bg-indigo-100 rounded-full flex flex-col justify-center items-center text-center p-2 cursor-pointer transition-transform duration-300" style="top: 50%; left: 0; transform: translateY(-50%);">
-                                <span class="text-3xl">🌙</span>
-                                <span class="text-xs font-semibold text-indigo-800" data-translate="mc_phase_luteal"></span>
-                            </div>
-                            <div class="cycle-arrow" style="top: 25%; right: 25%; transform: rotate(45deg);">⤵</div>
-                            <div class="cycle-arrow" style="bottom: 25%; right: 25%; transform: rotate(135deg);">⤵</div>
-                            <div class="cycle-arrow" style="bottom: 25%; left: 25%; transform: rotate(225deg);">⤵</div>
-                            <div class="cycle-arrow" style="top: 25%; left: 25%; transform: rotate(315deg);">⤵</div>
+                        </div>
+                        <div id="phase-details" class="w-full md:w-1/2 p-4 bg-gray-50 rounded-lg min-h-[200px]">
+                            <p class="text-gray-500" data-translate="mc_phase_select"></p>
                         </div>
                     </div>
-                    <div id="phase-details" class="w-full md:w-1/2 p-4 bg-gray-50 rounded-lg min-h-[200px]">
-                        <p class="text-gray-500" data-translate="mc_phase_select"></p>
-                    </div>
                 </div>
-            </div>
 
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="mc_pms_title"></h3>
-                    <p class="mb-4 text-gray-600" data-translate="mc_pms_p1"></p>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-amber-800 uppercase bg-amber-100">
-                                <tr>
-                                    <th scope="col" class="px-4 py-3" data-translate="mc_pms_table_feature"></th>
-                                    <th scope="col" class="px-4 py-3">PMS</th>
-                                    <th scope="col" class="px-4 py-3">PMDD</th>
-                                </tr>
-                            </thead>
-                            <tbody id="pms-table-body">
-                            </tbody>
-                        </table>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="mc_pms_title"></h3>
+                        <p class="mb-4 text-gray-600" data-translate="mc_pms_p1"></p>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-500">
+                                <thead class="text-xs text-amber-800 uppercase bg-amber-100">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3" data-translate="mc_pms_table_feature"></th>
+                                        <th scope="col" class="px-4 py-3">PMS</th>
+                                        <th scope="col" class="px-4 py-3">PMDD</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pms-table-body">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="mc_aub_title"></h3>
-                    <p class="mb-4 text-gray-600" data-translate="mc_aub_p1"></p>
-                    <div id="palm-coein-grid" class="grid grid-cols-3 gap-2 text-center font-semibold">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="mc_aub_title"></h3>
+                        <p class="mb-4 text-gray-600" data-translate="mc_aub_p1"></p>
+                        <div id="palm-coein-grid" class="grid grid-cols-3 gap-2 text-center font-semibold">
+                        </div>
+                        <div id="palm-coein-details" class="mt-4 p-3 bg-gray-50 rounded-md min-h-[50px] text-sm text-gray-700"></div>
                     </div>
-                    <div id="palm-coein-details" class="mt-4 p-3 bg-gray-50 rounded-md min-h-[50px] text-sm text-gray-700"></div>
                 </div>
             </div>
         </section>
 
         <section id="conditions" class="content-section">
-            <h2 class="text-3xl font-bold text-center mb-8 text-amber-900" data-translate="cond_title"></h2>
-            <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600" data-translate="cond_p1"></p>
-            <div id="conditions-container"></div>
+            <div class="space-y-8">
+                <h2 class="text-3xl font-bold text-center text-amber-900" data-translate="cond_title"></h2>
+                <p class="text-center max-w-3xl mx-auto text-gray-600" data-translate="cond_p1"></p>
+                <div id="conditions-container" class="grid md:grid-cols-2 gap-8"></div>
+            </div>
         </section>
 
         <section id="menopause" class="content-section">
-            <h2 class="text-3xl font-bold text-center mb-8 text-amber-900" data-translate="meno_title"></h2>
-            <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600" data-translate="meno_p1"></p>
-            <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-                <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="meno_stages_title"></h3>
-                <div id="menopause-tabs" class="flex justify-center space-x-2 md:space-x-4 mb-4">
+            <div class="space-y-8">
+                <h2 class="text-3xl font-bold text-center text-amber-900" data-translate="meno_title"></h2>
+                <p class="text-center max-w-3xl mx-auto text-gray-600" data-translate="meno_p1"></p>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold mb-4 text-center text-amber-800" data-translate="meno_stages_title"></h3>
+                    <div id="menopause-tabs" class="flex justify-center items-center space-x-2 md:space-x-4 mb-4 w-full md:w-auto mx-auto">
+                    </div>
+                    <div id="menopause-content" class="p-4 bg-amber-50 rounded-lg"></div>
                 </div>
-                <div id="menopause-content" class="p-4 bg-gray-50 rounded-lg"></div>
-            </div>
 
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="meno_symptoms_title"></h3>
-                    <p class="mb-4 text-gray-600" data-translate="meno_symptoms_p1"></p>
-                    <div id="symptoms-accordion"></div>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                     <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="meno_health_title"></h3>
-                     <p class="mb-4 text-gray-600" data-translate="meno_health_p1"></p>
-                     <div class="space-y-4">
-                        <div class="p-4 border-l-4 border-rose-400 bg-rose-50 rounded-r-lg">
-                            <h4 class="font-bold text-rose-800" data-translate="meno_ost_title"></h4>
-                            <p class="text-sm text-rose-700" data-translate="meno_ost_p1"></p>
-                        </div>
-                        <div class="p-4 border-l-4 border-sky-400 bg-sky-50 rounded-r-lg">
-                            <h4 class="font-bold text-sky-800" data-translate="meno_cvd_title"></h4>
-                            <p class="text-sm text-sky-700" data-translate="meno_cvd_p1"></p>
-                        </div>
-                     </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="meno_symptoms_title"></h3>
+                        <p class="mb-4 text-gray-600" data-translate="meno_symptoms_p1"></p>
+                        <div id="symptoms-accordion"></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                         <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="meno_health_title"></h3>
+                         <p class="mb-4 text-gray-600" data-translate="meno_health_p1"></p>
+                         <div class="space-y-4">
+                            <div class="p-4 border-l-4 border-rose-400 bg-rose-50 rounded-r-lg">
+                                <h4 class="font-bold text-rose-800" data-translate="meno_ost_title"></h4>
+                                <p class="text-sm text-rose-700" data-translate="meno_ost_p1"></p>
+                            </div>
+                            <div class="p-4 border-l-4 border-sky-400 bg-sky-50 rounded-r-lg">
+                                <h4 class="font-bold text-sky-800" data-translate="meno_cvd_title"></h4>
+                                <p class="text-sm text-sky-700" data-translate="meno_cvd_p1"></p>
+                            </div>
+                         </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="cancer" class="content-section">
-            <h2 class="text-3xl font-bold text-center mb-8 text-amber-900" data-translate="cancer_title"></h2>
-            <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600" data-translate="cancer_p1"></p>
-            <div id="cancer-container" class="space-y-8"></div>
+            <div class="space-y-8">
+                <h2 class="text-3xl font-bold text-center text-amber-900" data-translate="cancer_title"></h2>
+                <p class="text-center max-w-3xl mx-auto text-gray-600" data-translate="cancer_p1"></p>
+                <div id="cancer-container" class="grid md:grid-cols-2 gap-8"></div>
+            </div>
         </section>
 
         <section id="mental-health" class="content-section">
-            <h2 class="text-3xl font-bold text-center mb-8 text-amber-900" data-translate="mh_title"></h2>
-             <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600" data-translate="mh_p1"></p>
-             <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="mh_connection_title"></h3>
-                    <p class="text-gray-600 mb-4" data-translate="mh_connection_p1"></p>
-                    <p class="text-gray-600" data-translate="mh_connection_p2"></p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="mh_pregnancy_title"></h3>
-                    <p class="text-gray-600 mb-4" data-translate="mh_pregnancy_p1"></p>
-                    <div class="p-4 bg-blue-50 border-l-4 border-blue-400 rounded-r-lg">
-                        <h4 class="font-bold text-blue-800" data-translate="mh_ppd_title"></h4>
-                        <p class="text-sm text-blue-700 mb-2" data-translate="mh_ppd_p1"></p>
-                        <p class="text-sm text-blue-700 font-semibold" data-translate="mh_ppd_p2"></p>
+            <div class="space-y-8">
+                <h2 class="text-3xl font-bold text-center text-amber-900" data-translate="mh_title"></h2>
+                <p class="text-center max-w-3xl mx-auto text-gray-600" data-translate="mh_p1"></p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-green-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-green-800" data-translate="mh_connection_title"></h3>
+                        <p class="text-green-700 mb-4" data-translate="mh_connection_p1"></p>
+                        <p class="text-green-700" data-translate="mh_connection_p2"></p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-blue-800" data-translate="mh_pregnancy_title"></h3>
+                        <p class="text-blue-700 mb-4" data-translate="mh_pregnancy_p1"></p>
+                        <div class="p-4 bg-blue-100 border-l-4 border-blue-400 rounded-r-lg">
+                            <h4 class="font-bold text-blue-900" data-translate="mh_ppd_title"></h4>
+                            <p class="text-sm text-blue-800 mb-2" data-translate="mh_ppd_p1"></p>
+                            <p class="text-sm text-blue-800 font-semibold" data-translate="mh_ppd_p2"></p>
+                        </div>
+                    </div>
+                    <div class="bg-purple-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-purple-800" data-translate="mh_menopause_title"></h3>
+                        <p class="text-purple-700 mb-4" data-translate="mh_menopause_p1"></p>
+                        <p class="text-purple-700" data-translate="mh_menopause_p2"></p>
+                    </div>
+                    <div class="bg-yellow-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-4 text-yellow-800" data-translate="mh_seeking_help_title"></h3>
+                        <p class="text-yellow-700 mb-4" data-translate="mh_seeking_help_p1"></p>
+                        <ul class="list-disc list-inside text-yellow-700 space-y-1 text-sm">
+                            <li data-translate="mh_seeking_help_li1"></li>
+                            <li data-translate="mh_seeking_help_li2"></li>
+                            <li data-translate="mh_seeking_help_li3"></li>
+                        </ul>
                     </div>
                 </div>
-             </div>
+            </div>
         </section>
 
     </main>
@@ -457,7 +490,7 @@
                     cancer_ovarian_diagnosis: "Focus is on symptom awareness and knowing your family history. If suspected, diagnosis is confirmed with surgery to remove and examine a mass.",
                     cancer_uterine_name: "Uterine (Endometrial) Cancer",
                     cancer_uterine_summary: "The most common cancer of the female reproductive organs. It has a clear, early warning sign, making it highly curable when found early.",
-                    cancer_uterine_symptoms: "The primary symptom is abnormal uterine bleeding. ANY bleeding or spotting after menopause should be evaluated immediately.",
+                    cancer_uterine_keysymptom: "The primary symptom is abnormal uterine bleeding. ANY bleeding or spotting after menopause should be evaluated immediately.",
                     cancer_uterine_risk: "Conditions with high estrogen levels, such as obesity, PCOS, and taking estrogen-only hormone therapy after menopause (without progestin).",
                     cancer_uterine_diagnosis: "Based on evaluating abnormal bleeding. A transvaginal ultrasound and/or an endometrial biopsy (tissue sample) are used to diagnose.",
                     cancer_symptoms_label: "Symptoms",
@@ -470,17 +503,25 @@
                     mh_title: "Your Emotional & Mental Well-being",
                     mh_p1: "Your physical and mental health are deeply connected. Hormonal shifts throughout life can impact mood. It's essential to recognize these connections and prioritize your mental health just as you do your physical health.",
                     mh_connection_title: "The Mind-Body Connection",
-                    mh_connection_p1: "Many gynecological conditions are associated with mental health challenges. For example, PCOS is linked to a higher risk of depression and anxiety, and the emotional toll of endometriosis or infertility is significant. Menopause can also bring mood swings and anxiety.",
+                    mh_connection_p1: "Many gynecological conditions are associated with mental health challenges. For example, PCOS is linked to a higher risk of depression and anxiety, and the emotional toll of endometriosis or infertility is significant.",
                     mh_connection_p2: "Recognizing that these feelings are a real and valid part of a medical condition is the first step. Always discuss mood symptoms with your doctor.",
                     mh_pregnancy_title: "Mental Health During & After Pregnancy",
                     mh_pregnancy_p1: "The time around pregnancy (perinatal period) is one of immense change, making women vulnerable to mental health conditions. These are treatable medical complications, not personal failures.",
                     mh_ppd_title: "Postpartum Depression (PPD) vs. \"Baby Blues\"",
                     mh_ppd_p1: "The \"baby blues\" are mild, temporary mood swings affecting up to 80% of new mothers. PPD is a more severe, lasting depression that requires treatment.",
                     mh_ppd_p2: "If you need support, call the National Maternal Mental Health Hotline: <a href=\"tel:1-833-852-6262\" class=\"underline\">1-833-852-6262</a>.",
+                    mh_menopause_title: "Menopause and Mood",
+                    mh_menopause_p1: "The menopause transition is a key time of vulnerability for mood changes. Fluctuating hormones, combined with sleep disruption and life stressors, can increase the risk for anxiety and depression.",
+                    mh_menopause_p2: "It's important to know that you are not alone in this experience. Many effective strategies, from lifestyle changes to therapy and medication, can help manage these symptoms.",
+                    mh_seeking_help_title: "How to Seek Support",
+                    mh_seeking_help_p1: "Taking the first step to get help is a sign of strength. Here are some ways to start:",
+                    mh_seeking_help_li1: "Talk to your OB/GYN or primary care provider. They are a great first point of contact and can screen you for mental health conditions.",
+                    mh_seeking_help_li2: "Ask for a referral to a mental health professional, such as a therapist or psychiatrist.",
+                    mh_seeking_help_li3: "Connect with support groups, either online or in your community, to share experiences with others.",
 
                     footer_disclaimer_title: "Disclaimer",
                     footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
-                    footer_disclaimer_p2: "Source Material: This guide is based on the \"Women's Health Education Website\" document."
+                    footer_disclaimer_p2: "Source Material: Content is adapted from sources like the Centers for Disease Control and Prevention (CDC), National Institutes of Health (NIH), National Cancer Institute (NCI), and Mayo Clinic."
                 },
                 es: {
                     app_title: "Guía de Salud Femenina",
@@ -620,7 +661,7 @@
                     cancer_ovarian_diagnosis: "El enfoque está en la conciencia de los síntomas y en conocer su historial familiar. Si se sospecha, el diagnóstico se confirma con cirugía para extirpar y examinar una masa.",
                     cancer_uterine_name: "Cáncer de Útero (Endometrial)",
                     cancer_uterine_summary: "El cáncer más común de los órganos reproductores femeninos. Tiene una señal de advertencia temprana y clara, lo que lo hace altamente curable cuando se detecta a tiempo.",
-                    cancer_uterine_symptoms: "El síntoma principal es el sangrado uterino anormal. CUALQUIER sangrado o manchado después de la menopausia debe evaluarse de inmediato.",
+                    cancer_uterine_keysymptom: "El síntoma principal es el sangrado uterino anormal. CUALQUIER sangrado o manchado después de la menopausia debe evaluarse de inmediato.",
                     cancer_uterine_risk: "Condiciones con altos niveles de estrógeno, como obesidad, SOP y tomar terapia hormonal solo con estrógeno después de la menopausia (sin progestina).",
                     cancer_uterine_diagnosis: "Se basa en la evaluación del sangrado anormal. Se utiliza una ecografía transvaginal y/o una biopsia de endometrio (muestra de tejido) para diagnosticar.",
                     cancer_symptoms_label: "Síntomas",
@@ -633,17 +674,25 @@
                     mh_title: "Su Bienestar Emocional y Mental",
                     mh_p1: "Su salud física y mental están profundamente conectadas. Los cambios hormonales a lo largo de la vida pueden afectar el estado de ánimo. Es esencial reconocer estas conexiones y priorizar su salud mental tanto como su salud física.",
                     mh_connection_title: "La Conexión Mente-Cuerpo",
-                    mh_connection_p1: "Muchas condiciones ginecológicas están asociadas con desafíos de salud mental. Por ejemplo, el SOP está relacionado con un mayor riesgo de depresión y ansiedad, y el costo emocional de la endometriosis o la infertilidad es significativo. La menopausia también puede traer cambios de humor y ansiedad.",
+                    mh_connection_p1: "Muchas condiciones ginecológicas están asociadas con desafíos de salud mental. Por ejemplo, el SOP está relacionado con un mayor riesgo de depresión y ansiedad, y el costo emocional de la endometriosis o la infertilidad es significativo.",
                     mh_connection_p2: "Reconocer que estos sentimientos son una parte real y válida de una condición médica es el primer paso. Siempre discuta los síntomas del estado de ánimo con su médico.",
                     mh_pregnancy_title: "Salud Mental Durante y Después del Embarazo",
                     mh_pregnancy_p1: "El tiempo alrededor del embarazo (período perinatal) es de inmenso cambio, lo que hace que las mujeres sean vulnerables a las condiciones de salud mental. Estas son complicaciones médicas tratables, no fracasos personales.",
                     mh_ppd_title: "Depresión Posparto (DPP) vs. \"Tristeza Posparto\"",
                     mh_ppd_p1: "La \"tristeza posparto\" son cambios de humor leves y temporales que afectan hasta al 80% de las nuevas madres. La DPP es una depresión más severa y duradera que requiere tratamiento.",
                     mh_ppd_p2: "Si necesita apoyo, llame a la Línea Nacional de Ayuda de Salud Mental Materna: <a href=\"tel:1-833-852-6262\" class=\"underline\">1-833-852-6262</a>.",
+                    mh_menopause_title: "Menopausia y Estado de Ánimo",
+                    mh_menopause_p1: "La transición de la menopausia es un momento clave de vulnerabilidad para los cambios de humor. Las hormonas fluctuantes, combinadas con la interrupción del sueño y los factores estresantes de la vida, pueden aumentar el riesgo de ansiedad y depresión.",
+                    mh_menopause_p2: "Es importante saber que no está sola en esta experiencia. Muchas estrategias efectivas, desde cambios en el estilo de vida hasta terapia y medicamentos, pueden ayudar a controlar estos síntomas.",
+                    mh_seeking_help_title: "Cómo Buscar Apoyo",
+                    mh_seeking_help_p1: "Dar el primer paso para obtener ayuda es una señal de fortaleza. Aquí hay algunas formas de comenzar:",
+                    mh_seeking_help_li1: "Hable con su ginecólogo/a o médico de atención primaria. Son un excelente primer punto de contacto y pueden detectarle condiciones de salud mental.",
+                    mh_seeking_help_li2: "Pida una remisión a un profesional de la salud mental, como un terapeuta o psiquiatra.",
+                    mh_seeking_help_li3: "Conéctese con grupos de apoyo, ya sea en línea o en su comunidad, para compartir experiencias con otras personas.",
 
                     footer_disclaimer_title: "Descargo de Responsabilidad",
                     footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
-                    footer_disclaimer_p2: "Material de Origen: Esta guía se basa en el documento \"Sitio Web de Educación sobre la Salud de la Mujer\"."
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes como los Centros para el Control y la Prevención de Enfermedades (CDC), los Institutos Nacionales de Salud (NIH), el Instituto Nacional del Cáncer (NCI) y la Clínica Mayo."
                 }
             };
 
@@ -653,20 +702,20 @@
                     aub: ['P', 'A', 'L', 'M', 'C', 'O', 'E', 'I', 'N']
                 },
                 conditions: [
-                    { id: 'endo', details: ['symptoms', 'risk', 'diagnosis', 'treatment'] },
-                    { id: 'fib', details: ['symptoms', 'risk', 'diagnosis', 'treatment'] },
-                    { id: 'pcos', details: ['symptoms', 'longterm', 'diagnosis', 'treatment'] },
-                    { id: 'pid', details: ['symptoms', 'complications', 'diagnosis', 'treatment'] }
+                    { id: 'endo', details: ['symptoms', 'risk', 'diagnosis', 'treatment'], color: 'purple', icon: '🌸' },
+                    { id: 'fib', details: ['symptoms', 'risk', 'diagnosis', 'treatment'], color: 'teal', icon: '🍇' },
+                    { id: 'pcos', details: ['symptoms', 'longterm', 'diagnosis', 'treatment'], color: 'orange', icon: '⚕️' },
+                    { id: 'pid', details: ['symptoms', 'complications', 'diagnosis', 'treatment'], color: 'red', icon: '🔥' }
                 ],
                 menopause: {
                     stages: ['peri', 'meno', 'post'],
                     symptoms: ['hotflash', 'sleep', 'vaginal', 'mood']
                 },
                 cancer: [
-                    { id: 'breast', details: ['symptoms', 'risk', 'screening'] },
-                    { id: 'cervical', details: ['prevention', 'screening', 'symptoms'] },
-                    { id: 'ovarian', details: ['symptoms', 'risk', 'diagnosis'] },
-                    { id: 'uterine', details: ['keysymptom', 'risk', 'diagnosis'] }
+                    { id: 'breast', details: ['symptoms', 'risk', 'screening'], color: 'pink', icon: '🎀' },
+                    { id: 'cervical', details: ['prevention', 'screening', 'symptoms'], color: 'cyan', icon: '♀️' },
+                    { id: 'ovarian', details: ['symptoms', 'risk', 'diagnosis'], color: 'violet', icon: '🥚' },
+                    { id: 'uterine', details: ['keysymptom', 'risk', 'diagnosis'], color: 'rose', icon: '🌷' }
                 ]
             };
 
@@ -785,17 +834,20 @@
                 const container = document.getElementById('conditions-container');
                 container.innerHTML = appData.conditions.map(item => {
                     const detailsHtml = item.details.map(key => 
-                        `<p class="mb-2"><strong class="text-amber-800">${t[`cond_${key}_label`]}:</strong> ${t[`cond_${item.id}_${key}`]}</p>`
+                        `<p class="mb-2"><strong class="text-${item.color}-800">${t[`cond_${key}_label`]}:</strong> ${t[`cond_${item.id}_${key}`]}</p>`
                     ).join('');
 
                     return `
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-                            <button class="accordion-button flex justify-between items-center w-full p-5 text-left font-semibold text-xl text-amber-800 bg-amber-50 hover:bg-amber-100 transition">
-                                <span>${t[`cond_${item.id}_name`]}</span>
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <button class="accordion-button flex justify-between items-center w-full p-5 text-left font-semibold text-xl text-${item.color}-800 bg-${item.color}-50 hover:bg-${item.color}-100 transition">
+                                <div class="flex items-center">
+                                    <span class="text-3xl mr-4">${item.icon}</span>
+                                    <span>${t[`cond_${item.id}_name`]}</span>
+                                </div>
                                 <svg class="w-6 h-6 shrink-0 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             </button>
                             <div class="accordion-content">
-                                <div class="p-5 border-t border-amber-200">
+                                <div class="p-5 border-t border-${item.color}-200">
                                     <p class="italic text-gray-600 mb-4">${t[`cond_${item.id}_summary`]}</p>
                                     <div class="text-sm space-y-2">${detailsHtml}</div>
                                 </div>
@@ -812,7 +864,7 @@
                 const accordionContainer = document.getElementById('symptoms-accordion');
 
                 tabsContainer.innerHTML = appData.menopause.stages.map(stage => 
-                    `<button class="menopause-tab-btn px-4 py-2 rounded-full text-sm font-semibold transition" data-tab="${stage}">${t[`meno_tab_${stage}`]}</button>`
+                    `<button class="menopause-tab-btn flex-1 md:flex-none px-4 py-2 rounded-full text-sm font-semibold transition" data-tab="${stage}">${t[`meno_tab_${stage}`]}</button>`
                 ).join('');
 
                 const tabButtons = tabsContainer.querySelectorAll('.menopause-tab-btn');
@@ -841,14 +893,24 @@
                 const container = document.getElementById('cancer-container');
                 container.innerHTML = appData.cancer.map(item => {
                     const detailsHtml = item.details.map(key => 
-                        `<p class="mb-2"><strong class="text-amber-800">${t[`cancer_${key}_label`]}:</strong> ${t[`cancer_${item.id}_${key}`]}</p>`
+                        `<p class="mb-2"><strong class="text-${item.color}-800">${t[`cancer_${key}_label`]}:</strong> ${t[`cancer_${item.id}_${key}`]}</p>`
                     ).join('');
 
                     return `
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-2xl font-semibold mb-2 text-amber-800">${t[`cancer_${item.id}_name`]}</h3>
-                            <p class="text-gray-600 mb-4 italic">${t[`cancer_${item.id}_summary`]}</p>
-                            <div class="text-sm space-y-2">${detailsHtml}</div>
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <button class="accordion-button flex justify-between items-center w-full p-5 text-left font-semibold text-xl text-${item.color}-800 bg-${item.color}-50 hover:bg-${item.color}-100 transition">
+                                <div class="flex items-center">
+                                    <span class="text-3xl mr-4">${item.icon}</span>
+                                    <span>${t[`cancer_${item.id}_name`]}</span>
+                                </div>
+                                <svg class="w-6 h-6 shrink-0 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="p-5 border-t border-${item.color}-200">
+                                    <p class="italic text-gray-600 mb-4">${t[`cancer_${item.id}_summary`]}</p>
+                                    <div class="text-sm space-y-2">${detailsHtml}</div>
+                                </div>
+                            </div>
                         </div>
                     `;
                 }).join('');

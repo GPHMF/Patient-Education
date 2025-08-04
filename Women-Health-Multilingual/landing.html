@@ -32,6 +32,9 @@
         .nav-link {
             border-bottom: 2px solid transparent;
             transition: all 0.3s ease;
+            padding: 0.5rem 0.75rem; /* Consistent padding */
+            margin: 0.25rem; /* Spacing for wrapping */
+            display: inline-block;
         }
         .nav-link:hover {
             color: #D97706;
@@ -101,20 +104,21 @@
 
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
+            <div class="flex items-center justify-between flex-wrap md:h-16">
+                <div class="flex-shrink-0 py-2">
                     <h1 class="text-xl font-bold text-amber-800" data-translate="app_title"></h1>
                 </div>
-                <div class="hidden md:flex items-center">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#intro" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-translate="nav_home"></a>
-                        <a href="#menstrual-cycle" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-translate="nav_menstrual"></a>
-                        <a href="#conditions" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-translate="nav_conditions"></a>
-                        <a href="#menopause" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-translate="nav_menopause"></a>
-                        <a href="#cancer" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-translate="nav_cancer"></a>
-                        <a href="#mental-health" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-translate="nav_mental"></a>
+                <!-- Navigation Links and Language Selector Container -->
+                <div class="w-full md:w-auto flex flex-col md:flex-row items-center">
+                    <div class="flex flex-wrap items-center justify-center py-2">
+                        <a href="#intro" class="nav-link rounded-md text-sm font-medium text-gray-700" data-translate="nav_home"></a>
+                        <a href="#menstrual-cycle" class="nav-link rounded-md text-sm font-medium text-gray-700" data-translate="nav_menstrual"></a>
+                        <a href="#conditions" class="nav-link rounded-md text-sm font-medium text-gray-700" data-translate="nav_conditions"></a>
+                        <a href="#menopause" class="nav-link rounded-md text-sm font-medium text-gray-700" data-translate="nav_menopause"></a>
+                        <a href="#cancer" class="nav-link rounded-md text-sm font-medium text-gray-700" data-translate="nav_cancer"></a>
+                        <a href="#mental-health" class="nav-link rounded-md text-sm font-medium text-gray-700" data-translate="nav_mental"></a>
                     </div>
-                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                    <div id="lang-selector" class="flex items-center md:pl-4 shrink-0 py-2">
                         <div id="native-lang-toggle" class="flex items-center">
                             <div class="flex rounded-lg border border-gray-300 p-0.5">
                                 <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
@@ -130,26 +134,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-amber-800 hover:text-amber-600 focus:outline-none">
-                        <span class="sr-only" data-translate="sr_open_menu"></span>
-                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                    </button>
-                </div>
             </div>
         </nav>
-        <div id="mobile-menu" class="md:hidden hidden">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#intro" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700" data-translate="nav_home"></a>
-                <a href="#menstrual-cycle" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700" data-translate="nav_menstrual"></a>
-                <a href="#conditions" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700" data-translate="nav_conditions"></a>
-                <a href="#menopause" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700" data-translate="nav_menopause"></a>
-                <a href="#cancer" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700" data-translate="nav_cancer"></a>
-                <a href="#mental-health" class="block nav-link px-3 py-2 rounded-md text-base font-medium text-gray-700" data-translate="nav_mental"></a>
-            </div>
-        </div>
     </header>
 
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -198,6 +184,9 @@
                             <p class="text-gray-500" data-translate="mc_phase_select"></p>
                         </div>
                     </div>
+                    <div class="mt-4 text-right">
+                        <a href="pages/cycle.html" class="inline-block bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition text-sm" data-translate="link_cycle"></a>
+                    </div>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-8">
@@ -217,6 +206,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="mt-4 text-right">
+                            <a href="pages/pms.html" class="inline-block bg-amber-200 text-amber-800 font-semibold py-2 px-4 rounded-lg hover:bg-amber-300 transition text-sm" data-translate="link_pms"></a>
+                        </div>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <h3 class="text-2xl font-semibold mb-4 text-amber-800" data-translate="mc_aub_title"></h3>
@@ -224,6 +216,9 @@
                         <div id="palm-coein-grid" class="grid grid-cols-3 gap-2 text-center font-semibold">
                         </div>
                         <div id="palm-coein-details" class="mt-4 p-3 bg-gray-50 rounded-md min-h-[50px] text-sm text-gray-700"></div>
+                        <div class="mt-4 text-right">
+                           <a href="pages/aub.html" class="inline-block bg-amber-200 text-amber-800 font-semibold py-2 px-4 rounded-lg hover:bg-amber-300 transition text-sm" data-translate="link_aub"></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -298,6 +293,9 @@
                             <p class="text-sm text-blue-800 mb-2" data-translate="mh_ppd_p1"></p>
                             <p class="text-sm text-blue-800 font-semibold" data-translate="mh_ppd_p2"></p>
                         </div>
+                        <div class="mt-4 text-right">
+                           <a href="pages/ppd.html" class="inline-block bg-blue-200 text-blue-800 font-semibold py-2 px-4 rounded-lg hover:bg-blue-300 transition text-sm" data-translate="link_ppd"></a>
+                        </div>
                     </div>
                     <div class="bg-purple-50 p-6 rounded-lg shadow-md">
                         <h3 class="text-2xl font-semibold mb-4 text-purple-800" data-translate="mh_menopause_title"></h3>
@@ -342,8 +340,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('nav a');
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
             const contentSections = document.querySelectorAll('.content-section');
             const nativeLangToggle = document.getElementById('native-lang-toggle');
             const googleLangToggle = document.getElementById('google-lang-toggle');
@@ -521,7 +517,21 @@
 
                     footer_disclaimer_title: "Disclaimer",
                     footer_disclaimer_p1: "The information provided in this guide is for educational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
-                    footer_disclaimer_p2: "Source Material: Content is adapted from sources like the Centers for Disease Control and Prevention (CDC), National Institutes of Health (NIH), National Cancer Institute (NCI), and Mayo Clinic."
+                    footer_disclaimer_p2: "Source Material: Content is adapted from sources like the Centers for Disease Control and Prevention (CDC), National Institutes of Health (NIH), National Cancer Institute (NCI), and Mayo Clinic.",
+
+                    // Added Link Translations
+                    link_pms: "Learn more about PMS & PMDD",
+                    link_aub: "Learn more about AUB",
+                    link_cycle: "Learn more about the Menstrual Cycle",
+                    link_endo: "Learn more about Endometriosis",
+                    link_fib: "Learn more about Uterine Fibroids",
+                    link_pcos: "Learn more about PCOS",
+                    link_pid: "Learn more about PID",
+                    link_breast: "Learn more about Breast Cancer",
+                    link_cervical: "Learn more about Cervical Cancer",
+                    link_ovarian: "Learn more about Ovarian Cancer",
+                    link_uterine: "Learn more about Endometrial Cancer",
+                    link_ppd: "Learn more about Postpartum Mood Disorders"
                 },
                 es: {
                     app_title: "Guía de Salud Femenina",
@@ -692,7 +702,21 @@
 
                     footer_disclaimer_title: "Descargo de Responsabilidad",
                     footer_disclaimer_p1: "La información proporcionada en esta guía es solo para fines educativos y no pretende ser un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
-                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes como los Centros para el Control y la Prevención de Enfermedades (CDC), los Institutos Nacionales de Salud (NIH), el Instituto Nacional del Cáncer (NCI) y la Clínica Mayo."
+                    footer_disclaimer_p2: "Material de Origen: El contenido está adaptado de fuentes como los Centros para el Control y la Prevención de Enfermedades (CDC), los Institutos Nacionales de Salud (NIH), el Instituto Nacional del Cáncer (NCI) y la Clínica Mayo.",
+                    
+                    // Added Link Translations
+                    link_pms: "Aprenda más sobre el SPM y TDPM",
+                    link_aub: "Aprenda más sobre el SUA",
+                    link_cycle: "Aprenda más sobre el Ciclo Menstrual",
+                    link_endo: "Aprenda más sobre la Endometriosis",
+                    link_fib: "Aprenda más sobre los Fibromas Uterinos",
+                    link_pcos: "Aprenda más sobre el SOP",
+                    link_pid: "Aprenda más sobre la EIP",
+                    link_breast: "Aprenda más sobre el Cáncer de Mama",
+                    link_cervical: "Aprenda más sobre el Cáncer de Cuello Uterino",
+                    link_ovarian: "Aprenda más sobre el Cáncer de Ovario",
+                    link_uterine: "Aprenda más sobre el Cáncer de Endometrio",
+                    link_ppd: "Aprenda más sobre los Trastornos del Ánimo Posparto"
                 }
             };
 
@@ -727,7 +751,6 @@
                 navLinks.forEach(link => {
                     link.classList.toggle('nav-active', link.getAttribute('href') === hash);
                 });
-                mobileMenu.classList.add('hidden');
                 window.scrollTo(0, 0);
             };
 
@@ -750,10 +773,6 @@
                 initMenopause();
                 initCancer();
             };
-
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
 
             navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
@@ -780,7 +799,9 @@
                     });
                 });
                 if(document.querySelector('.content-section.active').id === 'menstrual-cycle') {
-                    document.getElementById('phase-menstrual').click();
+                    if(!document.querySelector('.phase-active')) {
+                       document.getElementById('phase-menstrual').click();
+                    }
                 }
 
                 const pmsTableBody = document.getElementById('pms-table-body');
@@ -810,7 +831,9 @@
                         e.target.classList.add('bg-amber-300');
                     }
                 });
-                aubGrid.children[0].click();
+                if(!aubGrid.querySelector('.bg-amber-300')) {
+                    aubGrid.children[0].click();
+                }
             };
 
             const createAccordionItem = (title, content) => {
@@ -832,10 +855,18 @@
             const initConditions = () => {
                 const t = translations[currentLanguage];
                 const container = document.getElementById('conditions-container');
+                const fileMap = { endo: 'endometriosis', fib: 'fibroids', pcos: 'pcos', pid: 'pid' };
+                
                 container.innerHTML = appData.conditions.map(item => {
                     const detailsHtml = item.details.map(key => 
                         `<p class="mb-2"><strong class="text-${item.color}-800">${t[`cond_${key}_label`]}:</strong> ${t[`cond_${item.id}_${key}`]}</p>`
                     ).join('');
+
+                    const linkHtml = `
+                        <div class="mt-4 text-right">
+                            <a href="pages/${fileMap[item.id]}.html" class="inline-block bg-${item.color}-100 text-${item.color}-800 font-semibold py-2 px-4 rounded-lg hover:bg-${item.color}-200 transition text-sm" data-translate="link_${item.id}">${t[`link_${item.id}`]}</a>
+                        </div>
+                    `;
 
                     return `
                         <div class="bg-white rounded-lg shadow-md overflow-hidden">
@@ -850,6 +881,7 @@
                                 <div class="p-5 border-t border-${item.color}-200">
                                     <p class="italic text-gray-600 mb-4">${t[`cond_${item.id}_summary`]}</p>
                                     <div class="text-sm space-y-2">${detailsHtml}</div>
+                                    ${linkHtml}
                                 </div>
                             </div>
                         </div>
@@ -885,16 +917,31 @@
                     createAccordionItem(t[`meno_symptom_${symptom}_title`], t[`meno_symptom_${symptom}_desc`])
                 ).join('');
 
-                updateContent('peri');
+                if(!tabsContainer.querySelector('.tab-active')) {
+                    updateContent('peri');
+                }
             };
             
             const initCancer = () => {
                 const t = translations[currentLanguage];
                 const container = document.getElementById('cancer-container');
+                const fileMap = {
+                    breast: 'ca-breast',
+                    cervical: 'ca-cervix',
+                    ovarian: 'ca-ovary',
+                    uterine: 'ca-endometrium'
+                };
+
                 container.innerHTML = appData.cancer.map(item => {
                     const detailsHtml = item.details.map(key => 
                         `<p class="mb-2"><strong class="text-${item.color}-800">${t[`cancer_${key}_label`]}:</strong> ${t[`cancer_${item.id}_${key}`]}</p>`
                     ).join('');
+
+                    const linkHtml = `
+                        <div class="mt-4 text-right">
+                            <a href="pages/${fileMap[item.id]}.html" class="inline-block bg-${item.color}-100 text-${item.color}-800 font-semibold py-2 px-4 rounded-lg hover:bg-${item.color}-200 transition text-sm" data-translate="link_${item.id}">${t[`link_${item.id}`]}</a>
+                        </div>
+                    `;
 
                     return `
                         <div class="bg-white rounded-lg shadow-md overflow-hidden">
@@ -909,6 +956,7 @@
                                 <div class="p-5 border-t border-${item.color}-200">
                                     <p class="italic text-gray-600 mb-4">${t[`cancer_${item.id}_summary`]}</p>
                                     <div class="text-sm space-y-2">${detailsHtml}</div>
+                                    ${linkHtml}
                                 </div>
                             </div>
                         </div>
