@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Guide to HIV Antiretroviral Drugs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f1f5f9; /* slate-100 */
+            --text-primary: #0f172a; /* slate-900 */
+            --text-secondary: #475569; /* slate-600 */
+            --accent-color: #0ea5e9; /* sky-500 */
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0; /* slate-200 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #334155; color: white; }
+
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: var(--text-primary) !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+        
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        .modal-content {
+            transition: transform 0.25s ease;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 1.125rem;
+            top: 2.5rem;
+            bottom: -2.5rem;
+            width: 2px;
+            background-color: var(--border-color);
+        }
+        .timeline-item:last-child::before {
+            display: none;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 2.5rem;
+            width: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            border: 2px solid var(--border-color);
+            background-color: white;
+        }
+        .details-section {
+            transition: all 0.4s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .details-section.open {
+            max-height: 1000px; /* Large enough for content */
+        }
+        .expand-icon {
+            transition: transform 0.4s;
+        }
+        .card-header.open .expand-icon {
+             transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-2 flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-bold text-slate-800" data-translate="header_title"></h1>
+            </div>
+            <div class="js-lang-selector flex items-center pl-4 shrink-0">
+                <div class="js-native-toggle flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                        <button class="lang-btn js-lang-en px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button class="lang-btn js-lang-es px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button class="js-show-google ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div class="js-google-toggle hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button class="js-back-native ml-2 text-sm font-semibold text-sky-600 hover:underline" data-translate="back_button"></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <section class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-3" data-translate="main_title"></h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600" data-translate="main_subtitle"></p>
+        </section>
+
+        <section class="bg-white rounded-xl shadow-lg p-8 mb-16">
+            <h3 class="text-3xl font-bold text-center text-slate-800 mb-2" data-translate="combo_therapy_title"></h3>
+            <p class="text-center text-slate-600 mb-8" data-translate="combo_therapy_subtitle"></p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="text-center">
+                     <svg class="w-32 h-32 mx-auto text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    </svg>
+                </div>
+                <div class="text-slate-600 space-y-4">
+                    <p data-translate="combo_therapy_p1"></p>
+                    <p data-translate="combo_therapy_p2"></p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="drug-classes-section" class="mb-16">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="drug_classes_title"></h3>
+                <p class="max-w-3xl mx-auto text-slate-600 mt-2" data-translate="drug_classes_subtitle"></p>
+            </div>
+            <div id="timeline-container" class="relative max-w-2xl mx-auto">
+                <!-- Timeline items will be injected here -->
+            </div>
+        </section>
+
+        <section class="bg-white rounded-xl shadow-lg p-8 mb-16">
+            <h3 class="text-3xl font-bold text-center text-slate-800 mb-2" data-translate="adherence_title"></h3>
+            <p class="text-center text-slate-600 mb-8" data-translate="adherence_subtitle"></p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                 <div class="text-slate-600 space-y-4">
+                    <p data-translate="adherence_p1"></p>
+                    <p data-translate="adherence_p2"></p>
+                </div>
+                <div class="text-center">
+                    <svg class="w-32 h-32 mx-auto text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="str-section">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="str_title"></h3>
+                <p class="max-w-2xl mx-auto text-slate-600 mt-2" data-translate="str_subtitle"></p>
+            </div>
+            <div id="str-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                 <!-- STR expandable cards injected by JS -->
+            </div>
+        </section>
+
+    </main>
+    
+    <div id="modal-container" class="modal fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden opacity-0">
+        <div id="modal-content" class="modal-content bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95">
+            <!-- Modal content will be injected here -->
+        </div>
+    </div>
+    
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto py-8 px-4 text-center">
+            <p data-translate="footer_disclaimer"></p>
+            <div class="mt-4">
+                <p class="text-sm text-slate-400" data-translate="footer_source_intro"></p>
+                <div class="flex justify-center space-x-4 mt-2">
+                    <a href="https://hivinfo.nih.gov/understanding-hiv/fact-sheets/fda-approved-hiv-medicines" target="_blank" class="text-sky-300 hover:text-sky-200 underline">HIVinfo.NIH.gov</a>
+                    <a href="https://www.cdc.gov/hiv/basics/livingwithhiv/treatment.html" target="_blank" class="text-sky-300 hover:text-sky-200 underline">CDC Treatment Info</a>
+                </div>
+            </div>
+        </footer>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const translations = {
+        en: {
+            header_title: "HIV Medication Guide",
+            main_title: "Your Guide to Antiretroviral Therapy (ART)",
+            main_subtitle: "Antiretroviral therapy (ART) is the life-saving treatment for HIV. This guide explains how these powerful medications work, the different types available, and their role in helping you live a long, healthy life.",
+            combo_therapy_title: "Why Combination Therapy?",
+            combo_therapy_subtitle: "The Key to Preventing Resistance",
+            combo_therapy_p1: "HIV is a very clever virus that can mutate or change its form quickly. If you only use one drug to fight it, the virus can easily develop a mutation that makes it 'resistant' to that drug, meaning the medication stops working.",
+            combo_therapy_p2: "By using a combination of drugs that attack the virus at different stages of its lifecycle, we create multiple roadblocks. It is extremely difficult for the virus to develop mutations to overcome all these roadblocks at once. This is why ART is always a combination of two or three different drugs.",
+            drug_classes_title: "How ART Stops HIV: Interrupting the Lifecycle",
+            drug_classes_subtitle: "Your ART regimen will include a combination of drugs that attack the virus at different stages. Click on a stage to learn about the drugs that block it.",
+            str_title: "The Power of Combination: Single-Tablet Regimens (STRs)",
+            str_subtitle: "Modern HIV treatment is simpler than ever. Most people can take a single pill, once a day, that contains a complete and powerful ART regimen. Click on a brand name to see its drug combination.",
+            adherence_title: "The Goal: Adherence & Undetectable",
+            adherence_subtitle: "The Keys to Long-Term Health",
+            adherence_p1: "The single most important factor for successful treatment is <strong>adherence</strong>—taking your medicine exactly as prescribed, every single day. Missing doses allows the virus to start making copies of itself again, which can lead to drug resistance.",
+            adherence_p2: "Perfect adherence leads to the ultimate goal: an <strong>undetectable viral load</strong>. This means the amount of HIV in your blood is so low it can't be measured. This protects your immune system and means you cannot transmit HIV to sexual partners (U=U).",
+            back_button: "Back",
+            footer_disclaimer: "This guide provides general information and is not a substitute for professional medical advice. Your healthcare provider will choose the best regimen for you based on your specific health needs.",
+            footer_source_intro: "Content is based on information from:",
+            drug_classes: [
+                 {
+                    id: 'entry',
+                    name: 'Entry Inhibitors',
+                    lifecycle_step: 'Step 1: Binding & Fusion',
+                    how_it_works: 'This is a broader category of drugs that block the first step. They work outside the CD4 cell to prevent HIV from attaching to or entering it in the first place.',
+                    common_names: 'Maraviroc (Selzentry®), Fostemsavir (Rukobia®), Ibalizumab (Trogarzo®)',
+                    side_effects: 'Side effects are specific to each drug. These are specialized medications.',
+                    considerations: 'These are not used for initial treatment. They are reserved for people who have developed resistance to many other HIV medications ("treatment-experienced" patients).',
+                    color: 'rose'
+                },
+                {
+                    id: 'nrti',
+                    name: 'Nucleoside Reverse Transcriptase Inhibitors (NRTIs)',
+                    lifecycle_step: 'Step 2: Reverse Transcription',
+                    how_it_works: 'NRTIs act as faulty building blocks. When HIV tries to build its DNA, it accidentally uses an NRTI, which stops the process. They form the "backbone" of most ART regimens.',
+                    common_names: 'Tenofovir Alafenamide/Disoproxil, Emtricitabine, Lamivudine, Abacavir',
+                    side_effects: 'Modern NRTIs are very safe. Older formulations of tenofovir were associated with kidney and bone density issues, but the newer version (TAF) has a much better safety profile. Abacavir requires a genetic test before use to rule out a severe hypersensitivity reaction.',
+                    considerations: 'Two NRTIs are typically combined with a third drug (usually an INSTI) to form a complete regimen.',
+                    color: 'blue'
+                },
+                {
+                    id: 'nnrti',
+                    name: 'Non-Nucleoside Reverse Transcriptase Inhibitors (NNRTIs)',
+                    lifecycle_step: 'Step 2: Reverse Transcription',
+                    how_it_works: 'Also blocks this step, but in a different way. NNRTIs bind directly to the reverse transcriptase enzyme, jamming it so it cannot work.',
+                    common_names: 'Doravirine, Rilpivirine, Efavirenz',
+                    side_effects: 'Side effects vary. Efavirenz was known for causing vivid dreams and dizziness. Newer NNRTIs like Doravirine are much better tolerated. Rilpivirine must be taken with a full meal to be absorbed properly.',
+                    considerations: 'Less commonly used as first-line therapy now compared to INSTIs, but remain an important option for some people.',
+                    color: 'teal'
+                },
+                {
+                    id: 'insti',
+                    name: 'Integrase Strand Transfer Inhibitors (INSTIs)',
+                    lifecycle_step: 'Step 3: Integration',
+                    how_it_works: 'These drugs stop HIV from inserting its DNA into the CD4 cell\'s DNA, preventing a permanent infection in that cell. INSTIs are a cornerstone of modern therapy and are included in most recommended first-line regimens.',
+                    common_names: 'Bictegravir, Dolutegravir, Cabotegravir, Raltegravir',
+                    side_effects: 'Generally very well-tolerated. Some people may experience headache, trouble sleeping, or nausea. Weight gain has been observed in some people starting INSTI-based regimens.',
+                    considerations: 'Highly effective and have a high barrier to resistance, making them very durable. Dolutegravir and Bictegravir are the most widely used.',
+                    color: 'violet'
+                },
+                {
+                    id: 'pi',
+                    name: 'Protease Inhibitors (PIs)',
+                    lifecycle_step: 'Step 5: Assembly & Budding',
+                    how_it_works: 'Blocks the final "assembly" step. After new HIV proteins are made, the protease enzyme acts like scissors to cut them into the right pieces. PIs block these scissors, so the new virus particles cannot be built correctly.',
+                    common_names: 'Darunavir, Atazanavir',
+                    side_effects: 'Can sometimes cause gastrointestinal issues like diarrhea. May also affect cholesterol and blood sugar levels over time.',
+                    considerations: 'PIs are almost always taken with a "booster" drug (cobicistat or ritonavir) that increases their levels in the body. They have a very high barrier to resistance.',
+                    color: 'amber'
+                }
+            ],
+            str_examples: [
+                { brand: 'Biktarvy®', combo_class: '1 INSTI + 2 NRTIs', combo_drugs: 'Bictegravir + Emtricitabine + Tenofovir Alafenamide', preferred_scenario: 'A very common first-choice for many people starting treatment due to high potency, high barrier to resistance, and minimal side effects.', color: 'violet' },
+                { brand: 'Triumeq®', combo_class: '1 INSTI + 2 NRTIs', combo_drugs: 'Dolutegravir + Abacavir + Lamivudine', preferred_scenario: 'A powerful first-line option, but requires a genetic test (for Abacavir) to rule out a potential severe allergic reaction before starting.', color: 'violet' },
+                { brand: 'Dovato®', combo_class: '1 INSTI + 1 NRTI', combo_drugs: 'Dolutegravir + Lamivudine', preferred_scenario: 'A complete 2-drug regimen in a single pill. A great option for many, especially those who want to avoid Tenofovir.', color: 'violet' },
+                { brand: 'Symtuza®', combo_class: '1 PI + Booster + 2 NRTIs', combo_drugs: 'Darunavir + Cobicistat + Emtricitabine + Tenofovir Alafenamide', preferred_scenario: 'A powerful PI-based option with a very high barrier to resistance. Often used if there are concerns about resistance to other classes.', color: 'amber' },
+                { brand: 'Odefsey®', combo_class: '1 NNRTI + 2 NRTIs', combo_drugs: 'Rilpivirine + Emtricitabine + Tenofovir Alafenamide', preferred_scenario: 'An effective NNRTI-based option. Requires taking with a full meal for proper absorption and is not for people with a high viral load.', color: 'teal' },
+                { brand: 'Delstrigo®', combo_class: '1 NNRTI + 2 NRTIs', combo_drugs: 'Doravirine + Lamivudine + Tenofovir Disoproxil', preferred_scenario: 'Features a newer, well-tolerated NNRTI (Doravirine) with fewer side effects and drug interactions than older drugs in its class.', color: 'teal' },
+                { brand: 'Juluca®', combo_class: '1 INSTI + 1 NNRTI', combo_drugs: 'Dolutegravir + Rilpivirine', preferred_scenario: 'A 2-drug regimen for people who are already undetectable on another regimen and want to switch. Not for starting treatment.', color: 'violet' }
+            ]
+        },
+        es: {
+            header_title: "Guía de Medicamentos para el VIH",
+            main_title: "Su Guía de Terapia Antirretroviral (TAR)",
+            main_subtitle: "La terapia antirretroviral (TAR) es el tratamiento vital para el VIH. Esta guía explica cómo funcionan estos potentes medicamentos, los diferentes tipos disponibles y su papel para ayudarle a vivir una vida larga y saludable.",
+            combo_therapy_title: "¿Por Qué Terapia Combinada?",
+            combo_therapy_subtitle: "La Clave para Prevenir la Resistencia",
+            combo_therapy_p1: "El VIH es un virus muy inteligente que puede mutar o cambiar su forma rápidamente. Si solo se usa un fármaco para combatirlo, el virus puede desarrollar fácilmente una mutación que lo haga 'resistente' a ese fármaco, lo que significa que el medicamento deja de funcionar.",
+            combo_therapy_p2: "Al usar una combinación de fármacos que atacan el virus en diferentes etapas de su ciclo de vida, creamos múltiples obstáculos. Es extremadamente difícil para el virus desarrollar mutaciones para superar todos estos obstáculos a la vez. Es por eso que la TAR siempre es una combinación de dos o tres fármacos diferentes.",
+            drug_classes_title: "Cómo la TAR Detiene al VIH: Interrumpiendo el Ciclo de Vida",
+            drug_classes_subtitle: "Su régimen de TAR incluirá una combinación de fármacos que atacan el virus en diferentes etapas. Haga clic en una etapa para conocer los fármacos que la bloquean.",
+            str_title: "El Poder de la Combinación: Regímenes de Tableta Única (RTU)",
+            str_subtitle: "El tratamiento moderno del VIH es más simple que nunca. La mayoría de las personas pueden tomar una sola pastilla, una vez al día, que contiene un régimen de TAR completo y potente. Haga clic en una marca para ver su combinación de fármacos.",
+            adherence_title: "El Objetivo: Adherencia e Indetectable",
+            adherence_subtitle: "Las Claves para la Salud a Largo Plazo",
+            adherence_p1: "El factor más importante para un tratamiento exitoso es la <strong>adherencia</strong>: tomar su medicamento exactamente como se lo recetaron, todos los días. Omitir dosis permite que el virus comience a hacer copias de sí mismo nuevamente, lo que puede llevar a la resistencia a los medicamentos.",
+            adherence_p2: "La adherencia perfecta conduce al objetivo final: una <strong>carga viral indetectable</strong>. Esto significa que la cantidad de VIH en su sangre es tan baja que no se puede medir. Esto protege su sistema inmunológico y significa que no puede transmitir el VIH a sus parejas sexuales (I=I).",
+            back_button: "Volver",
+            footer_disclaimer: "Esta guía proporciona información general y no sustituye el consejo médico profesional. Su proveedor de atención médica elegirá el mejor régimen para usted según sus necesidades de salud específicas.",
+            footer_source_intro: "El contenido se basa en información de:",
+            drug_classes: [
+                {
+                    id: 'entry',
+                    name: 'Inhibidores de la Entrada',
+                    lifecycle_step: 'Paso 1: Unión y Fusión',
+                    how_it_works: 'Esta es una categoría más amplia de fármacos que bloquean el primer paso. Actúan fuera de la célula CD4 para evitar que el VIH se adhiera o entre en ella.',
+                    common_names: 'Maraviroc (Selzentry®), Fostemsavir (Rukobia®), Ibalizumab (Trogarzo®)',
+                    side_effects: 'Los efectos secundarios son específicos de cada fármaco. Son medicamentos especializados.',
+                    considerations: 'No se utilizan para el tratamiento inicial. Se reservan para personas que han desarrollado resistencia a muchos otros medicamentos contra el VIH (pacientes "con experiencia en tratamiento").',
+                    color: 'rose'
+                },
+                {
+                    id: 'nrti',
+                    name: 'Inhibidores de la Transcriptasa Inversa Análogos de Nucleósidos (ITIN)',
+                    lifecycle_step: 'Paso 2: Transcripción Inversa',
+                    how_it_works: 'Los ITIN actúan como bloques de construcción defectuosos. Cuando el VIH intenta construir su ADN, usa accidentalmente un ITIN, lo que detiene el proceso. Forman la "columna vertebral" de la mayoría de los regímenes de TAR.',
+                    common_names: 'Tenofovir Alafenamida/Disoproxil, Emtricitabina, Lamivudina, Abacavir',
+                    side_effects: 'Los ITIN modernos son muy seguros. Las formulaciones más antiguas de tenofovir se asociaron con problemas renales y de densidad ósea, pero la versión más nueva (TAF) tiene un perfil de seguridad mucho mejor. El abacavir requiere una prueba genética antes de su uso para descartar una reacción de hipersensibilidad grave.',
+                    considerations: 'Normalmente se combinan dos ITIN con un tercer fármaco (generalmente un INSTI) para formar un régimen completo.',
+                    color: 'blue'
+                },
+                {
+                    id: 'nnrti',
+                    name: 'Inhibidores de la Transcriptasa Inversa no Análogos de Nucleósidos (ITINN)',
+                    lifecycle_step: 'Paso 2: Transcripción Inversa',
+                    how_it_works: 'También bloquea este paso, pero de una manera diferente. Los ITINN se unen directamente a la enzima transcriptasa inversa, atascándola para que no pueda funcionar.',
+                    common_names: 'Doravirina, Rilpivirina, Efavirenz',
+                    side_effects: 'Los efectos secundarios varían. El efavirenz era conocido por causar sueños vívidos y mareos. Los ITINN más nuevos como la Doravirina son mucho mejor tolerados. La Rilpivirina debe tomarse con una comida completa para absorberse adecuadamente.',
+                    considerations: 'Se usan con menos frecuencia como terapia de primera línea en comparación con los INSTI, pero siguen siendo una opción importante para algunas personas.',
+                    color: 'teal'
+                },
+                {
+                    id: 'insti',
+                    name: 'Inhibidores de la Transferencia de Cadenas de la Integrasa (INSTI)',
+                    lifecycle_step: 'Paso 3: Integración',
+                    how_it_works: 'Estos fármacos impiden que el VIH inserte su ADN en el ADN de la célula CD4, previniendo una infección permanente en esa célula. Los INSTI son la piedra angular de la terapia moderna y se incluyen en la mayoría de los regímenes de primera línea recomendados.',
+                    common_names: 'Bictegravir, Dolutegravir, Cabotegravir, Raltegravir',
+                    side_effects: 'Generalmente muy bien tolerados. Algunas personas pueden experimentar dolor de cabeza, problemas para dormir o náuseas. Se ha observado aumento de peso en algunas personas que inician regímenes basados en INSTI.',
+                    considerations: 'Altamente eficaces y tienen una alta barrera a la resistencia, lo que los hace muy duraderos. Dolutegravir y Bictegravir son los más utilizados.',
+                    color: 'violet'
+                },
+                {
+                    id: 'pi',
+                    name: 'Inhibidores de la Proteasa (IP)',
+                    lifecycle_step: 'Paso 5: Ensamblaje y Gemación',
+                    how_it_works: 'Bloquea el paso final de "ensamblaje". Después de que se producen nuevas proteínas del VIH, la enzima proteasa actúa como tijeras para cortarlas en las piezas correctas. Los IP bloquean estas tijeras, por lo que las nuevas partículas de virus no se pueden construir correctamente.',
+                    common_names: 'Darunavir, Atazanavir',
+                    side_effects: 'A veces pueden causar problemas gastrointestinales como diarrea. También pueden afectar los niveles de colesterol y azúcar en la sangre con el tiempo.',
+                    considerations: 'Los IP casi siempre se toman con un fármaco "potenciador" (cobicistat o ritonavir) que aumenta sus niveles en el cuerpo. Tienen una barrera muy alta a la resistencia.',
+                    color: 'amber'
+                }
+            ],
+            str_examples: [
+                { brand: 'Biktarvy®', combo_class: '1 INSTI + 2 ITIN', combo_drugs: 'Bictegravir + Emtricitabina + Tenofovir Alafenamida', preferred_scenario: 'A menudo, una primera opción para muchas personas que inician tratamiento debido a su alta potencia, alta barrera a la resistencia y mínimos efectos secundarios.', color: 'violet' },
+                { brand: 'Triumeq®', combo_class: '1 INSTI + 2 ITIN', combo_drugs: 'Dolutegravir + Abacavir + Lamivudina', preferred_scenario: 'Una potente opción de primera línea, pero requiere una prueba genética (para Abacavir) para descartar una posible reacción alérgica grave antes de comenzar.', color: 'violet' },
+                { brand: 'Dovato®', combo_class: '1 INSTI + 1 ITIN', combo_drugs: 'Dolutegravir + Lamivudina', preferred_scenario: 'Un régimen completo de 2 fármacos en una sola pastilla. Una gran opción para muchos, especialmente para aquellos que quieren evitar el Tenofovir.', color: 'violet' },
+                { brand: 'Symtuza®', combo_class: '1 IP + Potenciador + 2 ITIN', combo_drugs: 'Darunavir + Cobicistat + Emtricitabina + Tenofovir Alafenamida', preferred_scenario: 'Una potente opción basada en IP con una barrera muy alta a la resistencia. A menudo se usa si hay preocupaciones sobre la resistencia a otras clases.', color: 'amber' },
+                { brand: 'Odefsey®', combo_class: '1 ITINN + 2 ITIN', combo_drugs: 'Rilpivirina + Emtricitabina + Tenofovir Alafenamida', preferred_scenario: 'Una opción eficaz basada en ITINN. Requiere tomarse con una comida completa para una absorción adecuada y no es para personas con una carga viral alta.', color: 'teal' },
+                { brand: 'Delstrigo®', combo_class: '1 ITINN + 2 ITIN', combo_drugs: 'Doravirina + Lamivudina + Tenofovir Disoproxil', preferred_scenario: 'Presenta un ITINN más nuevo y bien tolerado (Doravirina) con menos efectos secundarios e interacciones farmacológicas que los fármacos más antiguos de su clase.', color: 'teal' },
+                { brand: 'Juluca®', combo_class: '1 INSTI + 1 ITINN', combo_drugs: 'Dolutegravir + Rilpivirina', preferred_scenario: 'Un régimen de 2 fármacos para personas que ya son indetectables con otro régimen y quieren cambiar. No para iniciar tratamiento.', color: 'violet' }
+            ]
+        }
+    };
+
+    let currentLanguage = 'en';
+    const modalContainer = document.getElementById('modal-container');
+    const modalContent = document.getElementById('modal-content');
+
+    function renderContent() {
+        const t = translations[currentLanguage];
+        
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key] && typeof t[key] === 'string') {
+                 el.innerHTML = t[key];
+            }
+        });
+        
+        renderTimeline('timeline-container', t.drug_classes);
+        renderSTRs('str-list', t.str_examples);
+    }
+    
+    function renderTimeline(containerId, data) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        
+        const uniqueSteps = [...new Map(data.map(item => [item['lifecycle_step'], item])).values()];
+
+        uniqueSteps.forEach(stepData => {
+            const timelineItem = document.createElement('div');
+            timelineItem.className = 'timeline-item relative pl-12 pb-10';
+            
+            const dot = document.createElement('div');
+            dot.className = 'timeline-dot';
+            dot.innerHTML = `<svg class="h-6 w-6 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9 9.563C9 9.252 9.252 9 9.563 9h4.874c.311 0 .563.252.563.563v4.874c0 .311-.252.563-.563.563H9.563C9.252 15 9 14.748 9 14.437V9.563z" /></svg>`;
+            
+            const content = document.createElement('div');
+            content.innerHTML = `<h4 class="text-xl font-bold text-slate-800">${stepData.lifecycle_step}</h4>`;
+
+            const drugButtons = document.createElement('div');
+            drugButtons.className = 'mt-2 flex flex-wrap gap-2';
+            
+            const drugsForStep = data.filter(d => d.lifecycle_step === stepData.lifecycle_step);
+            drugsForStep.forEach(drug => {
+                const button = document.createElement('button');
+                button.className = `bg-${drug.color}-100 text-${drug.color}-700 font-semibold px-3 py-1 rounded-full text-sm hover:bg-${drug.color}-200 transition`;
+                button.textContent = drug.name;
+                button.onclick = () => openModal(drug);
+                drugButtons.appendChild(button);
+            });
+
+            content.appendChild(drugButtons);
+            timelineItem.appendChild(dot);
+            timelineItem.appendChild(content);
+            container.appendChild(timelineItem);
+        });
+    }
+
+    function openModal(drugData) {
+        modalContent.innerHTML = `
+            <div class="p-6 bg-${drugData.color}-50 border-b-4 border-${drugData.color}-500 rounded-t-lg">
+                <h3 class="text-2xl font-bold text-slate-800">${drugData.name}</h3>
+            </div>
+            <div class="p-6 space-y-4">
+                <p><strong class="text-slate-700">How it works:</strong> ${drugData.how_it_works}</p>
+                <p><strong class="text-slate-700">Common Names:</strong> ${drugData.common_names}</p>
+                <p><strong class="text-slate-700">Common Side Effects:</strong> ${drugData.side_effects}</p>
+                <p><strong class="text-slate-700">Special Considerations:</strong> ${drugData.considerations}</p>
+            </div>
+            <div class="p-4 bg-slate-50 rounded-b-lg text-right">
+                <button id="close-modal" class="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg hover:bg-slate-300">Close</button>
+            </div>
+        `;
+        modalContainer.classList.remove('hidden');
+        setTimeout(() => {
+            modalContainer.classList.remove('opacity-0');
+            modalContent.classList.remove('scale-95');
+        }, 10);
+
+        document.getElementById('close-modal').onclick = closeModal;
+    }
+
+    function closeModal() {
+        modalContainer.classList.add('opacity-0');
+        modalContent.classList.add('scale-95');
+        setTimeout(() => {
+            modalContainer.classList.add('hidden');
+        }, 250);
+    }
+    
+    modalContainer.addEventListener('click', (e) => {
+        if (e.target === modalContainer) {
+            closeModal();
+        }
+    });
+
+    function renderSTRs(containerId, data) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        data.forEach(item => {
+            const card = document.createElement('div');
+            card.className = `bg-${item.color}-50 rounded-xl shadow-lg border-t-8 border-${item.color}-500 overflow-hidden`;
+            
+            const cardHeader = document.createElement('div');
+            cardHeader.className = 'card-header p-6 cursor-pointer flex justify-between items-center';
+            cardHeader.innerHTML = `
+                <h4 class="text-2xl font-bold text-slate-800">${item.brand}</h4>
+                <svg class="expand-icon h-6 w-6 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+            `;
+
+            const detailsSection = document.createElement('div');
+            detailsSection.className = 'details-section px-6';
+            detailsSection.innerHTML = `
+                <div class="pb-6 border-t border-gray-200 pt-4">
+                    <div class="space-y-3 text-slate-600">
+                        <p><strong class="text-slate-700">Drug Classes:</strong> ${item.combo_class}</p>
+                        <p><strong class="text-slate-700">Specific Drugs:</strong> ${item.combo_drugs}</p>
+                        <p><strong class="text-slate-700">Preferred Scenario:</strong> ${item.preferred_scenario}</p>
+                    </div>
+                </div>
+            `;
+            
+            card.appendChild(cardHeader);
+            card.appendChild(detailsSection);
+            container.appendChild(card);
+
+            cardHeader.addEventListener('click', () => {
+                detailsSection.classList.toggle('open');
+                cardHeader.classList.toggle('open');
+            });
+        });
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.documentElement.lang = lang;
+        document.querySelectorAll('.js-lang-en').forEach(btn => btn.classList.toggle('active', lang === 'en'));
+        document.querySelectorAll('.js-lang-es').forEach(btn => btn.classList.toggle('active', lang === 'es'));
+        renderContent();
+    }
+    
+    document.querySelectorAll('.js-lang-en').forEach(btn => btn.addEventListener('click', () => changeLanguage('en')));
+    document.querySelectorAll('.js-lang-es').forEach(btn => btn.addEventListener('click', () => changeLanguage('es')));
+    
+    document.querySelectorAll('.js-show-google').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const parentSelector = e.currentTarget.closest('.js-lang-selector');
+            parentSelector.querySelector('.js-native-toggle').classList.add('hidden');
+            const googleToggle = parentSelector.querySelector('.js-google-toggle');
+            googleToggle.classList.remove('hidden');
+            googleToggle.classList.add('flex');
+        });
+    });
+
+    document.querySelectorAll('.js-back-native').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const parentSelector = e.currentTarget.closest('.js-lang-selector');
+            parentSelector.querySelector('.js-native-toggle').classList.remove('hidden');
+            const googleToggle = parentSelector.querySelector('.js-google-toggle');
+            googleToggle.classList.add('hidden');
+            googleToggle.classList.remove('flex');
+            
+            const googleCookie = document.cookie.match(/googtrans=([^\;]+)/);
+            if (googleCookie) {
+                document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+                document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + window.location.hostname;
+            }
+            
+            changeLanguage(currentLanguage);
+            location.reload();
+        });
+    });
+
+    changeLanguage('en');
+
+});
+</script>
+
+</body>
+</html>

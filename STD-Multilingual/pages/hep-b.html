@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Patient's Guide to Hepatitis B</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0d9488; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple { background-color: white !important; border: 1px solid #9ca3af !important; border-radius: 0.375rem !important; padding: 0.25rem 0.5rem !important; display: inline-block; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #374151 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .info-tab { cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; }
+        .info-tab.active { border-bottom-color: #14b8a6; color: #0f766e; font-weight: 600; }
+        .info-content { display: none; }
+        .info-content.active { display: block; }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../landing.html" class="text-sm font-medium text-teal-600 hover:text-teal-800" data-translate="back_link"></a>
+                    <span class="mx-2 text-slate-300">|</span>
+                    <h1 class="text-lg font-bold text-slate-800" data-translate="header_title"></h1>
+                </div>
+                <div class="flex items-center">
+                    <div id="lang-selector" class="flex items-center shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-600 hover:underline" data-translate="lang_back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl mx-auto">
+            <header class="text-center mb-10">
+                <h2 class="text-4xl font-bold text-slate-900" data-translate="main_title"></h2>
+                <p class="mt-3 text-lg text-slate-600" data-translate="main_subtitle"></p>
+            </header>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="what_is_it_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4" data-translate="what_is_it_desc"></p>
+                    <div class="border-t border-slate-200 mt-4 pt-4">
+                        <div class="border-b border-slate-200 mb-4">
+                            <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+                                <button id="tab-acute" class="info-tab py-3 px-1 text-base font-medium" data-translate="acute_tab"></button>
+                                <button id="tab-chronic" class="info-tab py-3 px-1 text-base font-medium" data-translate="chronic_tab"></button>
+                            </nav>
+                        </div>
+                        <div id="content-acute" class="info-content"></div>
+                        <div id="content-chronic" class="info-content"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="symptoms_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4" data-translate="symptoms_desc"></p>
+                    <div id="symptoms_list" class="grid grid-cols-2 md:grid-cols-3 gap-4 text-center"></div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="transmission_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                     <p class="mb-4" data-translate="transmission_desc"></p>
+                     <div id="transmission_content" class="grid md:grid-cols-2 gap-6"></div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="diagnosis_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4" data-translate="diagnosis_desc"></p>
+                    <div id="diagnosis_tests" class="space-y-4"></div>
+                </div>
+            </section>
+            
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="treatment_title"></h3>
+                <div id="treatment_content" class="grid md:grid-cols-2 gap-6"></div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="complications_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4" data-translate="complications_desc"></p>
+                    <div id="complications_list" class="space-y-3"></div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="prevention_title"></h3>
+                <div class="bg-teal-50 border-l-4 border-teal-500 text-teal-800 p-6 rounded-lg shadow-md">
+                    <h4 class="text-xl font-bold mb-3" data-translate="prevention_vaccine_title"></h4>
+                    <p class="mb-4" data-translate="prevention_vaccine_desc"></p>
+                    <h5 class="font-semibold mb-2" data-translate="prevention_who_title"></h5>
+                    <div id="prevention_who_list" class="space-y-2 mb-4"></div>
+                    <div class="bg-white p-4 rounded-md border border-teal-200">
+                        <p class="font-semibold" data-translate="prevention_non_responder_title"></p>
+                        <p class="text-sm" data-translate="prevention_non_responder_desc"></p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="mt-12 border-t border-slate-200 bg-white">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm text-slate-500">
+            <p data-translate="footer_disclaimer"></p>
+            <a href="../landing.html" class="font-semibold text-teal-600 hover:underline mt-2 inline-block" data-translate="footer_link"></a>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                back_link: "← Back to Main Guide",
+                header_title: "Guide to Hepatitis B",
+                lang_back_button: "Back",
+                main_title: "Understanding Hepatitis B",
+                main_subtitle: "A vaccine-preventable liver infection that can be spread through sex or contact with infected blood. Learn how to protect yourself and manage the condition.",
+                what_is_it_title: "What is Hepatitis B?",
+                what_is_it_desc: "Hepatitis B is a serious liver infection caused by the Hepatitis B Virus (HBV). The term 'hepatitis' means inflammation of the liver. An HBV infection can be either a short-term illness (acute) or a long-term, lifelong infection (chronic).",
+                acute_tab: "Acute Infection",
+                chronic_tab: "Chronic Infection",
+                acute_content: "<strong>This is a short-term illness</strong> that occurs within the first 6 months after someone is exposed to HBV. Most healthy adults who get hepatitis B have an acute infection and their immune system is able to fight it off and clear the virus from their body. They then become immune for life.",
+                chronic_content: "<strong>This is a long-term, lifelong infection.</strong> It occurs when the body's immune system cannot get rid of the virus. The risk of an infection becoming chronic is highest for young children. Over time, chronic hepatitis B can cause serious health problems, including permanent liver damage.",
+                symptoms_title: "Signs and Symptoms of Acute Infection",
+                symptoms_desc: "Many people with hepatitis B have no symptoms and don't know they are infected. If symptoms do appear, they usually begin a few months after exposure and can be mistaken for the flu.",
+                symptoms_list: [
+                    { icon: "😴", name: "Fatigue" },
+                    { icon: "🤒", name: "Fever" },
+                    { icon: "🤢", name: "Nausea & Vomiting" },
+                    { icon: "😖", name: "Abdominal Pain" },
+                    { icon: "🟡", name: "Jaundice" },
+                    { icon: "🚽", name: "Dark Urine" }
+                ],
+                transmission_title: "How is Hepatitis B Spread?",
+                transmission_desc: "Hepatitis B is spread when blood, semen, or other body fluids from an infected person enter the body of someone who is not infected. The virus is very resilient and can survive outside the body for at least 7 days. It is also 50 to 100 times more infectious than HIV.",
+                transmission_spread_title: "How It Spreads",
+                transmission_spread_list: ["<strong>Sexual Contact:</strong> Through semen or vaginal fluids.", "<strong>Sharing Needles:</strong> For injecting drugs, steroids, or for tattoos/piercings with unsterilized equipment.", "<strong>Mother to Baby:</strong> During childbirth.", "<strong>Accidental Contact:</strong> Sharing personal items that may have blood on them, like razors or toothbrushes."],
+                transmission_not_spread_title: "How It Does NOT Spread",
+                transmission_not_spread_list: ["Hepatitis B is <strong>NOT</strong> spread through:", "Food or water", "Sharing eating utensils", "Breastfeeding", "Hugging or kissing", "Coughing or sneezing", "Casual contact, like in an office or school"],
+                diagnosis_title: "How Is It Diagnosed?",
+                diagnosis_desc: "Hepatitis B is diagnosed with a series of blood tests that look for specific antigens (parts of the virus) and antibodies (proteins made by your immune system). This panel of tests is important because it can tell your doctor several things:",
+                diagnosis_tests: [
+                    { title: "HBsAg (Hepatitis B surface antigen)", desc: "A positive result means you have the virus in your blood and can spread it to others. This indicates either an acute or chronic infection." },
+                    { title: "Anti-HBs (Hepatitis B surface antibody)", desc: "A positive result means you are protected from hepatitis B. This can be because you were successfully vaccinated or because you recovered from a past infection." },
+                    { title: "Anti-HBc (Total hepatitis B core antibody)", desc: "A positive result indicates a past or current infection. It does not mean you are immune. Interpreting this test can be complex and is best done with your doctor." }
+                ],
+                treatment_title: "How Is It Treated?",
+                treatment_acute_title: "For an Acute Infection",
+                treatment_acute_desc: "There is no specific medication. Doctors usually recommend supportive care: rest, good nutrition, and plenty of fluids while your body fights off the virus.",
+                treatment_chronic_title: "For a Chronic Infection",
+                treatment_chronic_desc: "People with chronic hepatitis B need ongoing medical care. Antiviral medications can help fight the virus, slow liver damage, and reduce the risk of liver cancer.",
+                complications_title: "Potential Complications of Chronic Infection",
+                complications_desc: "The real danger of hepatitis B is the damage a chronic infection can do to the liver over many years. Untreated, it can lead to:",
+                complications_list: ["<strong>Cirrhosis:</strong> Permanent scarring and damage to the liver, which impairs its ability to function.", "<strong>Liver Cancer:</strong> Chronic hepatitis B is a leading cause of liver cancer worldwide.", "<strong>Liver Failure:</strong> A life-threatening condition where the liver stops working.", "<strong>Death:</strong> Globally, chronic hepatitis B causes hundreds of thousands of deaths each year."],
+                prevention_title: "The Best Defense: Prevention",
+                prevention_vaccine_title: "The Hepatitis B Vaccine is Safe and Highly Effective",
+                prevention_vaccine_desc: "The most important thing to know about hepatitis B is that it is preventable. The vaccine is the best way to protect yourself and your loved ones from this serious disease. The complete vaccine series is over 95% effective in preventing infection.",
+                prevention_who_title: "Who should get the vaccine?",
+                prevention_who_list: ["All infants, starting with their first dose at birth.", "All children and teens under 19 who were not vaccinated.", "Adults at risk for infection, including those who are sexually active with multiple partners, have other STIs, or have chronic liver disease.", "Anyone who simply wants to be protected from hepatitis B."],
+                prevention_non_responder_title: "What if I don't respond to the vaccine?",
+                prevention_non_responder_desc: "A small percentage of people (about 5-10%) do not develop full immunity after the initial vaccine series. These individuals are known as 'non-responders'. If a blood test shows you have not responded, your doctor may recommend repeating the vaccine series."
+            },
+            es: {
+                back_link: "← Volver a la Guía Principal",
+                header_title: "Guía sobre la Hepatitis B",
+                lang_back_button: "Volver",
+                main_title: "Entendiendo la Hepatitis B",
+                main_subtitle: "Una infección del hígado prevenible por vacunación que puede transmitirse por vía sexual o por contacto con sangre infectada. Aprenda a protegerse y a manejar la condición.",
+                what_is_it_title: "¿Qué es la Hepatitis B?",
+                what_is_it_desc: "La hepatitis B es una grave infección del hígado causada por el Virus de la Hepatitis B (VHB). El término 'hepatitis' significa inflamación del hígado. Una infección por VHB puede ser una enfermedad a corto plazo (aguda) o una infección a largo plazo de por vida (crónica).",
+                acute_tab: "Infección Aguda",
+                chronic_tab: "Infección Crónica",
+                acute_content: "<strong>Esta es una enfermedad a corto plazo</strong> que ocurre dentro de los primeros 6 meses después de que alguien se expone al VHB. La mayoría de los adultos sanos que contraen hepatitis B tienen una infección aguda y su sistema inmunológico es capaz de combatirla y eliminar el virus de su cuerpo. Luego se vuelven inmunes de por vida.",
+                chronic_content: "<strong>Esta es una infección a largo plazo de por vida.</strong> Ocurre cuando el sistema inmunológico del cuerpo no puede deshacerse del virus. El riesgo de que una infección se vuelva crónica es mayor en los niños pequeños. Con el tiempo, la hepatitis B crónica puede causar graves problemas de salud, incluido daño hepático permanente.",
+                symptoms_title: "Signos y Síntomas de la Infección Aguda",
+                symptoms_desc: "Muchas personas con hepatitis B no tienen síntomas y no saben que están infectadas. Si aparecen síntomas, generalmente comienzan unos meses después de la exposición y pueden confundirse con la gripe.",
+                symptoms_list: [
+                    { icon: "😴", name: "Fatiga" },
+                    { icon: "🤒", name: "Fiebre" },
+                    { icon: "🤢", name: "Náuseas y Vómitos" },
+                    { icon: "😖", name: "Dolor Abdominal" },
+                    { icon: "🟡", name: "Ictericia" },
+                    { icon: "🚽", name: "Orina Oscura" }
+                ],
+                transmission_title: "¿Cómo se Propaga la Hepatitis B?",
+                transmission_desc: "La hepatitis B se propaga cuando la sangre, el semen u otros fluidos corporales de una persona infectada entran en el cuerpo de alguien que no está infectado. El virus es muy resistente y puede sobrevivir fuera del cuerpo durante al menos 7 días. También es de 50 a 100 veces más infeccioso que el VIH.",
+                transmission_spread_title: "Cómo se Propaga",
+                transmission_spread_list: ["<strong>Contacto Sexual:</strong> A través del semen o fluidos vaginales.", "<strong>Compartir Agujas:</strong> Para inyectarse drogas, esteroides o para tatuajes/perforaciones con equipo no esterilizado.", "<strong>De Madre a Bebé:</strong> Durante el parto.", "<strong>Contacto Accidental:</strong> Compartir artículos personales que puedan tener sangre, como cuchillas de afeitar o cepillos de dientes."],
+                transmission_not_spread_title: "Cómo NO se Propaga",
+                transmission_not_spread_list: ["La Hepatitis B <strong>NO</strong> se propaga a través de:", "Comida o agua", "Compartir utensilios para comer", "Lactancia materna", "Abrazos o besos", "Toser o estornudar", "Contacto casual, como en una oficina o escuela"],
+                diagnosis_title: "¿Cómo se Diagnostica?",
+                diagnosis_desc: "La hepatitis B se diagnostica con una serie de análisis de sangre que buscan antígenos específicos (partes del virus) y anticuerpos (proteínas producidas por su sistema inmunológico). Este panel de pruebas es importante porque puede decirle a su médico varias cosas:",
+                diagnosis_tests: [
+                    { title: "HBsAg (Antígeno de superficie de la Hepatitis B)", desc: "Un resultado positivo significa que tiene el virus en la sangre y puede contagiarlo a otros. Esto indica una infección aguda o crónica." },
+                    { title: "Anti-HBs (Anticuerpo de superficie de la Hepatitis B)", desc: "Un resultado positivo significa que está protegido contra la hepatitis B. Esto puede ser porque fue vacunado con éxito o porque se recuperó de una infección pasada." },
+                    { title: "Anti-HBc (Anticuerpo total del core de la Hepatitis B)", desc: "Un resultado positivo indica una infección pasada o actual. No significa que sea inmune. Interpretar esta prueba puede ser complejo y es mejor hacerlo con su médico." }
+                ],
+                treatment_title: "¿Cómo se Trata?",
+                treatment_acute_title: "Para una Infección Aguda",
+                treatment_acute_desc: "No hay un medicamento específico. Los médicos generalmente recomiendan cuidados de apoyo: descanso, buena nutrición y muchos líquidos mientras su cuerpo combate el virus.",
+                treatment_chronic_title: "Para una Infección Crónica",
+                treatment_chronic_desc: "Las personas con hepatitis B crónica necesitan atención médica continua. Los medicamentos antivirales pueden ayudar a combatir el virus, retrasar el daño hepático y reducir el riesgo de cáncer de hígado.",
+                complications_title: "Posibles Complicaciones de la Infección Crónica",
+                complications_desc: "El verdadero peligro de la hepatitis B es el daño que una infección crónica puede causar al hígado durante muchos años. Si no se trata, puede provocar:",
+                complications_list: ["<strong>Cirrosis:</strong> Cicatrización y daño permanentes en el hígado, lo que afecta su capacidad para funcionar.", "<strong>Cáncer de Hígado:</strong> La hepatitis B crónica es una de las principales causas de cáncer de hígado en todo el mundo.", "<strong>Insuficiencia Hepática:</strong> Una condición potencialmente mortal en la que el hígado deja de funcionar.", "<strong>Muerte:</strong> A nivel mundial, la hepatitis B crónica causa cientos de miles de muertes cada año."],
+                prevention_title: "La Mejor Defensa: La Prevención",
+                prevention_vaccine_title: "La Vacuna contra la Hepatitis B es Segura y Altamente Efectiva",
+                prevention_vaccine_desc: "Lo más importante que debe saber sobre la hepatitis B es que es prevenible. La vacuna es la mejor manera de protegerse a sí mismo y a sus seres queridos de esta grave enfermedad. La serie completa de vacunas tiene una efectividad superior al 95% en la prevención de la infección.",
+                prevention_who_title: "¿Quién debería vacunarse?",
+                prevention_who_list: ["Todos los bebés, comenzando con su primera dosis al nacer.", "Todos los niños y adolescentes menores de 19 años que no fueron vacunados.", "Adultos en riesgo de infección, incluidos aquellos que son sexualmente activos con múltiples parejas, tienen otras ITS o padecen una enfermedad hepática crónica.", "Cualquier persona que simplemente quiera protegerse de la hepatitis B."],
+                prevention_non_responder_title: "¿Qué pasa si no respondo a la vacuna?",
+                prevention_non_responder_desc: "Un pequeño porcentaje de personas (alrededor del 5-10%) no desarrolla inmunidad total después de la serie inicial de vacunas. A estas personas se les conoce como 'no respondedores'. Si un análisis de sangre muestra que no ha respondido, su médico puede recomendarle repetir la serie de vacunas."
+            }
+        };
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            document.getElementById('content-acute').innerHTML = `<p>${t.acute_content}</p>`;
+            document.getElementById('content-chronic').innerHTML = `<p>${t.chronic_content}</p>`;
+            
+            document.getElementById('symptoms_list').innerHTML = t.symptoms_list.map(item => `
+                <div class="bg-slate-50 p-4 rounded-lg">
+                    <p class="text-3xl">${item.icon}</p>
+                    <p class="font-semibold text-slate-700 mt-1">${item.name}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('transmission_content').innerHTML = `
+                <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                    <h4 class="font-bold text-lg text-green-800 mb-2">${t.transmission_spread_title}</h4>
+                    <ul class="list-disc list-inside space-y-2 text-slate-700">${t.transmission_spread_list.map(item => `<li>${item}</li>`).join('')}</ul>
+                </div>
+                <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
+                    <h4 class="font-bold text-lg text-red-800 mb-2">${t.transmission_not_spread_title}</h4>
+                    <ul class="list-disc list-inside space-y-2 text-slate-700">${t.transmission_not_spread_list.map(item => `<li>${item}</li>`).join('')}</ul>
+                </div>
+            `;
+            
+            document.getElementById('diagnosis_tests').innerHTML = t.diagnosis_tests.map(item => `
+                <div class="bg-slate-50 p-4 rounded-lg border-l-4 border-slate-300">
+                    <p class="font-semibold text-slate-800">${item.title}</p>
+                    <p class="text-slate-600 text-sm">${item.desc}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('treatment_content').innerHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-400">
+                    <h4 class="text-lg font-bold text-blue-700 mb-2">${t.treatment_acute_title}</h4>
+                    <p>${t.treatment_acute_desc}</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-orange-400">
+                    <h4 class="text-lg font-bold text-orange-700 mb-2">${t.treatment_chronic_title}</h4>
+                    <p>${t.treatment_chronic_desc}</p>
+                </div>
+            `;
+
+            document.getElementById('complications_list').innerHTML = t.complications_list.map(item => `
+                <div class="flex items-start">
+                    <span class="text-red-500 font-bold mr-3 mt-1">!</span>
+                    <p class="text-slate-700">${item}</p>
+                </div>
+            `).join('');
+            
+            document.getElementById('prevention_who_list').innerHTML = t.prevention_who_list.map(item => `
+                <div class="flex items-start">
+                    <span class="text-teal-600 mr-3 mt-1">✓</span>
+                    <p>${item}</p>
+                </div>
+            `).join('');
+        }
+        
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.info-tab');
+            const contents = document.querySelectorAll('.info-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    const contentId = `content-${tab.id.split('-')[1]}`;
+                    document.getElementById(contentId).classList.add('active');
+                });
+            });
+            document.getElementById('tab-acute').click();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+        const backToNativeBtn = document.getElementById('back-to-native');
+        
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        showGoogleTranslateBtn.addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        backToNativeBtn.addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        // Initial setup
+        changeLanguage('en');
+        setupTabs();
+    });
+    </script>
+</body>
+</html>

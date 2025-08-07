@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Long Covid: An Interactive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: A thematic, single-page application with a sticky top navigation to allow users, particularly those with fatigue or cognitive challenges, to jump directly to the information they need. The structure avoids a long, linear scroll, breaking content into digestible, interactive sections: 1. The Basics (intro and risks), 2. Symptoms (an interactive explorer), 3. Why it Happens (flippable cards for causes), 4. Managing It (tabbed section for diagnosis, pacing, and toolkits), 5. Living With It (work/life impact with charts), and 6. Hope & Help (resource cards). This non-linear, task-oriented design prioritizes user control and reduces cognitive load. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Risk Factors -> Goal: Inform -> Viz: Interactive HTML/CSS cards -> Interaction: Hover/Click -> Justification: More engaging than a list.
+        - Report Info: 200+ Symptoms -> Goal: Organize/Explore -> Viz: Interactive category buttons revealing symptom lists -> Interaction: Click to show/hide -> Justification: Prevents overwhelming users with a massive table.
+        - Report Info: Scientific Causes -> Goal: Explain -> Viz: Flippable cards with icons -> Interaction: Click to flip and reveal details -> Justification: More interactive and tactile than a static diagram, breaks down complex info into discrete, manageable chunks.
+        - Report Info: Work Impact Stats -> Goal: Inform/Compare -> Viz: Bar Chart -> Interaction: Hover for tooltips -> Justification: More impactful than text for showing proportions -> Library: Chart.js.
+        - Report Info: Prognosis Data -> Goal: Show Change -> Viz: Line Chart -> Interaction: Hover for tooltips -> Justification: Visually demonstrates recovery trends over time -> Library: Chart.js.
+        - Report Info: Doctor Prep Checklist -> Goal: Actionable Tool -> Viz: HTML Accordion -> Interaction: Click to expand/collapse -> Justification: Compact and user-friendly.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #404040;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #00796B;
+            border-bottom-color: #00796B;
+        }
+        .symptom-btn.active {
+            background-color: #00796B;
+            color: #ffffff;
+        }
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 250px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .flip-card-front {
+            background-color: #ffffff;
+        }
+        .flip-card-back {
+            background-color: #00796B;
+            color: white;
+            transform: rotateY(180deg);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #00796B; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #00796B !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: #004D40 !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="main-header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-xl font-bold text-[#004D40]" data-translate="header_title"></a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#basics" class="nav-link px-3 py-2 rounded-md text-sm font-semibold" data-translate="nav_basics"></a>
+                        <a href="#symptoms" class="nav-link px-3 py-2 rounded-md text-sm font-semibold" data-translate="nav_symptoms"></a>
+                        <a href="#causes" class="nav-link px-3 py-2 rounded-md text-sm font-semibold" data-translate="nav_causes"></a>
+                        <a href="#management" class="nav-link px-3 py-2 rounded-md text-sm font-semibold" data-translate="nav_management"></a>
+                        <a href="#living" class="nav-link px-3 py-2 rounded-md text-sm font-semibold" data-translate="nav_living"></a>
+                        <a href="#hope" class="nav-link px-3 py-2 rounded-md text-sm font-semibold" data-translate="nav_hope"></a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-[#00796B] hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                    <div class="md:hidden ml-2">
+                        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none">
+                            <span class="sr-only">Open main menu</span>
+                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#basics" class="nav-link block px-3 py-2 rounded-md text-base font-medium" data-translate="nav_basics"></a>
+                    <a href="#symptoms" class="nav-link block px-3 py-2 rounded-md text-base font-medium" data-translate="nav_symptoms"></a>
+                    <a href="#causes" class="nav-link block px-3 py-2 rounded-md text-base font-medium" data-translate="nav_causes"></a>
+                    <a href="#management" class="nav-link block px-3 py-2 rounded-md text-base font-medium" data-translate="nav_management"></a>
+                    <a href="#living" class="nav-link block px-3 py-2 rounded-md text-base font-medium" data-translate="nav_living"></a>
+                    <a href="#hope" class="nav-link block px-3 py-2 rounded-md text-base font-medium" data-translate="nav_hope"></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-[#004D40]" data-translate="hero_title"></h1>
+                <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-600" data-translate="hero_subtitle"></p>
+                <div class="mt-10">
+                    <a href="#basics" class="inline-block bg-[#00796B] text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-[#00695C] transition-colors" data-translate="hero_button"></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="basics" class="py-16 sm:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight text-[#004D40] sm:text-4xl" data-translate="basics_title"></h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600" data-translate="basics_subtitle"></p>
+                </div>
+
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-bold text-[#004D40]" data-translate="basics_card1_title"></h3>
+                        <p class="mt-2 text-gray-600" data-translate="basics_card1_text"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-bold text-[#004D40]" data-translate="basics_card2_title"></h3>
+                        <p class="mt-2 text-gray-600" data-translate="basics_card2_text"></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-bold text-[#004D40]" data-translate="basics_card3_title"></h3>
+                        <p class="mt-2 text-gray-600" data-translate="basics_card3_text"></p>
+                    </div>
+                </div>
+
+                <div class="mt-20">
+                    <h3 class="text-2xl font-bold text-center text-[#004D40]" data-translate="risk_title"></h3>
+                    <p class="mt-2 text-center text-gray-600 max-w-2xl mx-auto" data-translate="risk_subtitle"></p>
+                    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 text-center">
+                        <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-xl transition-shadow">
+                            <div class="text-4xl text-[#00796B]">🏥</div>
+                            <h4 class="mt-4 font-semibold" data-translate="risk_factor1"></h4>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-xl transition-shadow">
+                            <div class="text-4xl text-[#00796B]">💉</div>
+                            <h4 class="mt-4 font-semibold" data-translate="risk_factor2"></h4>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-xl transition-shadow">
+                            <div class="text-4xl text-[#00796B]">❤️‍🩹</div>
+                            <h4 class="mt-4 font-semibold" data-translate="risk_factor3"></h4>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-xl transition-shadow">
+                            <div class="text-4xl text-[#00796B]">♀️</div>
+                            <h4 class="mt-4 font-semibold" data-translate="risk_factor4"></h4>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-xl transition-shadow">
+                            <div class="text-4xl text-[#00796B]">🌍</div>
+                            <h4 class="mt-4 font-semibold" data-translate="risk_factor5"></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="symptoms" class="py-16 sm:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight text-[#004D40] sm:text-4xl" data-translate="symptoms_title"></h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600" data-translate="symptoms_subtitle"></p>
+                </div>
+                
+                <div class="mt-12 p-8 bg-[#F8F7F4] rounded-xl">
+                    <h3 class="text-2xl font-bold text-center text-[#004D40]" data-translate="symptoms_trio_title"></h3>
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div>
+                            <div class="text-4xl">😴</div>
+                            <h4 class="mt-2 text-lg font-semibold" data-translate="symptoms_trio1_title"></h4>
+                            <p class="text-sm text-gray-600" data-translate="symptoms_trio1_text"></p>
+                        </div>
+                        <div>
+                            <div class="text-4xl">🧠</div>
+                            <h4 class="mt-2 text-lg font-semibold" data-translate="symptoms_trio2_title"></h4>
+                            <p class="text-sm text-gray-600" data-translate="symptoms_trio2_text"></p>
+                        </div>
+                        <div>
+                            <div class="text-4xl">📉</div>
+                            <h4 class="mt-2 text-lg font-semibold" data-translate="symptoms_trio3_title"></h4>
+                            <p class="text-sm text-gray-600" data-translate="symptoms_trio3_text"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-16">
+                    <h3 class="text-2xl font-bold text-center text-[#004D40]" data-translate="symptom_explorer_title"></h3>
+                    <p class="mt-2 text-center text-gray-600" data-translate="symptom_explorer_subtitle"></p>
+                    <div id="symptom-controls" class="mt-8 flex flex-wrap justify-center gap-2 sm:gap-4"></div>
+                    <div id="symptom-display" class="mt-8 min-h-[200px] bg-gray-50 p-6 rounded-lg transition-all duration-500">
+                        <p class="text-center text-gray-500" data-translate="symptom_explorer_placeholder"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="causes" class="py-16 sm:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight text-[#004D40] sm:text-4xl" data-translate="causes_title"></h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600" data-translate="causes_subtitle"></p>
+                </div>
+
+                <div id="causes-grid" class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </div>
+        </section>
+
+        <section id="management" class="py-16 sm:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight text-[#004D40] sm:text-4xl" data-translate="management_title"></h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600" data-translate="management_subtitle"></p>
+                </div>
+                
+                <div class="mt-12 max-w-4xl mx-auto">
+                    <div class="mb-4 border-b border-gray-200">
+                        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="management-tabs"></ul>
+                    </div>
+                    <div id="management-content" class="p-6 bg-gray-50 rounded-b-lg rounded-tr-lg"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="living" class="py-16 sm:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight text-[#004D40] sm:text-4xl" data-translate="living_title"></h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600" data-translate="living_subtitle"></p>
+                </div>
+
+                <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-[#004D40]" data-translate="living_work_title"></h3>
+                        <p class="mt-4 text-gray-600" data-translate="living_work_text"></p>
+                        <div class="mt-6 text-sm text-gray-500">
+                            <p class="text-[#00796B]"><strong data-translate="living_accommodations_title"></strong></p>
+                            <ul class="list-disc list-inside mt-2" data-translate-list="living_accommodations_list"></ul>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <div class="chart-container">
+                            <canvas id="workImpactChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 lg:order-1 bg-white p-6 rounded-xl shadow-lg">
+                        <div class="chart-container">
+                            <canvas id="recoveryChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="order-1 lg:order-2">
+                        <h3 class="text-2xl font-bold text-[#004D40]" data-translate="living_recovery_title"></h3>
+                        <p class="mt-4 text-gray-600" data-translate="living_recovery_text"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="hope" class="py-16 sm:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight text-[#004D40] sm:text-4xl" data-translate="hope_title"></h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600" data-translate="hope_subtitle"></p>
+                </div>
+
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                        <h3 class="text-xl font-bold text-[#004D40]" data-translate="hope_card1_title"></h3>
+                        <p class="mt-2 text-gray-600" data-translate="hope_card1_text"></p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                        <h3 class="text-xl font-bold text-[#004D40]" data-translate="hope_card2_title"></h3>
+                        <p class="mt-2 text-gray-600" data-translate="hope_card2_text"></p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                        <h3 class="text-xl font-bold text-[#004D40]" data-translate="hope_card3_title"></h3>
+                        <p class="mt-2 text-gray-600" data-translate="hope_card3_text"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#004D40] text-white">
+        <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <p data-translate="footer_text"></p>
+            <p class="mt-4 text-sm text-gray-300" data-translate="footer_disclaimer"></p>
+        </div>
+    </footer>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    let currentLanguage = 'en';
+    let workImpactChart, recoveryChart;
+
+    const translations = {
+        en: {
+            header_title: "Long Covid Guide",
+            nav_basics: "The Basics",
+            nav_symptoms: "Symptoms",
+            nav_causes: "Why It Happens",
+            nav_management: "Managing It",
+            nav_living: "Living With It",
+            nav_hope: "Hope & Help",
+            back_button: "Back",
+            hero_title: "Understanding Long Covid",
+            hero_subtitle: "An interactive guide for patients and caregivers. You are not alone on this journey. This resource is designed to provide clear, accessible information to help you understand and manage your condition.",
+            hero_button: "Start Exploring",
+            basics_title: "The Basics: What is Long Covid?",
+            basics_subtitle: "Long Covid is a chronic condition that can occur after a COVID-19 infection, with symptoms lasting for months or even years. It's a real, recognized medical condition, not just a lingering cough. This section covers the fundamental facts about what it is, who it affects, and why your experience is valid.",
+            basics_card1_title: "A Recognized Condition",
+            basics_card1_text: `Health authorities like the <a href="https://www.cdc.gov/coronavirus/2019-ncov/long-term-effects/" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline">CDC</a> and <a href="https://www.who.int/europe/news-room/fact-sheets/item/post-covid-19-condition" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline">WHO</a> define Long Covid as symptoms that last for at least 3 months after infection. It's also known as Post-COVID Conditions (PCC) or PASC. If symptoms persist beyond 12 weeks, a diagnosis should be considered.`,
+            basics_card2_title: "A Major Public Health Issue",
+            basics_card2_text: `An estimated <strong class="text-[#00796B]">17 million adults</strong> in the U.S. currently have Long Covid. Among those who've had COVID-19, roughly <strong class="text-[#00796B]">1 in 10</strong> report long-term symptoms. You are part of a large community.`,
+            basics_card3_title: "Your Experience is Valid",
+            basics_card3_text: `Many patients feel dismissed because symptoms can be invisible and standard tests may be normal. Long Covid is a real physiological disease. It can even be classified as a disability under the <a href="https://www.ada.gov/" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline">ADA</a>, providing legal protections.`,
+            risk_title: "Who is at Higher Risk?",
+            risk_subtitle: "Anyone can get Long Covid, but some factors increase the risk. Vaccination before infection is protective and reduces risk.",
+            risk_factor1: "Severe Illness",
+            risk_factor2: "Unvaccinated",
+            risk_factor3: "Underlying Conditions",
+            risk_factor4: "Female Sex",
+            risk_factor5: "Hispanic Ethnicity",
+            symptoms_title: "What Does Long Covid Feel Like?",
+            symptoms_subtitle: "Long Covid can affect nearly every part of the body, with over 200 symptoms identified. The experience is different for everyone, but some patterns are common. This interactive guide helps you explore symptoms by body system to better understand this complex condition.",
+            symptoms_trio_title: "The Hallmark Trio",
+            symptoms_trio1_title: "Severe Fatigue",
+            symptoms_trio1_text: "An extreme exhaustion not relieved by rest.",
+            symptoms_trio2_title: `"Brain Fog"`,
+            symptoms_trio2_text: "Trouble with memory, focus, and mental clarity.",
+            symptoms_trio3_title: "Post-Exertional Malaise (PEM)",
+            symptoms_trio3_text: `A "crash" of symptoms after physical or mental effort.`,
+            symptom_explorer_title: "Interactive Symptom Explorer",
+            symptom_explorer_subtitle: "Click a category to see common symptoms.",
+            symptom_explorer_placeholder: "Select a category above to view symptoms.",
+            symptom_data: {
+                categories: { general: 'General', neuro: 'Neurological', cardio: 'Cardiopulmonary', musculo: 'Musculoskeletal', gastro: 'Gastrointestinal', other: 'Other' },
+                symptoms: {
+                    general: [ { name: 'Fatigue', desc: 'An overwhelming and persistent sense of exhaustion not relieved by rest.' }, { name: 'Post-Exertional Malaise (PEM)', desc: 'A severe "crash" or worsening of all symptoms after minor physical or mental effort.' }, { name: 'Fever', desc: 'A recurring low-grade or intermittent fever.' }, ],
+                    neuro: [ { name: '"Brain Fog"', desc: 'Difficulty thinking, concentrating, or remembering things.' }, { name: 'Headache', desc: 'Persistent or new types of headaches, sometimes similar to migraines.' }, { name: 'Sleep Problems / Insomnia', desc: 'Difficulty falling asleep, staying asleep, or waking up feeling unrefreshed.' }, { name: 'Dizziness / Lightheadedness', desc: 'Feeling dizzy, off-balance, or lightheaded, especially upon standing.' }, { name: 'Paresthesia', desc: 'Sensations of pins-and-needles, tingling, or numbness.' }, { name: 'Altered Smell or Taste', desc: 'Persistent loss or distortion of the sense of smell or taste.' }, { name: 'Mood Changes', desc: 'New or worsening depression or anxiety.' }, { name: 'Tinnitus', desc: 'Ringing, buzzing, or hissing sounds in the ears.' }, ],
+                    cardio: [ { name: 'Shortness of Breath (Dyspnea)', desc: 'Feeling unable to get enough air or an increased effort to breathe.' }, { name: 'Cough', desc: 'A persistent, lingering cough.' }, { name: 'Chest Pain or Tightness', desc: 'Aching, sharp, or pressure-like pain in the chest.' }, { name: 'Palpitations / Tachycardia', desc: 'A feeling of a fast-beating, fluttering, or pounding heart.' }, ],
+                    musculo: [ { name: 'Joint Pain (Arthralgia)', desc: 'Aching or pain in the joints.' }, { name: 'Muscle Pain (Myalgia)', desc: 'Aching, soreness, or pain in the muscles.' }, ],
+                    gastro: [ { name: 'Diarrhea or Constipation', desc: 'Changes in bowel habits.' }, { name: 'Stomach Pain / Nausea', desc: 'Abdominal pain, cramping, or a feeling of sickness.' }, ],
+                    other: [ { name: 'Rashes', desc: 'New or unusual skin rashes, such as hives.' }, { name: 'Hair Loss', desc: 'Noticeable shedding or thinning of hair.' }, { name: 'Menstrual Cycle Irregularities', desc: 'Changes in the timing, flow, or symptoms of menstrual periods.' }, ]
+                }
+            },
+            causes_title: "Why Is This Happening?",
+            causes_subtitle: "Scientists are working hard to understand the exact causes of Long Covid. It's likely a combination of factors. This interactive guide explores the leading theories. Click a card to flip it and learn more.",
+            causes_data: [
+                { id: 'persistence', icon: '🦠', title: 'Viral Persistence', text: `The virus or its fragments may hide in tissues like the gut, acting like "unwanted guests" that continually provoke the immune system, causing ongoing inflammation and symptoms.` },
+                { id: 'autoimmunity', icon: '🛡️', title: 'Autoimmunity', text: `The immune system becomes a "confused army" and starts attacking the body's own healthy cells. This "friendly fire" can cause damage to organs, nerves, and blood vessels.` },
+                { id: 'microclots', icon: '🩸', title: 'Microclots', text: `The virus can damage blood vessel linings, leading to tiny clots. These create "traffic jams" in small vessels, blocking oxygen flow to tissues and causing fatigue and pain.` },
+                { id: 'inflammation', icon: '🔥', title: 'Chronic Inflammation', text: `The body's "fire alarm" gets stuck in the "on" position long after the infection is gone. This widespread inflammation can contribute to fatigue, pain, and brain fog.` },
+                { id: 'reactivation', icon: '👻', title: 'Latent Virus Reactivation', text: `The stress of COVID-19 can allow old, dormant viruses (like Epstein-Barr, which causes mono) to "wake up" and reactivate, adding to the overall symptom burden.` }
+            ],
+            management_title: "A Toolkit for Daily Life",
+            management_subtitle: "While there's no single cure, you can take an active role in managing your condition. This section provides a toolkit of strategies, from preparing for doctor visits to the cornerstone of management: pacing.",
+            management_tabs: {
+                pacing: {
+                    title: "Pacing: The Key",
+                    content: `
+                        <h3 class="text-2xl font-bold text-[#004D40]">Pacing: The Cornerstone of Management</h3>
+                        <p class="mt-4 text-gray-600">For many, Post-Exertional Malaise (PEM) is a core symptom. Pacing is a crucial energy management strategy to avoid the "boom and bust" cycle of overdoing it and crashing. The goal is to stay within your "energy envelope."</p>
+                        <div class="mt-6 p-6 bg-white rounded-lg shadow-sm">
+                            <h4 class="font-bold text-lg text-center">Your Energy Envelope</h4>
+                            <div class="flex justify-around items-center mt-4">
+                                <div class="text-center">
+                                    <div class="text-6xl">🔋</div>
+                                    <p class="font-semibold">Before Illness</p>
+                                    <p class="text-sm">Large energy reserve</p>
+                                </div>
+                                <div class="text-4xl text-gray-400">&rarr;</div>
+                                <div class="text-center">
+                                    <div class="text-6xl relative">
+                                        <span class="opacity-30">🔋</span>
+                                        <span class="absolute top-0 left-0 text-yellow-400" style="clip-path: inset(60% 0 0 0);">🔋</span>
+                                    </div>
+                                    <p class="font-semibold">With Long Covid</p>
+                                    <p class="text-sm">Limited, fluctuating energy</p>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-center font-semibold text-[#00796B]">The goal: End each day with a little energy left in the tank to avoid crashing tomorrow.</p>
+                        </div>
+                        <div class="mt-4 text-red-700 bg-red-100 p-4 rounded-lg">
+                            <strong class="font-bold">Safety Warning:</strong> Forcing yourself to "push through" fatigue or engaging in Graded Exercise Therapy (GET) can be harmful if you have PEM and may lead to a severe relapse.
+                        </div>`
+                },
+                'symptom-tools': {
+                    title: "Symptom Toolkit",
+                    content: `
+                        <h3 class="text-2xl font-bold text-[#004D40]">Symptom Management Toolkit</h3>
+                        <p class="mt-4 text-gray-600">Beyond pacing, specific strategies can help manage the most common symptoms and improve your quality of life.</p>
+                        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <h4 class="font-bold text-[#00796B]">Tackling Fatigue</h4>
+                                <ul class="mt-2 list-disc list-inside text-sm text-gray-600">
+                                    <li>Pacing is primary</li>
+                                    <li>Good sleep hygiene</li>
+                                    <li>Balanced, nutritious diet</li>
+                                    <li>"Active rest" (quiet, low-sensory breaks)</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <h4 class="font-bold text-[#00796B]">Clearing "Brain Fog"</h4>
+                                <ul class="mt-2 list-disc list-inside text-sm text-gray-600">
+                                    <li>Use memory aids (calendars, lists)</li>
+                                    <li>Focus on one task at a time</li>
+                                    <li>Create a quiet, low-distraction space</li>
+                                    <li>Break down complex information</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <h4 class="font-bold text-[#00796B]">Breathing Easier</h4>
+                                <ul class="mt-2 list-disc list-inside text-sm text-gray-600">
+                                    <li>Pursed-lip breathing (inhale nose, slow exhale mouth)</li>
+                                    <li>Diaphragmatic ("belly") breathing</li>
+                                    <li>Lean forward when breathless</li>
+                                    <li>Consider pulmonary rehab</li>
+                                </ul>
+                            </div>
+                        </div>`
+                },
+                'doctor-prep': {
+                    title: "Doctor Prep",
+                    content: `
+                        <h3 class="text-2xl font-bold text-[#004D40]">Preparing for Your Doctor's Visit</h3>
+                        <p class="mt-4 text-gray-600">With fatigue and brain fog, appointments can be overwhelming. Being prepared helps you advocate for yourself effectively. Use this checklist.</p>
+                        <div id="accordion-container" class="space-y-2 mt-6">
+                            <div class="accordion-item bg-white rounded-lg shadow-sm">
+                                <button class="accordion-header w-full text-left font-semibold p-4 flex justify-between items-center">
+                                    <span>Before Your Visit</span>
+                                    <span>+</span>
+                                </button>
+                                <div class="accordion-content hidden p-4 border-t">
+                                    <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                        <li><strong>Create a Timeline:</strong> Note when COVID started and when new symptoms began.</li>
+                                        <li><strong>List All Symptoms:</strong> Note frequency, severity (1-10), and triggers.</li>
+                                        <li><strong>Document Functional Impact:</strong> How does it affect work, chores, life?</li>
+                                        <li><strong>List Medications & Supplements:</strong> Include dosages.</li>
+                                        <li><strong>Write Down Your Top 3 Questions:</strong> Prioritize what you need to know.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="accordion-item bg-white rounded-lg shadow-sm">
+                                <button class="accordion-header w-full text-left font-semibold p-4 flex justify-between items-center">
+                                    <span>During Your Visit</span>
+                                    <span>+</span>
+                                </button>
+                                <div class="accordion-content hidden p-4 border-t">
+                                   <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                        <li><strong>Share Your Written Info:</strong> Give the doctor a copy of your lists.</li>
+                                        <li><strong>Ask Your Main Questions First:</strong> Ensure your priorities are addressed.</li>
+                                        <li><strong>Bring a Supporter & Take Notes:</strong> A second set of ears is invaluable.</li>
+                                        <li><strong>Ask for a Summary:</strong> Repeat the plan back to confirm you understand.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>`
+                }
+            },
+            living_title: "Living With Long Covid",
+            living_subtitle: "This condition is more than just physical symptoms. It affects work, mental health, and social connections. Understanding these broader impacts is part of a holistic approach to care and recovery.",
+            living_work_title: "Impact on Work & Daily Life",
+            living_work_text: `The combination of fatigue and brain fog makes it difficult for many to work as they did before. This has a major socioeconomic impact. The chart shows how many people with Long Covid have had to adjust their work life. Knowing your rights to reasonable accommodations under the <a href="https://www.hhs.gov/civil-rights/for-individuals/disability/index.html" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline">ADA</a> is essential.`,
+            living_accommodations_title: "Reasonable Accommodations Can Include:",
+            living_accommodations_list: ["Flexible hours or telework", "More frequent rest breaks", "A quiet workspace", "Modified job tasks"],
+            living_recovery_title: "The Road to Recovery",
+            living_recovery_text: `"Will I get better?" is a common and critical question. For many, symptoms do improve over time, but recovery is often slow and non-linear—a "rollercoaster" of good and bad days. The chart illustrates a typical recovery trend from a major study, offering a picture of realistic hope. While a minority may face a long-term chronic condition, significant recovery is possible for most.`,
+            chart_work_title: "Impact of Long Covid on Employment",
+            chart_work_label: "% of Employed with Long Covid",
+            chart_work_item1: "Reduced Work Hours",
+            chart_work_item2: "Unable to Work",
+            chart_recovery_title: "Symptom Persistence Over Time",
+            chart_recovery_label: "% Still Experiencing Symptoms",
+            hope_title: "Hope on the Horizon & Finding Help",
+            hope_subtitle: "You are not walking this path alone. A massive global research effort is underway to find treatments, and a powerful community of patients and advocates has formed to provide support and drive change.",
+            hope_card1_title: "Global Research Effort",
+            hope_card1_text: `The NIH's <a href="https://recovercovid.org/" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline"><strong class="font-semibold">RECOVER Initiative</strong></a> is a multi-billion-dollar program testing potential treatments for viral persistence, cognitive dysfunction, fatigue, and more. These trials provide real, tangible hope for approved treatments in the future.`,
+            hope_card2_title: "Patient Advocacy Groups",
+            hope_card2_text: `Patient-led groups like the <a href="https://longcovidalliance.org/" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline"><strong class="font-semibold">Long COVID Alliance</strong></a> and <a href="https://www.bodypolitic.org/" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline"><strong class="font-semibold">Body Politic</strong></a> have been instrumental in raising awareness and providing invaluable peer support.`,
+            hope_card3_title: "Finding Knowledgeable Care",
+            hope_card3_text: `Many hospitals now have specialized <strong class="text-[#00796B]">Post-COVID Care Centers (PCCCs)</strong>. Because of symptom overlap with <a href="https://www.cdc.gov/me-cfs/index.html" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline">ME/CFS</a>, clinicians with expertise in that area are often well-equipped to manage Long Covid.`,
+            footer_text: "This information is for educational purposes only and is not a substitute for professional medical advice. Always consult with a qualified healthcare provider for any health concerns.",
+            footer_disclaimer: "Content adapted from medical and public health guidance on Long Covid."
+        },
+        es: {
+            header_title: "Guía de Long COVID",
+            nav_basics: "Lo Básico",
+            nav_symptoms: "Síntomas",
+            nav_causes: "Por Qué Ocurre",
+            nav_management: "Manejo",
+            nav_living: "Viviendo Con",
+            nav_hope: "Esperanza y Ayuda",
+            back_button: "Volver",
+            hero_title: "Entendiendo el Long COVID",
+            hero_subtitle: "Una guía interactiva para pacientes y cuidadores. No está solo en este viaje. Este recurso está diseñado para proporcionar información clara y accesible para ayudarle a entender y manejar su condición.",
+            hero_button: "Comenzar a Explorar",
+            basics_title: "Lo Básico: ¿Qué es el Long COVID?",
+            basics_subtitle: "El Long COVID es una condición crónica que puede ocurrir después de una infección por COVID-19, con síntomas que duran meses o incluso años. Es una condición médica real y reconocida, no solo una tos persistente. Esta sección cubre los hechos fundamentales sobre qué es, a quién afecta y por qué su experiencia es válida.",
+            basics_card1_title: "Una Condición Reconocida",
+            basics_card1_text: `Autoridades de salud como los <a href="https://www.cdc.gov/coronavirus/2019-ncov/long-term-effects/index-es.html" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline">CDC</a> y la <a href="https://www.who.int/es/news-room/questions-and-answers/item/coronavirus-disease-(covid-19)-post-covid-19-condition" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline">OMS</a> definen el Long COVID como síntomas que duran al menos 3 meses después de la infección. También se conoce como Condiciones Post-COVID (PCC) o PASC. Si los síntomas persisten más de 12 semanas, se debe considerar un diagnóstico.`,
+            basics_card2_title: "Un Gran Problema de Salud Pública",
+            basics_card2_text: `Se estima que <strong class="text-[#00796B]">17 millones de adultos</strong> en EE. UU. tienen actualmente Long COVID. Entre los que han tenido COVID-19, aproximadamente <strong class="text-[#00796B]">1 de cada 10</strong> reporta síntomas a largo plazo. Usted es parte de una gran comunidad.`,
+            basics_card3_title: "Su Experiencia es Válida",
+            basics_card3_text: `Muchos pacientes se sienten ignorados porque los síntomas pueden ser invisibles y los análisis estándar pueden ser normales. El Long COVID es una enfermedad fisiológica real. Incluso puede ser clasificada como una discapacidad bajo la <a href="https://www.ada.gov/" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline">ADA</a>, proporcionando protecciones legales.`,
+            risk_title: "¿Quién Tiene Mayor Riesgo?",
+            risk_subtitle: "Cualquiera puede tener Long COVID, pero algunos factores aumentan el riesgo. La vacunación antes de la infección protege y reduce el riesgo.",
+            risk_factor1: "Enfermedad Grave",
+            risk_factor2: "No Vacunado",
+            risk_factor3: "Condiciones Previas",
+            risk_factor4: "Sexo Femenino",
+            risk_factor5: "Etnia Hispana",
+            symptoms_title: "¿Cómo se Siente el Long COVID?",
+            symptoms_subtitle: "El Long COVID puede afectar casi todas las partes del cuerpo, con más de 200 síntomas identificados. La experiencia es diferente para cada persona, pero algunos patrones son comunes. Esta guía interactiva le ayuda a explorar los síntomas por sistema corporal para entender mejor esta compleja condición.",
+            symptoms_trio_title: "El Trío Característico",
+            symptoms_trio1_title: "Fatiga Severa",
+            symptoms_trio1_text: "Un agotamiento extremo que no se alivia con el descanso.",
+            symptoms_trio2_title: `"Niebla Mental"`,
+            symptoms_trio2_text: "Dificultad con la memoria, el enfoque y la claridad mental.",
+            symptoms_trio3_title: "Malestar Post-Esfuerzo (PEM)",
+            symptoms_trio3_text: `Un "colapso" de los síntomas después de un esfuerzo físico o mental.`,
+            symptom_explorer_title: "Explorador Interactivo de Síntomas",
+            symptom_explorer_subtitle: "Haga clic en una categoría para ver los síntomas comunes.",
+            symptom_explorer_placeholder: "Seleccione una categoría para ver los síntomas.",
+            symptom_data: {
+                categories: { general: 'General', neuro: 'Neurológico', cardio: 'Cardiopulmonar', musculo: 'Musculoesquelético', gastro: 'Gastrointestinal', other: 'Otros' },
+                symptoms: {
+                    general: [ { name: 'Fatiga', desc: 'Una sensación abrumadora y persistente de agotamiento que no se alivia con el descanso.' }, { name: 'Malestar Post-Esfuerzo (PEM)', desc: 'Un "colapso" severo o empeoramiento de todos los síntomas después de un esfuerzo físico o mental menor.' }, { name: 'Fiebre', desc: 'Una fiebre baja o intermitente recurrente.' }, ],
+                    neuro: [ { name: '"Niebla Mental"', desc: 'Dificultad para pensar, concentrarse o recordar cosas.' }, { name: 'Dolor de Cabeza', desc: 'Dolores de cabeza persistentes o de nuevo tipo, a veces similares a las migrañas.' }, { name: 'Problemas de Sueño / Insomnio', desc: 'Dificultad para conciliar el sueño, permanecer dormido o despertarse sin sentirse renovado.' }, { name: 'Mareos / Vértigo', desc: 'Sensación de mareo, desequilibrio o aturdimiento, especialmente al ponerse de pie.' }, { name: 'Parestesia', desc: 'Sensaciones de hormigueo, picazón o entumecimiento.' }, { name: 'Alteración del Olfato o Gusto', desc: 'Pérdida o distorsión persistente del sentido del olfato o gusto.' }, { name: 'Cambios de Humor', desc: 'Depresión o ansiedad nuevas o que empeoran.' }, { name: 'Tinnitus', desc: 'Zumbidos, pitidos o silbidos en los oídos.' }, ],
+                    cardio: [ { name: 'Falta de Aire (Disnea)', desc: 'Sensación de no poder tomar suficiente aire o un mayor esfuerzo para respirar.' }, { name: 'Tos', desc: 'Una tos persistente y persistente.' }, { name: 'Dolor o Presión en el Pecho', desc: 'Dolor sordo, agudo o similar a una presión en el pecho.' }, { name: 'Palpitaciones / Taquicardia', desc: 'Sensación de un corazón que late rápido, aletea o martillea.' }, ],
+                    musculo: [ { name: 'Dolor Articular (Artralgia)', desc: 'Dolor o molestia en las articulaciones.' }, { name: 'Dolor Muscular (Mialgia)', desc: 'Dolor, molestia o dolor en los músculos.' }, ],
+                    gastro: [ { name: 'Diarrea o Estreñimiento', desc: 'Cambios en los hábitos intestinales.' }, { name: 'Dolor de Estómago / Náuseas', desc: 'Dolor abdominal, calambres o sensación de malestar.' }, ],
+                    other: [ { name: 'Erupciones Cutáneas', desc: 'Erupciones cutáneas nuevas o inusuales, como la urticaria.' }, { name: 'Caída del Cabello', desc: 'Pérdida o adelgazamiento notable del cabello.' }, { name: 'Irregularidades del Ciclo Menstrual', desc: 'Cambios en el momento, el flujo o los síntomas de los períodos menstruales.' }, ]
+                }
+            },
+            causes_title: "¿Por Qué Está Pasando Esto?",
+            causes_subtitle: "Los científicos están trabajando arduamente para comprender las causas exactas del Long COVID. Es probable que sea una combinación de factores. Esta guía interactiva explora las teorías principales. Haga clic en una tarjeta para voltearla y aprender más.",
+            causes_data: [
+                { id: 'persistence', icon: '🦠', title: 'Persistencia Viral', text: `El virus o sus fragmentos pueden esconderse en tejidos como el intestino, actuando como "huéspedes no deseados" que provocan continuamente al sistema inmunitario.` },
+                { id: 'autoimmunity', icon: '🛡️', title: 'Autoinmunidad', text: `El sistema inmunitario se convierte en un "ejército confundido" y comienza a atacar las células sanas del propio cuerpo. Este "fuego amigo" puede causar daños.` },
+                { id: 'microclots', icon: '🩸', title: 'Microcoágulos', text: `El virus puede dañar los revestimientos de los vasos sanguíneos, lo que lleva a pequeños coágulos. Estos crean "atascos de tráfico", bloqueando el flujo de oxígeno a los tejidos.` },
+                { id: 'inflammation', icon: '🔥', title: 'Inflamación Crónica', text: `La "alarma de incendios" del cuerpo se queda atascada en la posición de "encendido". Esta inflamación generalizada puede contribuir a la fatiga, el dolor y la niebla mental.` },
+                { id: 'reactivation', icon: '👻', title: 'Reactivación de Virus Latentes', text: `El estrés de la COVID-19 puede permitir que virus antiguos y latentes (como el de Epstein-Barr) se "despierten" y se reactiven, aumentando la carga de síntomas.` }
+            ],
+            management_title: "Un Kit de Herramientas para la Vida Diaria",
+            management_subtitle: "Aunque no existe una cura única, usted puede tomar un papel activo en el manejo de su condición. Esta sección proporciona un kit de herramientas de estrategias, desde la preparación para las visitas al médico hasta la piedra angular del manejo: el pacing (gestión de la energía).",
+            management_tabs: {
+                pacing: {
+                    title: "Pacing: La Clave",
+                    content: `
+                        <h3 class="text-2xl font-bold text-[#004D40]">Pacing: La Piedra Angular del Manejo</h3>
+                        <p class="mt-4 text-gray-600">Para muchos, el Malestar Post-Esfuerzo (PEM) es un síntoma central. El pacing es una estrategia crucial de gestión de la energía para evitar el ciclo de "auge y caída" de excederse y colapsar. El objetivo es mantenerse dentro de su "reserva de energía".</p>
+                        <div class="mt-6 p-6 bg-white rounded-lg shadow-sm">
+                            <h4 class="font-bold text-lg text-center">Su Reserva de Energía</h4>
+                            <div class="flex justify-around items-center mt-4">
+                                <div class="text-center">
+                                    <div class="text-6xl">🔋</div>
+                                    <p class="font-semibold">Antes de la Enfermedad</p>
+                                    <p class="text-sm">Gran reserva de energía</p>
+                                </div>
+                                <div class="text-4xl text-gray-400">&rarr;</div>
+                                <div class="text-center">
+                                    <div class="text-6xl relative">
+                                        <span class="opacity-30">🔋</span>
+                                        <span class="absolute top-0 left-0 text-yellow-400" style="clip-path: inset(60% 0 0 0);">🔋</span>
+                                    </div>
+                                    <p class="font-semibold">Con Long COVID</p>
+                                    <p class="text-sm">Energía limitada y fluctuante</p>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-center font-semibold text-[#00796B]">El objetivo: Terminar cada día con un poco de energía de reserva para evitar el colapso de mañana.</p>
+                        </div>
+                        <div class="mt-4 text-red-700 bg-red-100 p-4 rounded-lg">
+                            <strong class="font-bold">Advertencia de Seguridad:</strong> Forzarse a "seguir adelante" a pesar de la fatiga o participar en la Terapia de Ejercicio Gradual (GET) puede ser perjudicial si tiene PEM y puede provocar una recaída grave.
+                        </div>`
+                },
+                'symptom-tools': {
+                    title: "Kit de Síntomas",
+                    content: `
+                        <h3 class="text-2xl font-bold text-[#004D40]">Kit de Herramientas para el Manejo de Síntomas</h3>
+                        <p class="mt-4 text-gray-600">Más allá del pacing, estrategias específicas pueden ayudar a manejar los síntomas más comunes y mejorar su calidad de vida.</p>
+                        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <h4 class="font-bold text-[#00796B]">Manejando la Fatiga</h4>
+                                <ul class="mt-2 list-disc list-inside text-sm text-gray-600">
+                                    <li>El pacing es lo principal</li>
+                                    <li>Buena higiene del sueño</li>
+                                    <li>Dieta equilibrada y nutritiva</li>
+                                    <li>"Descanso activo" (pausas tranquilas y de baja estimulación)</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <h4 class="font-bold text-[#00796B]">Despejando la "Niebla Mental"</h4>
+                                <ul class="mt-2 list-disc list-inside text-sm text-gray-600">
+                                    <li>Use ayudas para la memoria (calendarios, listas)</li>
+                                    <li>Concéntrese en una tarea a la vez</li>
+                                    <li>Cree un espacio tranquilo y de baja distracción</li>
+                                    <li>Desglose la información compleja</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <h4 class="font-bold text-[#00796B]">Respirando Mejor</h4>
+                                <ul class="mt-2 list-disc list-inside text-sm text-gray-600">
+                                    <li>Respiración con labios fruncidos</li>
+                                    <li>Respiración diafragmática ("de vientre")</li>
+                                    <li>Inclinarse hacia adelante cuando le falte el aliento</li>
+                                    <li>Considere la rehabilitación pulmonar</li>
+                                </ul>
+                            </div>
+                        </div>`
+                },
+                'doctor-prep': {
+                    title: "Prep. para el Médico",
+                    content: `
+                        <h3 class="text-2xl font-bold text-[#004D40]">Preparándose para su Visita al Médico</h3>
+                        <p class="mt-4 text-gray-600">Con la fatiga y la niebla mental, las citas pueden ser abrumadoras. Estar preparado le ayuda a abogar por sí mismo de manera efectiva. Use esta lista de verificación.</p>
+                        <div id="accordion-container" class="space-y-2 mt-6">
+                            <div class="accordion-item bg-white rounded-lg shadow-sm">
+                                <button class="accordion-header w-full text-left font-semibold p-4 flex justify-between items-center">
+                                    <span>Antes de su Visita</span>
+                                    <span>+</span>
+                                </button>
+                                <div class="accordion-content hidden p-4 border-t">
+                                    <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                        <li><strong>Cree una Línea de Tiempo:</strong> Anote cuándo comenzó el COVID y cuándo comenzaron los nuevos síntomas.</li>
+                                        <li><strong>Liste Todos los Síntomas:</strong> Anote la frecuencia, la gravedad (1-10) y los desencadenantes.</li>
+                                        <li><strong>Documente el Impacto Funcional:</strong> ¿Cómo afecta su trabajo, tareas, vida?</li>
+                                        <li><strong>Liste Medicamentos y Suplementos:</strong> Incluya las dosis.</li>
+                                        <li><strong>Escriba sus 3 Preguntas Principales:</strong> Priorice lo que necesita saber.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="accordion-item bg-white rounded-lg shadow-sm">
+                                <button class="accordion-header w-full text-left font-semibold p-4 flex justify-between items-center">
+                                    <span>Durante su Visita</span>
+                                    <span>+</span>
+                                </button>
+                                <div class="accordion-content hidden p-4 border-t">
+                                   <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                        <li><strong>Comparta su Información Escrita:</strong> Déle al médico una copia de sus listas.</li>
+                                        <li><strong>Haga sus Preguntas Principales Primero:</strong> Asegúrese de que se aborden sus prioridades.</li>
+                                        <li><strong>Traiga un Acompañante y Tome Notas:</strong> Un segundo par de oídos es invaluable.</li>
+                                        <li><strong>Pida un Resumen:</strong> Repita el plan para confirmar que lo entiende.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>`
+                }
+            },
+            living_title: "Viviendo con Long COVID",
+            living_subtitle: "Esta condición es más que solo síntomas físicos. Afecta el trabajo, la salud mental y las conexiones sociales. Comprender estos impactos más amplios es parte de un enfoque holístico para el cuidado y la recuperación.",
+            living_work_title: "Impacto en el Trabajo y la Vida Diaria",
+            living_work_text: `La combinación de fatiga y niebla mental dificulta que muchos trabajen como antes. Esto tiene un gran impacto socioeconómico. El gráfico muestra cuántas personas con Long COVID han tenido que ajustar su vida laboral. Conocer sus derechos a adaptaciones razonables bajo la <a href="https://www.hhs.gov/civil-rights/for-individuals/disability/index.html" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline">ADA</a> es esencial.`,
+            living_accommodations_title: "Las Adaptaciones Razonables Pueden Incluir:",
+            living_accommodations_list: ["Horario flexible o teletrabajo", "Descansos más frecuentes", "Un espacio de trabajo tranquilo", "Tareas laborales modificadas"],
+            living_recovery_title: "El Camino hacia la Recuperación",
+            living_recovery_text: ` "¿Mejoraré?" es una pregunta común y crítica. Para muchos, los síntomas mejoran con el tiempo, pero la recuperación suele ser lenta y no lineal, una "montaña rusa" de días buenos y malos. El gráfico ilustra una tendencia de recuperación típica de un estudio importante, ofreciendo una imagen de esperanza realista.`,
+            chart_work_title: "Impacto del Long COVID en el Empleo",
+            chart_work_label: "% de Empleados con Long COVID",
+            chart_work_item1: "Horas de Trabajo Reducidas",
+            chart_work_item2: "Incapaz de Trabajar",
+            chart_recovery_title: "Persistencia de Síntomas a lo Largo del Tiempo",
+            chart_recovery_label: "% que Aún Experimenta Síntomas",
+            hope_title: "Esperanza en el Horizonte y Búsqueda de Ayuda",
+            hope_subtitle: "No está recorriendo este camino solo. Un esfuerzo de investigación global masivo está en marcha para encontrar tratamientos, y una poderosa comunidad de pacientes y defensores se ha formado para brindar apoyo e impulsar el cambio.",
+            hope_card1_title: "Esfuerzo de Investigación Global",
+            hope_card1_text: `La <a href="https://recovercovid.org/" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline"><strong class="font-semibold">Iniciativa RECOVER</strong></a> de los NIH es un programa multimillonario que prueba posibles tratamientos para la persistencia viral, la disfunción cognitiva, la fatiga y más. Estos ensayos brindan una esperanza real y tangible.`,
+            hope_card2_title: "Grupos de Defensa de Pacientes",
+            hope_card2_text: `Grupos liderados por pacientes como la <a href="https://longcovidalliance.org/" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline"><strong class="font-semibold">Long COVID Alliance</strong></a> y <a href="https://www.bodypolitic.org/" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline"><strong class="font-semibold">Body Politic</strong></a> han sido fundamentales para crear conciencia y proporcionar un apoyo invaluable entre pares.`,
+            hope_card3_title: "Encontrar Atención Especializada",
+            hope_card3_text: `Muchos hospitales ahora tienen <strong class="text-[#00796B]">Centros de Atención Post-COVID (PCCC)</strong> especializados. Debido a la superposición de síntomas con <a href="https://www.cdc.gov/me-cfs/index-es.html" target="_blank" rel="noopener noreferrer" class="text-[#00796B] underline">EM/SFC</a>, los médicos con experiencia en esa área a menudo están bien equipados para manejar el Long COVID.`,
+            footer_text: "Esta información es solo para fines educativos y no sustituye el consejo médico profesional. Siempre consulte con un proveedor de atención médica calificado para cualquier problema de salud.",
+            footer_disclaimer: "Contenido adaptado de la guía médica y de salud pública sobre Long COVID."
+        }
+    };
+
+    function createCharts() {
+        const t = translations[currentLanguage];
+        const workCtx = document.getElementById('workImpactChart').getContext('2d');
+        workImpactChart = new Chart(workCtx, {
+            type: 'bar',
+            data: {
+                labels: [t.chart_work_item1, t.chart_work_item2],
+                datasets: [{
+                    label: t.chart_work_label,
+                    data: [45, 22],
+                    backgroundColor: ['rgba(77, 182, 172, 0.6)', 'rgba(255, 112, 67, 0.6)'],
+                    borderColor: ['#00796B', '#D84315'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: t.chart_work_title }
+                },
+                scales: { x: { beginAtZero: true, max: 50, ticks: { callback: value => value + "%" } } }
+            }
+        });
+
+        const recoveryCtx = document.getElementById('recoveryChart').getContext('2d');
+        recoveryChart = new Chart(recoveryCtx, {
+            type: 'line',
+            data: {
+                labels: ['3 Months', '6 Months', '9 Months', '12 Months'],
+                datasets: [{
+                    label: t.chart_recovery_label,
+                    data: [67, 55, 50, 45],
+                    fill: true,
+                    backgroundColor: 'rgba(0, 121, 107, 0.2)',
+                    borderColor: '#00796B',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: t.chart_recovery_title },
+                    legend: { display: false }
+                },
+                scales: { y: { beginAtZero: false, min: 40, max: 70, ticks: { callback: value => value + "%" } } }
+            }
+        });
+    }
+
+    function destroyCharts() {
+        if (workImpactChart) workImpactChart.destroy();
+        if (recoveryChart) recoveryChart.destroy();
+    }
+    
+    function renderSymptomExplorer() {
+        const t = translations[currentLanguage].symptom_data;
+        const symptomControls = document.getElementById('symptom-controls');
+        symptomControls.innerHTML = Object.keys(t.categories).map(key => 
+            `<button data-category="${key}" class="symptom-btn px-4 py-2 rounded-full font-semibold bg-gray-200 hover:bg-gray-300 transition-colors">${t.categories[key]}</button>`
+        ).join('');
+    }
+
+    function renderCauses() {
+        const t = translations[currentLanguage].causes_data;
+        const causesGrid = document.getElementById('causes-grid');
+        causesGrid.innerHTML = t.map(cause => `
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="text-6xl">${cause.icon}</div>
+                        <h3 class="mt-4 text-xl font-bold text-[#004D40]">${cause.title}</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3 class="font-bold text-lg">${cause.title}</h3>
+                        <p class="mt-2 text-sm">${cause.text}</p>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderManagementTabs() {
+        const t = translations[currentLanguage].management_tabs;
+        const managementTabs = document.getElementById('management-tabs');
+        managementTabs.innerHTML = Object.keys(t).map(key => 
+            `<li class="mr-2"><button class="management-tab inline-block p-4 border-b-2 rounded-t-lg" data-tab="${key}">${t[key].title}</button></li>`
+        ).join('');
+    }
+
+    function switchManagementTab(tabName) {
+        const t = translations[currentLanguage].management_tabs;
+        const managementContent = document.getElementById('management-content');
+        managementContent.innerHTML = t[tabName].content;
+        
+        document.querySelectorAll('.management-tab').forEach(tab => {
+            tab.classList.remove('border-[#00796B]', 'text-[#00796B]');
+            tab.classList.add('border-transparent', 'hover:text-gray-600', 'hover:border-gray-300');
+        });
+        const activeTab = document.querySelector(`.management-tab[data-tab="${tabName}"]`);
+        activeTab.classList.add('border-[#00796B]', 'text-[#00796B]');
+        activeTab.classList.remove('border-transparent', 'hover:text-gray-600', 'hover:border-gray-300');
+
+        if (tabName === 'doctor-prep') {
+            const accordionContainer = document.getElementById('accordion-container');
+            if (accordionContainer) {
+                accordionContainer.addEventListener('click', (e) => {
+                    const header = e.target.closest('.accordion-header');
+                    if (header) {
+                        const content = header.nextElementSibling;
+                        const icon = header.querySelector('span:last-child');
+                        content.classList.toggle('hidden');
+                        icon.textContent = content.classList.contains('hidden') ? '+' : '-';
+                    }
+                });
+            }
+        }
+    }
+
+    function setLanguage(lang) {
+        currentLanguage = lang;
+        document.documentElement.lang = lang;
+        const t = translations[lang];
+
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key]) el.innerHTML = t[key];
+        });
+
+        document.querySelectorAll('[data-translate-list]').forEach(ul => {
+            const key = ul.dataset.translateList;
+            if (t[key] && Array.isArray(t[key])) {
+                ul.innerHTML = t[key].map(item => `<li>${item}</li>`).join('');
+            }
+        });
+        
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+
+        renderSymptomExplorer();
+        renderCauses();
+        renderManagementTabs();
+        switchManagementTab('pacing');
+        destroyCharts();
+        createCharts();
+    }
+
+    document.getElementById('symptom-controls').addEventListener('click', (e) => {
+        if (e.target.tagName === 'BUTTON') {
+            const category = e.target.dataset.category;
+            document.querySelectorAll('.symptom-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            const symptoms = translations[currentLanguage].symptom_data.symptoms[category];
+            const symptomDisplay = document.getElementById('symptom-display');
+            if (symptoms) {
+                symptomDisplay.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        ${symptoms.map(s => `
+                            <div class="bg-white p-4 rounded-lg shadow-sm">
+                                <h4 class="font-bold text-[#00796B]">${s.name}</h4>
+                                <p class="text-sm text-gray-600 mt-1">${s.desc}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        }
+    });
+
+    document.getElementById('causes-grid').addEventListener('click', (e) => {
+        const card = e.target.closest('.flip-card');
+        if (card) {
+            card.classList.toggle('flipped');
+        }
+    });
+    
+    document.getElementById('management-tabs').addEventListener('click', (e) => {
+        if (e.target.classList.contains('management-tab')) {
+            switchManagementTab(e.target.dataset.tab);
+        }
+    });
+
+    document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+    document.getElementById('lang-es').addEventListener('click', () => setLanguage('es'));
+    
+    const nativeLangToggle = document.getElementById('native-lang-toggle');
+    const googleLangToggle = document.getElementById('google-lang-toggle');
+    document.getElementById('show-google-translate').addEventListener('click', () => {
+        nativeLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('flex');
+    });
+
+    document.getElementById('back-to-native').addEventListener('click', () => {
+        nativeLangToggle.classList.remove('hidden');
+        googleLangToggle.classList.add('hidden');
+        googleLangToggle.classList.remove('flex');
+        
+        const googleCookie = document.cookie.match(/(^|;) ?googtrans=([^;]*)(;|$)/);
+        if (googleCookie) {
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+        }
+        
+        setLanguage(currentLanguage);
+        location.reload();
+    });
+
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('main section');
+    const headerHeight = document.getElementById('main-header').offsetHeight;
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - headerHeight - 20;
+            if (pageYOffset >= sectionTop) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    setLanguage('en');
+});
+</script>
+</body>
+</html>

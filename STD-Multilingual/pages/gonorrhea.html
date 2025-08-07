@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Patient's Guide to Gonorrhea</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0d9488; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple { background-color: white !important; border: 1px solid #9ca3af !important; border-radius: 0.375rem !important; padding: 0.25rem 0.5rem !important; display: inline-block; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #374151 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .symptom-tab { cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; }
+        .symptom-tab.active { border-bottom-color: #14b8a6; color: #0f766e; font-weight: 600; }
+        .symptom-content { display: none; }
+        .symptom-content.active { display: block; }
+
+        /* Flip Card Styles */
+        .flip-card { background-color: transparent; width: 100%; height: 280px; perspective: 1000px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+        .flip-card-back { transform: rotateY(180deg); text-align: left; align-items: flex-start; }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../landing.html" class="text-sm font-medium text-teal-600 hover:text-teal-800" data-translate="back_link"></a>
+                    <span class="mx-2 text-slate-300">|</span>
+                    <h1 class="text-lg font-bold text-slate-800" data-translate="header_title"></h1>
+                </div>
+                <div class="flex items-center">
+                    <div id="lang-selector" class="flex items-center shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-600 hover:underline" data-translate="lang_back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl mx-auto">
+            <header class="text-center mb-10">
+                <h2 class="text-4xl font-bold text-slate-900" data-translate="main_title"></h2>
+                <p class="mt-3 text-lg text-slate-600" data-translate="main_subtitle"></p>
+            </header>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="symptoms_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="w-full md:w-1/2 text-center">
+                             <p class="text-6xl font-bold text-teal-500" data-translate="symptoms_infographic_number"></p>
+                            <p class="text-lg font-semibold text-slate-700 mt-2" data-translate="symptoms_infographic_text"></p>
+                            <p class="text-sm text-slate-500 mt-1" data-translate="symptoms_infographic_subtext"></p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-slate-600" data-translate="symptoms_desc"></p>
+                        </div>
+                    </div>
+                    <div class="mt-6 border-t border-slate-200 pt-6">
+                        <div class="border-b border-slate-200 mb-4">
+                            <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+                                <button id="tab-women" class="symptom-tab py-3 px-1 text-base font-medium" data-translate="symptoms_tab_women"></button>
+                                <button id="tab-men" class="symptom-tab py-3 px-1 text-base font-medium" data-translate="symptoms_tab_men"></button>
+                                <button id="tab-other" class="symptom-tab py-3 px-1 text-base font-medium" data-translate="symptoms_tab_other"></button>
+                            </nav>
+                        </div>
+                        <div id="content-women" class="symptom-content"></div>
+                        <div id="content-men" class="symptom-content"></div>
+                        <div id="content-other" class="symptom-content"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="diagnosis_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-6" data-translate="diagnosis_desc"></p>
+                    <div id="diagnosis_methods" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="treatment_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-4 mb-6" role="alert">
+                        <p class="font-bold" data-translate="treatment_amr_alert_title"></p>
+                        <p data-translate="treatment_amr_alert_desc"></p>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-800 mb-3" data-translate="treatment_steps_title"></h4>
+                    <div id="treatment_steps" class="space-y-4"></div>
+                    <div class="mt-6 border-t pt-6">
+                         <h4 class="text-lg font-bold text-slate-800 mb-3" data-translate="treatment_partner_title"></h4>
+                         <p class="mb-4" data-translate="treatment_partner_desc"></p>
+                         <div class="bg-slate-100 p-4 rounded-lg">
+                            <p class="font-semibold text-slate-700" data-translate="treatment_ept_title"></p>
+                            <p class="text-sm text-slate-600" data-translate="treatment_ept_desc"></p>
+                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="complications_title"></h3>
+                <p class="mb-4 text-slate-600" data-translate="complications_desc"></p>
+                <div id="complications_content" class="space-y-6"></div>
+            </section>
+
+            <section>
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="screening_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4" data-translate="screening_desc"></p>
+                    <div id="screening_guidelines" class="space-y-3"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="mt-12 border-t border-slate-200 bg-white">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm text-slate-500">
+            <p data-translate="footer_disclaimer"></p>
+            <a href="../landing.html" class="font-semibold text-teal-600 hover:underline mt-2 inline-block" data-translate="footer_link"></a>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                back_link: "← Back to Main Guide",
+                header_title: "Guide to Gonorrhea",
+                lang_back_button: "Back",
+                main_title: "Understanding Gonorrhea",
+                main_subtitle: "A common bacterial STI, especially among young people, that can cause serious complications if untreated. Learn why the right treatment is more important than ever.",
+                symptoms_title: "Signs and Symptoms",
+                symptoms_infographic_number: "~50%",
+                symptoms_infographic_text: "of women with gonorrhea have NO symptoms.",
+                symptoms_infographic_subtext: "Men are more likely to have symptoms, but not always.",
+                symptoms_desc: "Like chlamydia, gonorrhea often causes no symptoms, especially in women. If symptoms do appear, they can be mild and easily mistaken for another type of infection. Symptoms can appear in the genitals, rectum, or throat.",
+                symptoms_tab_women: "For Women",
+                symptoms_tab_men: "For Men",
+                symptoms_tab_other: "In Other Areas",
+                symptoms_women_list: ["A painful or burning sensation when urinating", "Increased vaginal discharge (may be watery, creamy, or slightly green)", "Vaginal bleeding between periods", "Pain in the lower abdomen or pelvis"],
+                symptoms_men_list: ["A burning sensation when urinating", "A white, yellow, or green discharge from the penis", "Painful or swollen testicles (less common)"],
+                symptoms_other_list: ["<strong>Rectum:</strong> Anal itching, pus-like discharge, soreness, bleeding, or painful bowel movements.", "<strong>Throat:</strong> Can cause a sore throat, but usually has no symptoms.", "<strong>Eyes:</strong> Can cause eye pain, sensitivity to light, and pus-like discharge (gonococcal conjunctivitis)."],
+                diagnosis_title: "How Is It Diagnosed?",
+                diagnosis_desc: "The only way to know for sure if you have gonorrhea is to get tested. A healthcare provider can diagnose it with a simple and painless test:",
+                diagnosis_methods: [
+                    { 
+                        id: "urine",
+                        color: "bg-blue-100",
+                        icon: "💧",
+                        title: "Urine Test", 
+                        front_desc: "A common method for detecting gonorrhea in the urethra.",
+                        back_title: "Details: Urine Sample",
+                        back_test: "<strong>What test is used?</strong> A Nucleic Acid Amplification Test (NAAT).",
+                        back_indicated: "<strong>When is it indicated?</strong> For testing the urethra in both men and women.",
+                        back_look_for: "<strong>What does it look for?</strong> The test detects the genetic material (DNA) of the gonorrhea bacteria, making it highly accurate."
+                    },
+                    { 
+                        id: "swab",
+                        color: "bg-green-100",
+                        icon: "🧪",
+                        title: "Swab Test", 
+                        front_desc: "A provider collects a sample from the potentially infected site.",
+                        back_title: "Details: Swab Sample",
+                        back_test: "<strong>What test is used?</strong> A Nucleic Acid Amplification Test (NAAT).",
+                        back_indicated: "<strong>When is it indicated?</strong> This is the preferred method for testing the cervix, vagina, rectum, or throat.",
+                        back_look_for: "<strong>What does it look for?</strong> It detects the DNA of the gonorrhea bacteria for a very reliable diagnosis from specific sites."
+                    }
+                ],
+                treatment_title: "Treatment: A Two-Part Approach",
+                treatment_amr_alert_title: "A Note on Antibiotic Resistance",
+                treatment_amr_alert_desc: "Gonorrhea has become resistant to many antibiotics over the years. This means some older, simpler treatments no longer work. It is critical to get the currently recommended treatment to cure the infection and prevent the spread of these 'superbugs'.",
+                treatment_steps_title: "The Standard of Care",
+                treatment_steps: [
+                    { title: "Dual Therapy", desc: "The CDC recommends a two-part treatment for an uncomplicated gonorrhea infection: a single antibiotic injection (usually ceftriaxone) AND an oral antibiotic. This combination approach is more effective at curing the infection." },
+                    { title: "Take All Medicine", desc: "If you are prescribed oral antibiotics, you must finish the entire course, even if you feel better." },
+                    { title: "Abstain from Sex", desc: "You should not have sex for at least 7 days after you and your partner(s) have finished treatment." },
+                    { title: "Follow-Up Testing", desc: "Due to concerns about resistance, your doctor may recommend a follow-up test (a 'test-of-cure') about two weeks after treatment to ensure the infection is gone, especially for throat infections." }
+                ],
+                treatment_partner_title: "Partner Treatment: Why It's Essential",
+                treatment_partner_desc: "If your partners aren't treated, you can get the infection again. It's a cycle that can only be stopped if everyone gets treated.",
+                treatment_ept_title: "What is Expedited Partner Therapy (EPT)?",
+                treatment_ept_desc: "In some cases, your doctor can provide a prescription or medication for your partner without examining them first. This is called EPT and it's a safe and easy way to make sure your partner gets treated quickly. Ask your doctor if this is an option.",
+                complications_title: "Potential Complications of Untreated Gonorrhea",
+                complications_desc: "If left untreated, gonorrhea can cause serious and permanent health problems. The infection can spread from the initial site to other parts of the body.",
+                complications_list: [
+                    { title: "In Women: Pelvic Inflammatory Disease (PID)", content: "The infection can spread to the uterus and fallopian tubes, causing PID. This can lead to chronic pelvic pain, <strong>infertility</strong>, and a life-threatening <strong>ectopic pregnancy</strong>." },
+                    { title: "In Men: Epididymitis", content: "The infection can spread to the epididymis (the tube that carries sperm), causing severe testicular pain and, in rare cases, infertility." },
+                    { title: "In Pregnancy", content: "A pregnant person can pass gonorrhea to their baby during delivery. This can cause serious complications for the newborn, including blindness, joint infections, and sores on the scalp." },
+                    { title: "Disseminated Gonococcal Infection (DGI)", content: "In rare cases, the infection can spread through the bloodstream to other parts of the body. This can cause arthritis (painful, swollen joints), tenosynovitis (inflammation of tendons), and dermatitis (skin sores). DGI is a serious condition that can be life-threatening and requires hospitalization." },
+                    { title: "Increased HIV Risk", content: "Having a gonorrhea infection can make it easier to get or transmit HIV." }
+                ],
+                screening_title: "Who Should Get Tested? (Screening Guidelines)",
+                screening_desc: "Because gonorrhea often has no symptoms, routine screening is recommended for certain groups:",
+                screening_guidelines: ["<strong>Sexually active women under 25:</strong> Should be tested every year.", "<strong>Women 25 and older with risk factors:</strong> (like a new or multiple partners) should be tested.", "<strong>All pregnant individuals:</strong> Should be tested early in pregnancy if they are at risk.", "<strong>Men who have sex with men (MSM):</strong> Should be tested at least once a year at all sites of sexual contact (urethra, rectum, throat).", "<strong>Transgender and gender diverse persons:</strong> Should discuss appropriate screening with their provider based on their anatomy and sexual behaviors."],
+                footer_disclaimer: "This information is for educational purposes and is not a substitute for professional medical advice. Always consult a healthcare provider for diagnosis and treatment.",
+                footer_link: "Return to Main Sexual Health Guide"
+            },
+            es: {
+                back_link: "← Volver a la Guía Principal",
+                header_title: "Guía sobre la Gonorrea",
+                lang_back_button: "Volver",
+                main_title: "Entendiendo la Gonorrea",
+                main_subtitle: "Una ITS bacteriana común, especialmente entre los jóvenes, que puede causar complicaciones graves si no se trata. Aprenda por qué el tratamiento correcto es más importante que nunca.",
+                symptoms_title: "Signos y Síntomas",
+                symptoms_infographic_number: "~50%",
+                symptoms_infographic_text: "de las mujeres con gonorrea NO tienen síntomas.",
+                symptoms_infographic_subtext: "Los hombres tienen más probabilidades de tener síntomas, pero no siempre.",
+                symptoms_desc: "Al igual que la clamidia, la gonorrea a menudo no causa síntomas, especialmente en las mujeres. Si aparecen síntomas, pueden ser leves y confundirse fácilmente con otro tipo de infección. Los síntomas pueden aparecer en los genitales, el recto o la garganta.",
+                symptoms_tab_women: "Para Mujeres",
+                symptoms_tab_men: "Para Hombres",
+                symptoms_tab_other: "En Otras Áreas",
+                symptoms_women_list: ["Sensación de dolor o ardor al orinar", "Aumento de la secreción vaginal (puede ser acuosa, cremosa o ligeramente verde)", "Sangrado vaginal entre períodos", "Dolor en la parte baja del abdomen o la pelvis"],
+                symptoms_men_list: ["Sensación de ardor al orinar", "Secreción blanca, amarilla o verde del pene", "Testículos doloridos o hinchados (menos común)"],
+                symptoms_other_list: ["<strong>Recto:</strong> Picazón anal, secreción similar al pus, dolor, sangrado o deposiciones dolorosas.", "<strong>Garganta:</strong> Puede causar dolor de garganta, pero generalmente no presenta síntomas.", "<strong>Ojos:</strong> Puede causar dolor ocular, sensibilidad a la luz y secreción similar al pus (conjuntivitis gonocócica)."],
+                diagnosis_title: "¿Cómo se Diagnostica?",
+                diagnosis_desc: "La única forma de saber con certeza si tiene gonorrea es hacerse la prueba. Un proveedor de atención médica puede diagnosticarla con una prueba simple e indolora:",
+                diagnosis_methods: [
+                    { 
+                        id: "urine",
+                        color: "bg-blue-100",
+                        icon: "💧",
+                        title: "Prueba de Orina", 
+                        front_desc: "Un método común para detectar la gonorrea en la uretra.",
+                        back_title: "Detalles: Muestra de Orina",
+                        back_test: "<strong>¿Qué prueba se usa?</strong> Una Prueba de Amplificación de Ácidos Nucleicos (NAAT).",
+                        back_indicated: "<strong>¿Cuándo está indicada?</strong> Para analizar la uretra tanto en hombres como en mujeres.",
+                        back_look_for: "<strong>¿Qué busca?</strong> La prueba detecta el material genético (ADN) de la bacteria de la gonorrea, lo que la hace muy precisa."
+                    },
+                    { 
+                        id: "swab",
+                        color: "bg-green-100",
+                        icon: "🧪",
+                        title: "Prueba con Hisopo", 
+                        front_desc: "Un proveedor recolecta una muestra del sitio potencialmente infectado.",
+                        back_title: "Detalles: Muestra con Hisopo",
+                        back_test: "<strong>¿Qué prueba se usa?</strong> Una Prueba de Amplificación de Ácidos Nucleicos (NAAT).",
+                        back_indicated: "<strong>¿Cuándo está indicada?</strong> Este es el método preferido para analizar el cérvix, la vagina, el recto o la garganta.",
+                        back_look_for: "<strong>¿Qué busca?</strong> Detecta el ADN de la bacteria de la gonorrea para un diagnóstico muy confiable en sitios específicos."
+                    }
+                ],
+                treatment_title: "Tratamiento: Un Enfoque de Dos Partes",
+                treatment_amr_alert_title: "Una Nota sobre la Resistencia a los Antibióticos",
+                treatment_amr_alert_desc: "La gonorrea se ha vuelto resistente a muchos antibióticos con el paso de los años. Esto significa que algunos tratamientos más antiguos y simples ya no funcionan. Es fundamental recibir el tratamiento actualmente recomendado para curar la infección y prevenir la propagación de estas 'superbacterias'.",
+                treatment_steps_title: "El Estándar de Atención",
+                treatment_steps: [
+                    { title: "Terapia Dual", desc: "Los CDC recomiendan un tratamiento de dos partes para una infección de gonorrea no complicada: una única inyección de antibiótico (generalmente ceftriaxona) Y un antibiótico oral. Este enfoque combinado es más efectivo para curar la infección." },
+                    { title: "Tome Todos los Medicamentos", desc: "Si le recetan antibióticos orales, debe terminar el tratamiento completo, incluso si se siente mejor." },
+                    { title: "Absténgase de Tener Sexo", desc: "No debe tener relaciones sexuales durante al menos 7 días después de que usted y su(s) pareja(s) hayan terminado el tratamiento." },
+                    { title: "Prueba de Seguimiento", desc: "Debido a las preocupaciones sobre la resistencia, su médico puede recomendar una prueba de seguimiento (una 'prueba de curación') aproximadamente dos semanas después del tratamiento para asegurarse de que la infección haya desaparecido, especialmente en las infecciones de garganta." }
+                ],
+                treatment_partner_title: "Tratamiento de la Pareja: Por Qué es Esencial",
+                treatment_partner_desc: "Si sus parejas no reciben tratamiento, usted puede volver a contraer la infección. Es un ciclo que solo puede detenerse si todos reciben tratamiento.",
+                treatment_ept_title: "¿Qué es la Terapia Acelerada para Parejas (EPT)?",
+                treatment_ept_desc: "En algunos casos, su médico puede proporcionar una receta o medicamentos para su pareja sin examinarlos primero. Esto se llama EPT y es una forma segura y fácil de asegurarse de que su pareja reciba tratamiento rápidamente. Pregúntele a su médico si esta es una opción.",
+                complications_title: "Posibles Complicaciones de la Gonorrea no Tratada",
+                complications_desc: "Si no se trata, la gonorrea puede causar problemas de salud graves y permanentes. La infección puede propagarse desde el sitio inicial a otras partes del cuerpo.",
+                complications_list: [
+                    { title: "En Mujeres: Enfermedad Inflamatoria Pélvica (EIP)", content: "La infección puede propagarse al útero y las trompas de Falopio, causando EIP. Esto puede llevar a dolor pélvico crónico, <strong>infertilidad</strong> y un <strong>embarazo ectópico</strong> potencialmente mortal." },
+                    { title: "En Hombres: Epididimitis", content: "La infección puede propagarse al epidídimo (el tubo que transporta los espermatozoides), causando un dolor testicular intenso y, en casos raros, infertilidad." },
+                    { title: "En el Embarazo", content: "Una persona embarazada puede transmitir la gonorrea a su bebé durante el parto. Esto puede causar complicaciones graves para el recién nacido, como ceguera, infecciones en las articulaciones y llagas en el cuero cabelludo." },
+                    { title: "Infección Gonocócica Diseminada (IGD)", content: "En casos raros, la infección puede propagarse a través del torrente sanguíneo a otras partes del cuerpo. Esto puede causar artritis (articulaciones dolorosas e hinchadas), tenosinovitis (inflamación de los tendones) y dermatitis (lesiones en la piel). La IGD es una condición grave que puede ser potencialmente mortal y requiere hospitalización." },
+                    { title: "Mayor Riesgo de VIH", content: "Tener una infección por gonorrea puede facilitar la adquisición o transmisión del VIH." }
+                ],
+                screening_title: "¿Quién Debería Hacerse la Prueba? (Pautas de Detección)",
+                screening_desc: "Debido a que la gonorrea a menudo no presenta síntomas, se recomienda la detección de rutina para ciertos grupos:",
+                screening_guidelines: ["<strong>Mujeres sexualmente activas menores de 25 años:</strong> Deben hacerse la prueba cada año.", "<strong>Mujeres de 25 años o más con factores de riesgo:</strong> (como una pareja nueva o múltiples parejas) deben hacerse la prueba.", "<strong>Todas las personas embarazadas:</strong> Deben hacerse la prueba al inicio del embarazo si tienen riesgo.", "<strong>Hombres que tienen sexo con hombres (HSH):</strong> Deben hacerse la prueba al menos una vez al año en todos los sitios de contacto sexual (uretra, recto, garganta).", "<strong>Personas transgénero y de género diverso:</strong> Deben discutir la detección apropiada con su proveedor basándose en su anatomía y comportamientos sexuales."],
+                footer_disclaimer: "Esta información es para fines educativos y no sustituye el consejo médico profesional. Siempre consulte a un proveedor de atención médica para el diagnóstico y tratamiento.",
+                footer_link: "Volver a la Guía Principal de Salud Sexual"
+            }
+        };
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            renderSymptomTabs(t);
+            renderDiagnosisMethods(t);
+            renderTreatmentSteps(t);
+            renderComplications(t);
+            renderScreeningGuidelines(t);
+        }
+        
+        function renderSymptomTabs(t) {
+            document.getElementById('content-women').innerHTML = `<ul class="list-disc list-inside space-y-2 text-slate-600">${t.symptoms_women_list.map(item => `<li>${item}</li>`).join('')}</ul>`;
+            document.getElementById('content-men').innerHTML = `<ul class="list-disc list-inside space-y-2 text-slate-600">${t.symptoms_men_list.map(item => `<li>${item}</li>`).join('')}</ul>`;
+            document.getElementById('content-other').innerHTML = `<ul class="list-disc list-inside space-y-2 text-slate-600">${t.symptoms_other_list.map(item => `<li>${item}</li>`).join('')}</ul>`;
+        }
+
+        function renderDiagnosisMethods(t) {
+            const container = document.getElementById('diagnosis_methods');
+            container.innerHTML = t.diagnosis_methods.map(item => `
+                <div class="flip-card" id="card-${item.id}" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front ${item.color}">
+                            <span class="text-5xl mb-3">${item.icon}</span>
+                            <h4 class="text-xl font-bold text-slate-800">${item.title}</h4>
+                            <p class="text-slate-600 mt-2">${item.front_desc}</p>
+                        </div>
+                        <div class="flip-card-back ${item.color}">
+                            <h4 class="text-lg font-bold text-slate-800 w-full mb-3">${item.back_title}</h4>
+                            <div class="space-y-3 text-sm text-slate-700 w-full">
+                                <p>${item.back_test}</p>
+                                <p>${item.back_indicated}</p>
+                                <p>${item.back_look_for}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderTreatmentSteps(t) {
+            document.getElementById('treatment_steps').innerHTML = t.treatment_steps.map(item => `
+                <div class="flex items-start">
+                    <span class="text-teal-500 font-bold text-xl mr-3 mt-0.5">→</span>
+                    <div>
+                        <p class="font-semibold text-slate-800">${item.title}</p>
+                        <p class="text-slate-600">${item.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function renderComplications(t) {
+             document.getElementById('complications_content').innerHTML = t.complications_list.map(item => `
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-red-400">
+                    <h4 class="text-lg font-bold text-red-700 mb-2">${item.title}</h4>
+                    <div class="text-slate-600 space-y-2">${item.content}</div>
+                </div>
+             `).join('');
+        }
+
+        function renderScreeningGuidelines(t) {
+            document.getElementById('screening_guidelines').innerHTML = t.screening_guidelines.map(item => `
+                <div class="flex items-start">
+                    <span class="text-teal-500 mr-3 mt-1">✓</span>
+                    <p class="text-slate-700">${item}</p>
+                </div>
+            `).join('');
+        }
+
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.symptom-tab');
+            const contents = document.querySelectorAll('.symptom-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    const contentId = `content-${tab.id.split('-')[1]}`;
+                    document.getElementById(contentId).classList.add('active');
+                });
+            });
+            document.getElementById('tab-women').click();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+        const backToNativeBtn = document.getElementById('back-to-native');
+        
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        showGoogleTranslateBtn.addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        backToNativeBtn.addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        // Initial setup
+        changeLanguage('en');
+        setupTabs();
+    });
+    </script>
+</body>
+</html>

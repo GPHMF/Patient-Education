@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Guide to Sexual Health & Wellness</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .active-nav { color: #0d9488; border-bottom-color: #0d9488; }
+        .nav-link { border-bottom: 2px solid transparent; transition: all 0.3s ease; }
+        .nav-link:hover { color: #14b8a6; border-bottom-color: #14b8a6; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0d9488; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
+        body { top: 0px !important; }
+        .goog-te-gadget-simple { background-color: white !important; border: 1px solid #9ca3af !important; border-radius: 0.375rem !important; padding: 0.25rem 0.5rem !important; display: inline-block; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #374151 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        @media (max-width: 767px) {
+            .mobile-nav-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-auto py-4 md:h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-teal-700" data-translate="header_title"></h1>
+                </div>
+                <div class="flex items-center">
+                    <div class="ml-10 flex-wrap items-baseline space-x-4 mobile-nav-grid">
+                        <a href="#stis" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-700 active-nav" data-translate="nav_stis"></a>
+                        <a href="#prevention" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-700" data-translate="nav_prevention"></a>
+                        <a href="#testing" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-700" data-translate="nav_testing"></a>
+                        <a href="#living" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-700" data-translate="nav_living"></a>
+                    </div>
+                    <div id="lang-selector" class="flex items-center pl-4 shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-600 hover:underline" data-translate="lang_back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <section id="welcome" class="text-center mb-12">
+            <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl" data-translate="welcome_title"></h2>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600" data-translate="welcome_subtitle"></p>
+        </section>
+
+        <div id="stis" class="tab-content active">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-bold text-slate-900" data-translate="stis_title"></h3>
+                <p class="mt-2 text-md text-slate-500" data-translate="stis_subtitle"></p>
+            </div>
+            <div id="sti-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            </div>
+        </div>
+
+        <div id="prevention" class="tab-content">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-bold text-slate-900" data-translate="prevention_title"></h3>
+                <p class="mt-2 text-md text-slate-500" data-translate="prevention_subtitle"></p>
+            </div>
+            <div id="prevention-content" class="space-y-12">
+            </div>
+        </div>
+
+        <div id="testing" class="tab-content">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-bold text-slate-900" data-translate="testing_title"></h3>
+                <p class="mt-2 text-md text-slate-500" data-translate="testing_subtitle"></p>
+            </div>
+            <div id="testing-content" class="space-y-12">
+            </div>
+        </div>
+
+        <div id="living" class="tab-content">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-bold text-slate-900" data-translate="living_title"></h3>
+                <p class="mt-2 text-md text-slate-500" data-translate="living_subtitle"></p>
+            </div>
+            <div id="living-content" class="max-w-4xl mx-auto space-y-8">
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center">
+                <h3 class="text-lg font-semibold" data-translate="footer_resources_title"></h3>
+                <div class="flex justify-center space-x-6 mt-4 text-teal-300">
+                    <a href="https://www.cdc.gov/std/" target="_blank" class="hover:text-teal-200">CDC</a>
+                    <a href="https://www.who.int/news-room/fact-sheets/detail/sexually-transmitted-infections-(stis)" target="_blank" class="hover:text-teal-200">WHO</a>
+                    <a href="https://medlineplus.gov/sexuallytransmitteddiseases.html" target="_blank" class="hover:text-teal-200">MedlinePlus</a>
+                    <a href="http://www.ashasexualhealth.org/" target="_blank" class="hover:text-teal-200">ASHA</a>
+                </div>
+                <p class="mt-8 text-xs text-slate-400 max-w-3xl mx-auto" data-translate="footer_disclaimer"></p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let currentLanguage = 'en';
+            let hpvChart = null;
+
+            const translations = {
+                en: {
+                    header_title: "Sexual Health Guide",
+                    nav_stis: "Common STIs",
+                    nav_prevention: "Prevention & Risks",
+                    nav_testing: "Testing & Diagnosis",
+                    nav_living: "Living With an STI",
+                    lang_back_button: "Back",
+                    welcome_title: "A Clear and Confidential Guide to Your Sexual Health",
+                    welcome_subtitle: "Taking care of your sexual health is an important part of your overall well-being. This guide provides clear, judgment-free information to help you understand, prevent, and manage STIs. Empowering yourself with knowledge is the first step.",
+                    stis_title: "Guide to Common STIs",
+                    stis_subtitle: "Click on an STI to learn more about its symptoms, treatment, and potential complications.",
+                    prevention_title: "Prevention: Taking Control of Your Health",
+                    prevention_subtitle: "Preventing STIs is about empowering yourself with knowledge and tools. Explore the most effective strategies to protect yourself and your partners.",
+                    testing_title: "Testing & Diagnosis",
+                    testing_subtitle: "Since many STIs are 'silent,' testing is the only way to know your status. Explore the diagnostic process and our symptom checker tool.",
+                    living_title: "Navigating a Positive Diagnosis",
+                    living_subtitle: "Receiving a diagnosis can be stressful, but you are not alone. Here are practical steps for managing your health and talking to partners.",
+                    footer_resources_title: "Trusted Resources",
+                    footer_disclaimer: "This website is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+
+                    sti_chlamydia_name: "Chlamydia",
+                    sti_chlamydia_desc: "A very common bacterial infection, often with no symptoms. It's easily cured with antibiotics but can cause serious issues like Pelvic Inflammatory Disease (PID) if left untreated.",
+                    sti_gonorrhea_name: "Gonorrhea",
+                    sti_gonorrhea_desc: "A bacterial STI that can infect genitals, the rectum, and throat. It's curable, but growing antibiotic resistance makes prompt, full treatment essential.",
+                    sti_syphilis_name: "Syphilis",
+                    sti_syphilis_desc: "A bacterial infection that progresses in stages. It's known as 'the great pretender' for its varied symptoms. Curable with penicillin, but can cause severe damage if untreated.",
+                    sti_hpv_name: "HPV",
+                    sti_hpv_desc: "The most common STI. While most infections clear on their own, some types can cause genital warts or lead to cancer over time. Preventable with a safe and effective vaccine.",
+                    sti_herpes_name: "Herpes (HSV)",
+                    sti_herpes_desc: "A common, lifelong viral infection causing sores or blisters. There is no cure, but antiviral medication can effectively manage outbreaks and reduce transmission.",
+                    sti_trichomoniasis_name: "Trichomoniasis",
+                    sti_trichomoniasis_desc: "A common and curable STI caused by a parasite. It often has no symptoms but can increase the risk of getting other STIs. Easily treated with antibiotics.",
+                    sti_hepatitisB_name: "Hepatitis B",
+                    sti_hepatitisB_desc: "A serious liver infection that can become chronic and lead to life-threatening conditions like cirrhosis or liver cancer. It is preventable with a safe and effective vaccine.",
+                    sti_candida_name: "Candidiasis",
+                    sti_candida_desc: "Commonly known as a yeast infection, this is caused by a fungal overgrowth. While not always sexually transmitted, it can be passed between partners and cause discomfort.",
+
+                    prevention_safer_sex_title: "The Foundation: Safer Sex Practices",
+                    prevention_safer_sex_abstinence: "<strong>Abstinence:</strong> The only 100% effective method to prevent the sexual transmission of STIs is to abstain from sexual contact (vaginal, anal, and oral).",
+                    prevention_safer_sex_condoms_title: "Condoms: Your Best Tool",
+                    prevention_safer_sex_condoms_desc: "When used correctly and consistently, condoms are highly effective at preventing STIs spread through bodily fluids (like chlamydia, gonorrhea, HIV). For STIs spread by skin-to-skin contact (like herpes, HPV, syphilis), condoms significantly reduce risk but may not offer full protection if the infected area isn't covered.",
+                    prevention_safer_sex_condom_guide_title: "How to Use a Condom Correctly:",
+                    prevention_safer_sex_condom_guide_steps: ["Check the expiration date. Do not use if expired.","Open the wrapper carefully with your fingers, not teeth.","Pinch the tip of the condom to squeeze out any air.","Place it on the tip of the erect penis and roll it down to the base.","Use a water-based or silicone-based lubricant to prevent breakage.","After sex, hold the condom at the base and withdraw while still erect.","Roll the used condom off, wrap it in a tissue, and throw it in the trash.","Use a new condom for every single act of sex."],
+                    prevention_safer_sex_partners: "<strong>Reducing Partners:</strong> Limiting your number of sexual partners lowers your risk. A mutually monogamous relationship with a partner who has tested negative for STIs is a very effective prevention strategy.",
+                    prevention_vaccines_title: "The Power of Vaccines: Preventing Infection Before It Starts",
+                    prevention_vaccines_desc: "Vaccination is a cornerstone of public health and STI prevention. Safe and highly effective vaccines provide powerful, long-lasting protection against two of the most serious STIs: HPV and Hepatitis B.",
+                    prevention_vaccines_hpv_title: "The HPV Vaccine: A Cancer-Prevention Shot",
+                    prevention_vaccines_hpv_desc: "The HPV vaccine protects against the types of HPV that cause most genital warts and HPV-related cancers (cervical, anal, throat, etc.). It is recommended for everyone ages 9 through 26, and some adults up to age 45 may also benefit after talking with their doctor.",
+                    prevention_vaccines_hpv_chart_title: "Effectiveness of the HPV Vaccine in the U.S.",
+                    prevention_vaccines_hpv_chart_label: "% Drop Since Vaccine Introduction",
+                    prevention_vaccines_hpv_chart_data_labels: ['HPV Infections (Teen Girls)', 'HPV Infections (Young Women)', 'Cervical Pre-cancers'],
+                    prevention_vaccines_hpv_chart_caption: "U.S. data shows an 88% drop in HPV infections among teen girls since the vaccine was introduced.",
+                    prevention_vaccines_hepb_title: "The Hepatitis B Vaccine",
+                    prevention_vaccines_hepb_desc: "This vaccine is highly effective at preventing infection with the hepatitis B virus, protecting you from both acute illness and the severe long-term complications of chronic infection, such as cirrhosis and liver cancer. It is routinely given to all infants in the U.S. and is recommended for any adults who were not vaccinated as children.",
+                    prevention_testing_title: "The Importance of Testing: Know Your Status",
+                    prevention_testing_desc: "Because many STIs have no symptoms, getting tested is the *only* way to know for sure if you have an infection. Knowing your status is a critical act of self-care. Talk to your doctor about which tests are right for you based on these general CDC guidelines.",
+                    prevention_testing_table_group: "Population Group",
+                    prevention_testing_table_cg: "Chlamydia & Gonorrhea",
+                    prevention_testing_table_sh: "Syphilis, Hep B/C",
+                    prevention_testing_table_hpv: "HPV (Cervical Screen)",
+                    prevention_testing_table_row1_1: "Sexually Active Women < 25",
+                    prevention_testing_table_row1_2: "Annual testing",
+                    prevention_testing_table_row1_3: "Based on risk; All pregnant women tested",
+                    prevention_testing_table_row1_4: "Pap test every 3 yrs starting at 21",
+                    prevention_testing_table_row2_1: "Men who have sex with men (MSM)",
+                    prevention_testing_table_row2_2: "Annually (or more) at all sites of contact",
+                    prevention_testing_table_row2_3: "Annually (or more) for Syphilis; Hep B/C at least once",
+                    prevention_testing_table_row2_4: "Anal Pap may be considered",
+                    prevention_testing_table_row3_1: "Pregnant Individuals",
+                    prevention_testing_table_row3_2: "Test at first visit if at risk",
+                    prevention_testing_table_row3_3: "Test all for Syphilis, Hep B/C at first visit",
+                    prevention_testing_table_row3_4: "Routine screening as per guidelines",
+                    prevention_testing_table_row4_1: "Anyone with new/multiple partners",
+                    prevention_testing_table_row4_2: "Test based on risk factors",
+                    prevention_testing_table_row4_3: "Test based on risk factors",
+                    prevention_testing_table_row4_4: "Follow age-based guidelines",
+
+                    testing_how_title: "How are STIs Diagnosed?",
+                    testing_how_desc: "Getting tested is usually a simple and painless process. Depending on the infection, your doctor may use one of the following methods:",
+                    testing_how_methods: ["<strong>Urine Samples:</strong> Used to test for common bacterial STIs like chlamydia and gonorrhea.","<strong>Swabs:</strong> A small cotton swab is used to gently collect a sample from the area where an infection might be present, such as the cervix, vagina, urethra, throat, or rectum.","<strong>Blood Tests:</strong> A blood sample (from a finger prick or a draw from your arm) is used to test for infections like syphilis, hepatitis B/C, and herpes.","<strong>Physical Exam:</strong> A provider can often diagnose conditions like genital warts or a syphilis chancre just by looking at them."],
+                    testing_symptom_checker_title: "Interactive Tool: Symptom Checker",
+                    testing_symptom_checker_desc: "This confidential tool helps you explore symptoms and guides you on next steps. <strong class=\"text-red-600\">It is not a substitute for professional medical advice.</strong>",
+                    testing_symptom_checker_label: "What is your primary symptom?",
+                    testing_symptom_checker_option_default: "-- Select a symptom --",
+                    testing_symptom_checker_option_urination: "Pain or burning during urination",
+                    testing_symptom_checker_option_discharge: "Unusual discharge (genital)",
+                    testing_symptom_checker_option_sore: "Sore, blister, or bump (genital/mouth)",
+                    testing_symptom_checker_option_itching: "Itching or irritation (genital)",
+                    testing_symptom_checker_option_pain: "Pain in abdomen or testicles",
+                    testing_symptom_checker_option_none: "I have no symptoms but I'm concerned",
+                    testing_symptom_checker_results_title: "Guidance Based on Your Selection:",
+                    testing_symptom_checker_results_urination: "Pain or burning during urination can be a symptom of several STIs, including chlamydia and gonorrhea, as well as non-STI issues like a urinary tract infection (UTI). It is very important to see a healthcare provider for accurate testing and diagnosis.",
+                    testing_symptom_checker_results_discharge: "An unusual discharge can be a sign of infections like chlamydia, gonorrhea, or trichomoniasis. The only way to know the cause for sure is to get tested by a healthcare provider.",
+                    testing_symptom_checker_results_sore: "A sore, blister, or bump could be related to syphilis, herpes, or HPV. Because these can look different and have serious health implications, a professional medical evaluation is essential.",
+                    testing_symptom_checker_results_itching: "Genital itching can be caused by trichomoniasis, herpes, or other conditions like a yeast infection or pubic lice. A healthcare provider can help determine the cause and provide the correct treatment.",
+                    testing_symptom_checker_results_pain: "Abdominal or testicular pain can be a sign that an infection like chlamydia or gonorrhea has spread and requires immediate medical attention to prevent serious complications like PID or epididymitis.",
+                    testing_symptom_checker_results_none: "It's great that you're being proactive about your health. Since many STIs have no symptoms, regular testing is a key part of healthcare for anyone who is sexually active. Talk to your doctor about what screening schedule is right for you.",
+                    testing_symptom_checker_results_next_step: "Please schedule an appointment with a doctor or visit a clinic.",
+
+                    living_what_now_title: "You've Tested Positive. Now What?",
+                    living_what_now_steps: ["<strong>Take a Breath:</strong> Remember, all STIs are treatable, and many are curable. You've taken a responsible step for your health.","<strong>Follow Your Treatment Plan:</strong> Take all medication exactly as prescribed, even if you feel better. This is crucial for curing the infection and preventing antibiotic resistance.","<strong>Abstain from Sex During Treatment:</strong> Wait until you and your partner(s) have completed treatment (typically 7 days after starting) to avoid reinfection.","<strong>Notify Your Partner(s):</strong> This is a critical act of care. It allows them to get tested and treated, protecting their health and stopping community spread."],
+                    living_tell_partner_title: "How to Tell a Partner",
+                    living_tell_partner_desc: "This conversation can be tough, but it's a sign of maturity and respect. Here are some tips:",
+                    living_tell_partner_steps: ["<strong>Choose a private, calm time and place.</strong>","<strong>Be direct and use \"I\" statements.</strong> Example: \"I tested positive for chlamydia, and since we've been together, it's important you get tested too.\"","<strong>Have the facts ready.</strong> Explain that it's treatable and often has no symptoms.","<strong>Prepare for their reaction.</strong> Listen to their feelings and answer questions honestly.","<strong>Remember help is available.</strong> Your local health department can notify partners anonymously for you. Ask your doctor about Expedited Partner Therapy (EPT), where they may provide medication for your partner directly."],
+                    living_stories_title: "Patient Stories: You Are Not Alone",
+                    living_stories_quotes: ["\"I had no symptoms at all. If it wasn't for my friend telling me she had tested positive, I wouldn't have known anything was wrong. It shows why testing is so important.\"","\"Telling my boyfriend was scary, but his response was the best I could've asked for. It brought us closer. Honesty is everything.\"","\"Living with herpes isn't a life sentence. What I suffer from is people's judgment, not the virus. You are still worthy and beautiful.\""]
+                },
+                es: {
+                    header_title: "Guía de Salud Sexual",
+                    nav_stis: "ITS Comunes",
+                    nav_prevention: "Prevención y Riesgos",
+                    nav_testing: "Pruebas y Diagnóstico",
+                    nav_living: "Vivir con una ITS",
+                    lang_back_button: "Volver",
+                    welcome_title: "Una Guía Clara y Confidencial para su Salud Sexual",
+                    welcome_subtitle: "Cuidar de su salud sexual es una parte importante de su bienestar general. Esta guía proporciona información clara, libre de prejuicios y basada en evidencia para ayudarle a comprender, prevenir y manejar las ITS. Empoderarse con conocimiento es el primer paso.",
+                    stis_title: "Guía de ITS Comunes",
+                    stis_subtitle: "Haga clic en una ITS para obtener más información sobre sus síntomas, tratamiento y posibles complicaciones.",
+                    prevention_title: "Prevención: Tomar el Control de su Salud",
+                    prevention_subtitle: "Prevenir las ITS consiste en empoderarse con conocimientos y herramientas. Explore las estrategias más efectivas para protegerse a sí mismo y a sus parejas.",
+                    testing_title: "Pruebas y Diagnóstico",
+                    testing_subtitle: "Dado que muchas ITS son 'silenciosas', hacerse la prueba es la única forma de saber su estado. Explore el proceso de diagnóstico y nuestra herramienta de verificación de síntomas.",
+                    living_title: "Navegando un Diagnóstico Positivo",
+                    living_subtitle: "Recibir un diagnóstico puede ser estresante, pero no está solo. Aquí hay pasos prácticos para manejar su salud y hablar con sus parejas.",
+                    footer_resources_title: "Recursos de Confianza",
+                    footer_disclaimer: "Este sitio web es solo para fines educativos y no sustituye el consejo, diagnóstico o tratamiento médico profesional. Siempre busque el consejo de su médico u otro proveedor de salud calificado con cualquier pregunta que pueda tener sobre una condición médica.",
+
+                    sti_chlamydia_name: "Clamidia",
+                    sti_chlamydia_desc: "Una infección bacteriana muy común, a menudo sin síntomas. Se cura fácilmente con antibióticos pero puede causar problemas graves como la Enfermedad Inflamatoria Pélvica (EIP) si no se trata.",
+                    sti_gonorrhea_name: "Gonorrea",
+                    sti_gonorrhea_desc: "Una ITS bacteriana que puede infectar los genitales, el recto y la garganta. Es curable, pero la creciente resistencia a los antibióticos hace que el tratamiento completo y rápido sea esencial.",
+                    sti_syphilis_name: "Sífilis",
+                    sti_syphilis_desc: "Una infección bacteriana que progresa en etapas. Se le conoce como 'la gran imitadora' por sus variados síntomas. Curable con penicilina, pero puede causar daños graves si no se trata.",
+                    sti_hpv_name: "VPH",
+                    sti_hpv_desc: "La ITS más común. Aunque la mayoría de las infecciones desaparecen por sí solas, algunos tipos pueden causar verrugas genitales o provocar cáncer con el tiempo. Prevenible con una vacuna segura y eficaz.",
+                    sti_herpes_name: "Herpes (VHS)",
+                    sti_herpes_desc: "Una infección viral común y de por vida que causa llagas o ampollas. No tiene cura, pero los medicamentos antivirales pueden controlar eficazmente los brotes y reducir la transmisión.",
+                    sti_trichomoniasis_name: "Tricomoniasis",
+                    sti_trichomoniasis_desc: "Una ITS común y curable causada por un parásito. A menudo no presenta síntomas, pero puede aumentar el riesgo de contraer otras ITS. Se trata fácilmente con antibióticos.",
+                    sti_hepatitisB_name: "Hepatitis B",
+                    sti_hepatitisB_desc: "Una grave infección del hígado que puede volverse crónica y llevar a condiciones potencialmente mortales como la cirrosis o el cáncer de hígado. Es prevenible con una vacuna segura y eficaz.",
+                    sti_candida_name: "Candidiasis",
+                    sti_candida_desc: "Comúnmente conocida como una infección por levaduras, es causada por un sobrecrecimiento de hongos. Aunque no siempre se transmite sexualmente, puede pasarse entre parejas y causar molestias.",
+
+                    prevention_safer_sex_title: "La Base: Prácticas de Sexo Seguro",
+                    prevention_safer_sex_abstinence: "<strong>Abstinencia:</strong> El único método 100% efectivo para prevenir la transmisión sexual de ITS es abstenerse del contacto sexual (vaginal, anal y oral).",
+                    prevention_safer_sex_condoms_title: "Condones: Su Mejor Herramienta",
+                    prevention_safer_sex_condoms_desc: "Cuando se usan correcta y consistentemente, los condones son altamente efectivos para prevenir las ITS que se propagan a través de fluidos corporales (como clamidia, gonorrea, VIH). Para las ITS que se propagan por contacto piel con piel (como herpes, VPH, sífilis), los condones reducen significativamente el riesgo pero pueden no ofrecer protección total si el área infectada no está cubierta.",
+                    prevention_safer_sex_condom_guide_title: "Cómo Usar un Condón Correctamente:",
+                    prevention_safer_sex_condom_guide_steps: ["Verifique la fecha de vencimiento. No lo use si está vencido.","Abra el envoltorio con cuidado con los dedos, no con los dientes.","Apriete la punta del condón para sacar el aire.","Colóquelo en la punta del pene erecto y desenróllelo hasta la base.","Use un lubricante a base de agua o silicona para evitar que se rompa.","Después del sexo, sostenga el condón por la base y retírelo mientras el pene aún está erecto.","Retire el condón usado, envuélvalo en un pañuelo y tírelo a la basura.","Use un condón nuevo para cada acto sexual."],
+                    prevention_safer_sex_partners: "<strong>Reducción de Parejas:</strong> Limitar el número de parejas sexuales reduce su riesgo. Una relación mutuamente monógama con una pareja que se ha hecho la prueba y ha dado negativo para ITS es una estrategia de prevención muy efectiva.",
+                    prevention_vaccines_title: "El Poder de las Vacunas: Prevenir la Infección Antes de que Comience",
+                    prevention_vaccines_desc: "La vacunación es un pilar de la salud pública y la prevención de ITS. Vacunas seguras y altamente efectivas brindan una protección potente y duradera contra dos de las ITS más graves: el VPH y la Hepatitis B.",
+                    prevention_vaccines_hpv_title: "La Vacuna contra el VPH: Una Inyección que Previene el Cáncer",
+                    prevention_vaccines_hpv_desc: "La vacuna contra el VPH protege contra los tipos de VPH que causan la mayoría de las verrugas genitales y los cánceres relacionados con el VPH (cervical, anal, de garganta, etc.). Se recomienda para todas las personas de 9 a 26 años, y algunos adultos hasta los 45 años también pueden beneficiarse después de hablar con su médico.",
+                    prevention_vaccines_hpv_chart_title: "Efectividad de la Vacuna contra el VPH en EE. UU.",
+                    prevention_vaccines_hpv_chart_label: "% de Disminución Desde la Introducción de la Vacuna",
+                    prevention_vaccines_hpv_chart_data_labels: ['Infecciones por VPH (Adolescentes)', 'Infecciones por VPH (Jóvenes)', 'Precánceres Cervicales'],
+                    prevention_vaccines_hpv_chart_caption: "Datos de EE. UU. muestran una caída del 88% en las infecciones por VPH entre las adolescentes desde que se introdujo la vacuna.",
+                    prevention_vaccines_hepb_title: "La Vacuna contra la Hepatitis B",
+                    prevention_vaccines_hepb_desc: "Esta vacuna es altamente efectiva para prevenir la infección por el virus de la hepatitis B, protegiéndolo tanto de la enfermedad aguda como de las graves complicaciones a largo plazo de la infección crónica, como la cirrosis y el cáncer de hígado. Se administra de forma rutinaria a todos los bebés en los EE. UU. y se recomienda para cualquier adulto que no haya sido vacunado de niño.",
+                    prevention_testing_title: "La Importancia de las Pruebas: Conozca su Estado",
+                    prevention_testing_desc: "Debido a que muchas ITS no presentan síntomas, hacerse la prueba es la *única* forma de saber con certeza si tiene una infección. Conocer su estado es un acto fundamental de autocuidado. Hable con su médico sobre qué pruebas son adecuadas para usted basándose en estas directrices generales de los CDC.",
+                    prevention_testing_table_group: "Grupo de Población",
+                    prevention_testing_table_cg: "Clamidia y Gonorrea",
+                    prevention_testing_table_sh: "Sífilis, Hep B/C",
+                    prevention_testing_table_hpv: "VPH (Cribado Cervical)",
+                    prevention_testing_table_row1_1: "Mujeres Sexualmente Activas < 25",
+                    prevention_testing_table_row1_2: "Prueba anual",
+                    prevention_testing_table_row1_3: "Según riesgo; Todas las embarazadas son evaluadas",
+                    prevention_testing_table_row1_4: "Prueba de Pap cada 3 años desde los 21",
+                    prevention_testing_table_row2_1: "Hombres que tienen sexo con hombres (HSH)",
+                    prevention_testing_table_row2_2: "Anualmente (o más) en todos los sitios de contacto",
+                    prevention_testing_table_row2_3: "Anualmente (o más) para Sífilis; Hep B/C al menos una vez",
+                    prevention_testing_table_row2_4: "Se puede considerar Pap anal",
+                    prevention_testing_table_row3_1: "Personas Embarazadas",
+                    prevention_testing_table_row3_2: "Prueba en la primera visita si hay riesgo",
+                    prevention_testing_table_row3_3: "Prueba para todas de Sífilis, Hep B/C en la primera visita",
+                    prevention_testing_table_row3_4: "Cribado de rutina según las pautas",
+                    prevention_testing_table_row4_1: "Cualquier persona con parejas nuevas/múltiples",
+                    prevention_testing_table_row4_2: "Prueba según factores de riesgo",
+                    prevention_testing_table_row4_3: "Prueba según factores de riesgo",
+                    prevention_testing_table_row4_4: "Seguir las pautas basadas en la edad",
+
+                    testing_how_title: "¿Cómo se Diagnostican las ITS?",
+                    testing_how_desc: "Hacerse la prueba suele ser un proceso simple e indoloro. Dependiendo de la infección, su médico puede usar uno de los siguientes métodos:",
+                    testing_how_methods: ["<strong>Muestras de Orina:</strong> Se usan para detectar ITS bacterianas comunes como la clamidia y la gonorrea.","<strong>Hisopos:</strong> Se usa un pequeño hisopo de algodón para recolectar suavemente una muestra del área donde podría haber una infección, como el cérvix, la vagina, la uretra, la garganta o el recto.","<strong>Análisis de Sangre:</strong> Se usa una muestra de sangre (de un pinchazo en el dedo o una extracción del brazo) para detectar infecciones como sífilis, hepatitis B/C y herpes.","<strong>Examen Físico:</strong> Un proveedor a menudo puede diagnosticar condiciones como verrugas genitales o un chancro sifilítico solo con mirarlos."],
+                    testing_symptom_checker_title: "Herramienta Interactiva: Verificador de Síntomas",
+                    testing_symptom_checker_desc: "Esta herramienta confidencial le ayuda a explorar síntomas y le guía sobre los próximos pasos. <strong class=\"text-red-600\">No sustituye el consejo médico profesional.</strong>",
+                    testing_symptom_checker_label: "¿Cuál es su síntoma principal?",
+                    testing_symptom_checker_option_default: "-- Seleccione un síntoma --",
+                    testing_symptom_checker_option_urination: "Dolor o ardor al orinar",
+                    testing_symptom_checker_option_discharge: "Secreción inusual (genital)",
+                    testing_symptom_checker_option_sore: "Llaga, ampolla o bulto (genital/boca)",
+                    testing_symptom_checker_option_itching: "Picazón o irritación (genital)",
+                    testing_symptom_checker_option_pain: "Dolor en el abdomen o los testículos",
+                    testing_symptom_checker_option_none: "No tengo síntomas pero estoy preocupado/a",
+                    testing_symptom_checker_results_title: "Guía Basada en su Selección:",
+                    testing_symptom_checker_results_urination: "El dolor o ardor al orinar puede ser un síntoma de varias ITS, incluyendo clamidia y gonorrea, así como problemas no relacionados con ITS como una infección del tracto urinario (ITU). Es muy importante ver a un proveedor de atención médica para una prueba y diagnóstico precisos.",
+                    testing_symptom_checker_results_discharge: "Una secreción inusual puede ser un signo de infecciones como clamidia, gonorrea o tricomoniasis. La única forma de saber la causa con certeza es hacerse la prueba con un proveedor de atención médica.",
+                    testing_symptom_checker_results_sore: "Una llaga, ampolla o bulto podría estar relacionado con sífilis, herpes o VPH. Debido a que pueden tener diferentes apariencias y tener serias implicaciones para la salud, una evaluación médica profesional es esencial.",
+                    testing_symptom_checker_results_itching: "La picazón genital puede ser causada por tricomoniasis, herpes u otras condiciones como una infección por levaduras o piojos púbicos. Un proveedor de atención médica puede ayudar a determinar la causa y proporcionar el tratamiento correcto.",
+                    testing_symptom_checker_results_pain: "El dolor abdominal o testicular puede ser un signo de que una infección como la clamidia o la gonorrea se ha extendido y requiere atención médica inmediata para prevenir complicaciones graves como la EIP o la epididimitis.",
+                    testing_symptom_checker_results_none: "Es genial que esté siendo proactivo/a con su salud. Dado que muchas ITS no tienen síntomas, las pruebas regulares son una parte clave de la atención médica para cualquier persona sexualmente activa. Hable con su médico sobre qué calendario de pruebas es el adecuado para usted.",
+                    testing_symptom_checker_results_next_step: "Por favor, programe una cita con un médico o visite una clínica.",
+
+                    living_what_now_title: "Ha Dado Positivo. ¿Y Ahora Qué?",
+                    living_what_now_steps: ["<strong>Respire Hondo:</strong> Recuerde, todas las ITS son tratables y muchas son curables. Ha dado un paso responsable por su salud.","<strong>Siga su Plan de Tratamiento:</strong> Tome todos los medicamentos exactamente como se le prescribió, incluso si se siente mejor. Esto es crucial para curar la infección y prevenir la resistencia a los antibióticos.","<strong>Absténgase de Tener Relaciones Sexuales Durante el Tratamiento:</strong> Espere hasta que usted y su(s) pareja(s) hayan completado el tratamiento (generalmente 7 días después de comenzar) para evitar la reinfección.","<strong>Notifique a su(s) Pareja(s):</strong> Este es un acto de cuidado fundamental. Les permite hacerse la prueba y recibir tratamiento, protegiendo su salud y deteniendo la propagación en la comunidad."],
+                    living_tell_partner_title: "Cómo Decírselo a una Pareja",
+                    living_tell_partner_desc: "Esta conversación puede ser difícil, pero es una señal de madurez y respeto. Aquí hay algunos consejos:",
+                    living_tell_partner_steps: ["<strong>Elija un momento y lugar privado y tranquilo.</strong>","<strong>Sea directo/a y use declaraciones en primera persona.</strong> Ejemplo: \"Di positivo en la prueba de clamidia y, como hemos estado juntos, es importante que tú también te hagas la prueba.\"","<strong>Tenga los datos a mano.</strong> Explique que es tratable y que a menudo no presenta síntomas.","<strong>Prepárese para su reacción.</strong> Escuche sus sentimientos y responda a las preguntas con honestidad.","<strong>Recuerde que hay ayuda disponible.</strong> Su departamento de salud local puede notificar a las parejas de forma anónima por usted. Pregúntele a su médico sobre la Terapia Acelerada para Parejas (EPT), donde pueden proporcionar medicamentos para su pareja directamente."],
+                    living_stories_title: "Historias de Pacientes: No Está Solo/a",
+                    living_stories_quotes: ["\"No tenía ningún síntoma. Si no fuera porque mi amiga me dijo que había dado positivo, no habría sabido que algo andaba mal. Esto demuestra por qué las pruebas son tan importantes.\"","\"Decírselo a mi novio fue aterrador, pero su respuesta fue la mejor que podría haber pedido. Nos unió más. La honestidad lo es todo.\"","\"Vivir con herpes no es una sentencia de por vida. Lo que sufro es el juicio de la gente, no el virus. Sigues siendo valioso/a y hermoso/a.\""]
+                }
+            };
+
+            const stiData = {
+                chlamydia: { nameKey: "sti_chlamydia_name", icon: "🦠", descriptionKey: "sti_chlamydia_desc", link: "pages/chlamydia.html" },
+                gonorrhea: { nameKey: "sti_gonorrhea_name", icon: "🔬", descriptionKey: "sti_gonorrhea_desc", link: "pages/gonorrhea.html" },
+                syphilis: { nameKey: "sti_syphilis_name", icon: "🌀", descriptionKey: "sti_syphilis_desc", link: "pages/syphilis.html" },
+                hpv: { nameKey: "sti_hpv_name", icon: "🧬", descriptionKey: "sti_hpv_desc", link: "pages/hpv.html" },
+                herpes: { nameKey: "sti_herpes_name", icon: "🩹", descriptionKey: "sti_herpes_desc", link: "pages/herpes.html" },
+                trichomoniasis: { nameKey: "sti_trichomoniasis_name", icon: "💧", descriptionKey: "sti_trichomoniasis_desc", link: "pages/trichomonas.html" },
+                hepatitisB: { nameKey: "sti_hepatitisB_name", icon: "🧡", descriptionKey: "sti_hepatitisB_desc", link: "pages/hep-B.html" },
+                candida: { nameKey: "sti_candida_name", icon: "🍄", descriptionKey: "sti_candida_desc", link: "pages/candida.html" }
+            };
+
+            const cardsContainer = document.getElementById('sti-cards-container');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const nativeLangToggle = document.getElementById('native-lang-toggle');
+            const googleLangToggle = document.getElementById('google-lang-toggle');
+            const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+            const backToNativeBtn = document.getElementById('back-to-native');
+            const desktopLangSelector = document.getElementById('lang-selector');
+            const mobileLangSelectorContainer = document.querySelector('header .flex.items-center');
+
+            function renderContent() {
+                const t = translations[currentLanguage];
+
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (t[key]) el.innerHTML = t[key];
+                });
+
+                cardsContainer.innerHTML = Object.keys(stiData).map(key => {
+                    const sti = stiData[key];
+                    return `
+                        <a href="${sti.link}" class="block bg-white p-6 rounded-lg shadow-sm hover:shadow-lg transition-shadow">
+                            <div class="flex items-center mb-3">
+                                <span class="text-3xl mr-4">${sti.icon}</span>
+                                <h4 class="text-xl font-bold text-slate-800">${t[sti.nameKey]}</h4>
+                            </div>
+                            <p class="text-slate-600">${t[sti.descriptionKey]}</p>
+                        </a>
+                    `;
+                }).join('');
+
+                renderPreventionTab(t);
+                renderTestingTab(t);
+                renderLivingTab(t);
+            }
+
+            function renderPreventionTab(t) {
+                const container = document.getElementById('prevention-content');
+                container.innerHTML = `
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-xl text-teal-800 mb-4">${t.prevention_safer_sex_title}</h4>
+                        <div class="space-y-4 text-slate-600">
+                            <p>${t.prevention_safer_sex_abstinence}</p>
+                            <div>
+                                <h5 class="font-semibold text-lg text-slate-800 mb-2">${t.prevention_safer_sex_condoms_title}</h5>
+                                <p class="mb-3">${t.prevention_safer_sex_condoms_desc}</p>
+                                <div class="bg-slate-50 p-4 rounded-md border border-slate-200">
+                                    <h6 class="font-semibold text-slate-700">${t.prevention_safer_sex_condom_guide_title}</h6>
+                                    <ol class="list-decimal list-inside mt-2 space-y-1 text-sm">${t.prevention_safer_sex_condom_guide_steps.map(s => `<li>${s}</li>`).join('')}</ol>
+                                </div>
+                            </div>
+                            <p>${t.prevention_safer_sex_partners}</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-xl text-teal-800 mb-4">${t.prevention_vaccines_title}</h4>
+                        <p class="text-slate-600 mb-6">${t.prevention_vaccines_desc}</p>
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <h5 class="font-semibold text-lg text-slate-800 mb-2">${t.prevention_vaccines_hpv_title}</h5>
+                                <p class="text-slate-600 mb-4">${t.prevention_vaccines_hpv_desc}</p>
+                                <div class="chart-container"><canvas id="hpvVaccineChart"></canvas></div>
+                                <p class="text-center text-sm text-slate-500 mt-2">${t.prevention_vaccines_hpv_chart_caption}</p>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-lg text-slate-800 mb-2">${t.prevention_vaccines_hepb_title}</h5>
+                                <p class="text-slate-600">${t.prevention_vaccines_hepb_desc}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-xl text-teal-800 mb-3">${t.prevention_testing_title}</h4>
+                        <p class="text-slate-600 mb-4">${t.prevention_testing_desc}</p>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-slate-200">
+                                <thead class="bg-slate-50">
+                                    <tr>
+                                        <th class="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">${t.prevention_testing_table_group}</th>
+                                        <th class="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">${t.prevention_testing_table_cg}</th>
+                                        <th class="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">${t.prevention_testing_table_sh}</th>
+                                        <th class="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">${t.prevention_testing_table_hpv}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-slate-200 text-sm text-slate-600">
+                                    <tr>
+                                        <td class="px-3 py-4 font-medium text-slate-800">${t.prevention_testing_table_row1_1}</td>
+                                        <td class="px-3 py-4">${t.prevention_testing_table_row1_2}</td>
+                                        <td class="px-3 py-4">${t.prevention_testing_table_row1_3}</td>
+                                        <td class="px-3 py-4">${t.prevention_testing_table_row1_4}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-4 font-medium text-slate-800">${t.prevention_testing_table_row2_1}</td>
+                                        <td class="px-3 py-4">${t.prevention_testing_table_row2_2}</td>
+                                        <td class="px-3 py-4">${t.prevention_testing_table_row2_3}</td>
+                                        <td class="px-3 py-4">${t.prevention_testing_table_row2_4}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-4 font-medium text-slate-800">${t.prevention_testing_table_row3_1}</td>
+                                        <td class="px-3 py-4">${t.prevention_testing_table_row3_2}</td>
+                                        <td class="px-3 py-4">${t.prevention_testing_table_row3_3}</td>
+                                        <td class="px-3 py-4">${t.prevention_testing_table_row3_4}</td>
+                                    </tr>
+                                    <tr class="bg-slate-50">
+                                        <td class="px-3 py-4 font-medium text-slate-800">${t.prevention_testing_table_row4_1}</td>
+                                        <td class="px-3 py-4">${t.prevention_testing_table_row4_2}</td>
+                                        <td class="px-3 py-4">${t.prevention_testing_table_row4_3}</td>
+                                        <td class="px-3 py-4">${t.prevention_testing_table_row4_4}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+                renderHpvChart(t);
+            }
+
+            function renderTestingTab(t) {
+                const container = document.getElementById('testing-content');
+                container.innerHTML = `
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg text-teal-800 mb-3">${t.testing_how_title}</h4>
+                        <p class="text-slate-600 mb-4">${t.testing_how_desc}</p>
+                        <ul class="list-disc list-inside space-y-2 text-slate-600">${t.testing_how_methods.map(m => `<li>${m}</li>`).join('')}</ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg text-teal-800 mb-3">${t.testing_symptom_checker_title}</h4>
+                        <p class="text-slate-600 mb-4">${t.testing_symptom_checker_desc}</p>
+                        <div id="symptom-checker" class="space-y-4">
+                            <div>
+                                <label for="symptom-primary" class="block text-sm font-medium text-slate-700">${t.testing_symptom_checker_label}</label>
+                                <select id="symptom-primary" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                    <option value="">${t.testing_symptom_checker_option_default}</option>
+                                    <option value="urination">${t.testing_symptom_checker_option_urination}</option>
+                                    <option value="discharge">${t.testing_symptom_checker_option_discharge}</option>
+                                    <option value="sore">${t.testing_symptom_checker_option_sore}</option>
+                                    <option value="itching">${t.testing_symptom_checker_option_itching}</option>
+                                    <option value="pain">${t.testing_symptom_checker_option_pain}</option>
+                                    <option value="none">${t.testing_symptom_checker_option_none}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="symptom-results" class="mt-6 p-4 bg-red-50 border border-red-200 rounded-md hidden">
+                            <h5 class="font-bold text-md text-red-800">${t.testing_symptom_checker_results_title}</h5>
+                            <p id="symptom-text" class="mt-2 text-slate-700"></p>
+                        </div>
+                    </div>
+                `;
+                attachSymptomCheckerListener(t);
+            }
+
+            function renderLivingTab(t) {
+                const container = document.getElementById('living-content');
+                container.innerHTML = `
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg text-teal-800 mb-3">${t.living_what_now_title}</h4>
+                        <ol class="space-y-3 list-decimal list-inside text-slate-600">${t.living_what_now_steps.map(s => `<li>${s}</li>`).join('')}</ol>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg text-teal-800 mb-3">${t.living_tell_partner_title}</h4>
+                        <p class="text-slate-600 mb-4">${t.living_tell_partner_desc}</p>
+                        <ul class="space-y-2 list-disc list-inside text-slate-600">${t.living_tell_partner_steps.map(s => `<li>${s}</li>`).join('')}</ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-lg text-teal-800 mb-3">${t.living_stories_title}</h4>
+                        <div class="space-y-4 text-slate-600 italic">${t.living_stories_quotes.map(q => `<p>${q}</p>`).join('')}</div>
+                    </div>
+                `;
+            }
+
+            function renderHpvChart(t) {
+                const hpvCtx = document.getElementById('hpvVaccineChart');
+                if (!hpvCtx) return;
+                if (hpvChart) {
+                    hpvChart.destroy();
+                }
+                hpvChart = new Chart(hpvCtx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: t.prevention_vaccines_hpv_chart_data_labels,
+                        datasets: [{
+                            label: t.prevention_vaccines_hpv_chart_label,
+                            data: [88, 81, 40],
+                            backgroundColor: ['#14b8a6', '#2dd4bf', '#5eead4'],
+                            borderColor: ['#0f766e', '#0d9488', '#0d9488'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                        scales: { x: { beginAtZero: true, max: 100, grid: { color: '#e2e8f0' } }, y: { grid: { display: false } } },
+                        plugins: {
+                            legend: { display: false },
+                            title: { display: true, text: t.prevention_vaccines_hpv_chart_title, font: { size: 16 } },
+                            tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.raw}%` } }
+                        }
+                    }
+                });
+            }
+
+            function attachSymptomCheckerListener(t) {
+                const symptomSelect = document.getElementById('symptom-primary');
+                symptomSelect.addEventListener('change', () => {
+                    const symptom = symptomSelect.value;
+                    const resultsContainer = document.getElementById('symptom-results');
+                    const symptomText = document.getElementById('symptom-text');
+
+                    let text = '';
+                    if (symptom) {
+                        text = t[`testing_symptom_checker_results_${symptom}`] + " " + t.testing_symptom_checker_results_next_step;
+                        symptomText.textContent = text;
+                        resultsContainer.classList.remove('hidden');
+                    } else {
+                        resultsContainer.classList.add('hidden');
+                    }
+                });
+            }
+
+            function changeLanguage(lang) {
+                currentLanguage = lang;
+                document.documentElement.lang = lang;
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+                renderContent();
+            }
+
+            function switchTab(hash) {
+                navLinks.forEach(link => link.classList.toggle('active-nav', link.getAttribute('href') === hash));
+                tabContents.forEach(tab => tab.classList.toggle('active', `#${tab.id}` === hash));
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const hash = link.getAttribute('href');
+                    switchTab(hash);
+                    window.history.pushState(null, null, hash);
+                });
+            });
+
+            document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+            document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+
+            showGoogleTranslateBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('flex');
+            });
+
+            backToNativeBtn.addEventListener('click', () => {
+                nativeLangToggle.classList.remove('hidden');
+                googleLangToggle.classList.add('hidden');
+                googleLangToggle.classList.remove('flex');
+                const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+                if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+                changeLanguage(currentLanguage);
+            });
+
+            const initialHash = window.location.hash || '#stis';
+            switchTab(initialHash);
+            changeLanguage('en');
+        });
+    </script>
+</body>
+</html>

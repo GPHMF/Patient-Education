@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIV Prevention: Your Guide to PrEP & PEP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f8fafc; /* slate-50 */
+            --text-primary: #1e293b; /* slate-800 */
+            --text-secondary: #475569; /* slate-600 */
+            --accent-prep: #2563eb; /* blue-600 */
+            --accent-pep: #d97706; /* amber-600 */
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #334155; color: white; }
+
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: var(--text-primary) !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+        .interactive-choice {
+            transition: all 0.2s ease-in-out;
+        }
+        .interactive-choice:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-2 flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-bold text-slate-800" data-translate="header_title"></h1>
+            </div>
+            <div class="js-lang-selector flex items-center pl-4 shrink-0">
+                <div class="js-native-toggle flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                        <button class="lang-btn js-lang-en px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button class="lang-btn js-lang-es px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button class="js-show-google ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div class="js-google-toggle hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button class="js-back-native ml-2 text-sm font-semibold text-blue-600 hover:underline" data-translate="back_button"></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <section class="text-center mb-12">
+            <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-3" data-translate="main_title"></h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600" data-translate="main_subtitle"></p>
+        </section>
+
+        <section id="interactive-guide" class="mb-12">
+            <h3 class="text-2xl font-bold text-center text-slate-800 mb-6" data-translate="guide_title"></h3>
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <p class="text-center text-lg text-slate-700 font-medium mb-6" data-translate="guide_question"></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <button id="guide-prep" class="interactive-choice text-left bg-blue-50 border-2 border-blue-200 p-6 rounded-lg hover:border-blue-500">
+                        <h4 class="font-bold text-xl text-blue-800 mb-2" data-translate="guide_prep_title"></h4>
+                        <p class="text-blue-700" data-translate="guide_prep_desc"></p>
+                    </button>
+                    <button id="guide-pep" class="interactive-choice text-left bg-amber-50 border-2 border-amber-200 p-6 rounded-lg hover:border-amber-500">
+                        <h4 class="font-bold text-xl text-amber-800 mb-2" data-translate="guide_pep_title"></h4>
+                        <p class="text-amber-700" data-translate="guide_pep_desc"></p>
+                    </button>
+                </div>
+                <div id="guide-recommendation" class="mt-6 p-6 bg-gray-100 border border-gray-200 rounded-lg hidden"></div>
+            </div>
+        </section>
+        
+        <section id="who-is-prep-for" class="mb-12">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h3 class="text-2xl font-bold text-center text-slate-800 mb-2" data-translate="who_should_consider_prep_title"></h3>
+                <p class="text-center text-slate-600 mb-6" data-translate="who_should_consider_prep_subtitle"></p>
+                <ul id="prep-checklist" class="space-y-3">
+                    <!-- Checklist items will be injected here -->
+                </ul>
+            </div>
+        </section>
+
+        <section id="prep-section" class="mb-12">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-blue-700" data-translate="prep_section_title"></h3>
+                <p class="max-w-2xl mx-auto text-slate-600 mt-2" data-translate="prep_section_subtitle"></p>
+            </div>
+            <div id="prep-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                <!-- PrEP cards will be injected here by JS -->
+            </div>
+        </section>
+
+        <section id="pep-section">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-amber-700" data-translate="pep_section_title"></h3>
+                <p class="max-w-2xl mx-auto text-slate-600 mt-2" data-translate="pep_section_subtitle"></p>
+            </div>
+            <div id="pep-cards-container" class="grid grid-cols-1 md:grid-cols-1 gap-8">
+                 <!-- PEP card will be injected here by JS -->
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto py-8 px-4 text-center">
+            <p data-translate="footer_disclaimer"></p>
+            <div class="mt-4">
+                <p class="text-sm text-slate-400" data-translate="footer_source_intro"></p>
+                <div class="flex justify-center space-x-4 mt-2">
+                    <a href="https://www.cdc.gov/hiv/basics/prep.html" target="_blank" class="text-blue-300 hover:text-blue-200 underline">CDC PrEP Info</a>
+                    <a href="https://hivinfo.nih.gov/understanding-hiv/fact-sheets/hiv-prevention" target="_blank" class="text-blue-300 hover:text-blue-200 underline">HIV.gov Prevention</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const translations = {
+        en: {
+            header_title: "HIV Prevention Guide",
+            main_title: "Your Guide to HIV Prophylaxis",
+            main_subtitle: "Explore the powerful medical options available to prevent HIV. Prophylaxis means taking action to prevent disease before it happens. Learn about PrEP (for before exposure) and PEP (for after exposure).",
+            guide_title: "Which Prevention Method Do You Need?",
+            guide_question: "To find the right information, select the statement that best describes your situation:",
+            guide_prep_title: "I want ongoing protection.",
+            guide_prep_desc: "I am looking for a regular method to lower my risk of getting HIV in the future.",
+            guide_pep_title: "I need help after a single event.",
+            guide_pep_desc: "I think I was just exposed to HIV within the last 3 days and need an emergency option.",
+            guide_prep_recommendation: "It sounds like you're interested in ongoing prevention. You should explore <strong>PrEP (Pre-Exposure Prophylaxis)</strong>. First, review the checklist below to see if PrEP might be a good fit for you, then explore the different PrEP options available.",
+            guide_pep_recommendation: "It sounds like you need an emergency option. You should learn about <strong>PEP (Post-Exposure Prophylaxis)</strong> immediately. Scroll down to the PEP section for more information. <strong>Remember: PEP must be started within 72 hours. Contact a doctor or go to an urgent care clinic right away.</strong>",
+            who_should_consider_prep_title: "Is PrEP Right for You?",
+            who_should_consider_prep_subtitle: "PrEP is a powerful tool. Talk to your doctor about it if you are HIV-negative and any of the following apply to you:",
+            prep_checklist: [
+                "You have a sexual partner with HIV (especially if their viral load is unknown or detectable).",
+                "You don't consistently use condoms for anal or vaginal sex.",
+                "You have been diagnosed with an STI like gonorrhea, chlamydia, or syphilis in the past 6 months.",
+                "You inject drugs and share needles or other equipment.",
+                "Your partner engages in any of the above behaviors."
+            ],
+            prep_section_title: "PrEP: Ongoing HIV Prevention Options",
+            prep_section_subtitle: "PrEP is for HIV-negative people to reduce their risk of getting HIV from sex or injection drug use. When taken as prescribed, PrEP is highly effective. There are now several different ways to take PrEP.",
+            pep_section_title: "PEP: Emergency HIV Prevention",
+            pep_section_subtitle: "PEP is a 28-day course of medicine taken to prevent HIV after a single high-risk event. It must be started within 72 hours (3 days) of the possible exposure.",
+            back_button: "Back",
+            footer_disclaimer: "This guide provides general information and is not a substitute for professional medical advice. Always consult with your healthcare provider to determine the best prevention strategy for you.",
+            footer_source_intro: "Content is based on information from:",
+            prep_options: [
+                {
+                    icon: '💊',
+                    title: 'Oral PrEP (Daily Pills)',
+                    brands: 'Truvada® (and generics), Descovy®',
+                    how_to_take: 'A pill taken once every day to maintain a protective level of medicine in your body.',
+                    side_effects: 'Most people have no side effects. Some may experience temporary nausea, headaches, or fatigue when starting. Long-term, rare effects can include changes in kidney function or bone density, which your doctor will monitor with routine lab tests.',
+                    considerations: 'Requires a negative HIV test to start and regular follow-up appointments every 3 months for testing and prescription refills. Descovy is not recommended for people at risk through receptive vaginal sex as its effectiveness has not been studied for this type of exposure.',
+                    color: 'blue'
+                },
+                {
+                    icon: '🗓️',
+                    title: 'On-Demand PrEP ("2-1-1")',
+                    brands: 'Truvada® (or generic) ONLY',
+                    how_to_take: 'An alternative schedule for cisgender men who have sex with men. It involves taking 2 pills 2-24 hours before sex is planned, then 1 pill 24 hours after the first dose, and a final pill 24 hours after that.',
+                    side_effects: 'Similar to daily oral PrEP, but may be less frequent due to intermittent use.',
+                    considerations: 'This is an "off-label" but effective strategy for planned sex only. It is not for spontaneous sex and is not recommended for people at risk through receptive vaginal sex or for those who inject drugs. You must discuss this specific strategy with your doctor.',
+                    color: 'purple'
+                },
+                {
+                    icon: '💉',
+                    title: 'Injectable PrEP (Every 2 Months)',
+                    brands: 'Apretude®',
+                    how_to_take: 'A long-acting injection given by a healthcare provider every two months (after initial starter injections).',
+                    side_effects: 'The most common side effect is pain, swelling, or redness at the injection site. Other less common effects can include headache, fever, or rash.',
+                    considerations: 'A great option for those who prefer not to take a daily pill. Requires scheduled appointments with a healthcare provider for the injections. You must be up-to-date on your injections to stay protected.',
+                    color: 'teal'
+                },
+                {
+                    icon: '💉',
+                    title: 'Injectable PrEP (Twice a Year)',
+                    brands: 'Yeztugo® (Lenacapavir)',
+                    how_to_take: 'A new long-acting injection given by a healthcare provider just two times a year (every six months) after an initial loading dose of pills and shots.',
+                    side_effects: 'Similar to other injections, reactions at the injection site are most common. Your doctor will discuss the full side effect profile.',
+                    considerations: 'Offers the most convenience with only two shots per year. As a newer option, talk to your provider to see if it is right for you.',
+                    color: 'cyan'
+                }
+            ],
+            pep_options: [
+                 {
+                    icon: '💊',
+                    title: 'PEP Regimen',
+                    brands: 'Typically a 3-drug regimen. May include Biktarvy®, or a combination of Tivicay® + Truvada®/Descovy®.',
+                    how_to_take: 'A 28-day course of HIV medications taken to prevent infection after a possible exposure.',
+                    side_effects: 'Nausea and fatigue are the most common side effects. Less common effects can include diarrhea or headache. These are usually mild and manageable. Your doctor can prescribe medications to help with nausea if needed.',
+                    considerations: '<strong>Time is critical.</strong> Must be started within 72 hours of exposure. Go to an ER, urgent care, or your doctor immediately if you think you need PEP. After completing the 28-day course, you will need follow-up HIV testing at 4-6 weeks and again at 3 months to confirm your status.',
+                    color: 'amber'
+                }
+            ]
+        },
+        es: {
+            header_title: "Guía de Prevención del VIH",
+            main_title: "Su Guía de Profilaxis del VIH",
+            main_subtitle: "Explore las potentes opciones médicas disponibles para prevenir el VIH. La profilaxis significa tomar medidas para prevenir una enfermedad antes de que ocurra. Aprenda sobre la PrEP (para antes de la exposición) y la PEP (para después de la exposición).",
+            guide_title: "¿Qué Método de Prevención Necesita?",
+            guide_question: "Para encontrar la información correcta, seleccione la afirmación que mejor describa su situación:",
+            guide_prep_title: "Quiero protección continua.",
+            guide_prep_desc: "Estoy buscando un método regular para reducir mi riesgo de contraer el VIH en el futuro.",
+            guide_pep_title: "Necesito ayuda después de un solo evento.",
+            guide_pep_desc: "Creo que acabo de estar expuesto al VIH en los últimos 3 días y necesito una opción de emergencia.",
+            guide_prep_recommendation: "Parece que está interesado en la prevención continua. Debería explorar la <strong>PrEP (Profilaxis Pre-Exposición)</strong>. Primero, revise la lista de verificación a continuación para ver si la PrEP podría ser una buena opción para usted, luego explore las diferentes opciones de PrEP disponibles.",
+            guide_pep_recommendation: "Parece que necesita una opción de emergencia. Debería informarse sobre la <strong>PEP (Profilaxis Post-Exposición)</strong> de inmediato. Desplácese a la sección de PEP para más información. <strong>Recuerde: La PEP debe iniciarse dentro de las 72 horas. Contacte a un médico o vaya a una clínica de atención de urgencia de inmediato.</strong>",
+            who_should_consider_prep_title: "¿Es la PrEP Adecuada para Usted?",
+            who_should_consider_prep_subtitle: "La PrEP es una herramienta poderosa. Hable con su médico al respecto si es VIH negativo y alguna de las siguientes situaciones se aplica a usted:",
+            prep_checklist: [
+                "Tiene una pareja sexual con VIH (especialmente si su carga viral es desconocida o detectable).",
+                "No usa condones de manera consistente para el sexo anal o vaginal.",
+                "Ha sido diagnosticado con una ITS como gonorrea, clamidia o sífilis en los últimos 6 meses.",
+                "Se inyecta drogas y comparte agujas u otro equipo.",
+                "Su pareja participa en cualquiera de los comportamientos anteriores."
+            ],
+            prep_section_title: "PrEP: Opciones de Prevención Continua del VIH",
+            prep_section_subtitle: "La PrEP es para personas VIH negativas para reducir su riesgo de contraer el VIH a través de relaciones sexuales o el uso de drogas inyectables. Cuando se toma según lo prescrito, la PrEP es altamente efectiva. Ahora existen varias formas diferentes de tomar la PrEP.",
+            pep_section_title: "PEP: Prevención de Emergencia del VIH",
+            pep_section_subtitle: "La PEP es un tratamiento de 28 días de medicamentos que se toma para prevenir el VIH después de un único evento de alto riesgo. Debe iniciarse dentro de las 72 horas (3 días) de la posible exposición.",
+            back_button: "Volver",
+            footer_disclaimer: "Esta guía proporciona información general y no sustituye el consejo médico profesional. Siempre consulte con su proveedor de atención médica para determinar la mejor estrategia de prevención para usted.",
+            footer_source_intro: "El contenido se basa en información de:",
+            prep_options: [
+                {
+                    icon: '💊',
+                    title: 'PrEP Oral (Píldoras Diarias)',
+                    brands: 'Truvada® (y genéricos), Descovy®',
+                    how_to_take: 'Una píldora que se toma una vez al día para mantener un nivel protector del medicamento en su cuerpo.',
+                    side_effects: 'La mayoría de las personas no tienen efectos secundarios. Algunos pueden experimentar náuseas, dolores de cabeza o fatiga temporales al comenzar. A largo plazo, los efectos raros pueden incluir cambios en la función renal o la densidad ósea, que su médico monitoreará con pruebas de laboratorio de rutina.',
+                    considerations: 'Requiere una prueba de VIH negativa para comenzar y citas de seguimiento regulares cada 3 meses para pruebas y resurtidos de recetas. Descovy no se recomienda para personas en riesgo a través de relaciones sexuales vaginales receptivas, ya que su eficacia no ha sido estudiada para este tipo de exposición.',
+                    color: 'blue'
+                },
+                {
+                    icon: '🗓️',
+                    title: 'PrEP a Demanda ("2-1-1")',
+                    brands: 'SOLAMENTE Truvada® (o genérico)',
+                    how_to_take: 'Un esquema alternativo para hombres cisgénero que tienen sexo con hombres. Implica tomar 2 pastillas de 2 a 24 horas antes de planear tener relaciones sexuales, luego 1 pastilla 24 horas después de la primera dosis y una pastilla final 24 horas después de la segunda.',
+                    side_effects: 'Similar a la PrEP oral diaria, pero puede ser menos frecuente debido al uso intermitente.',
+                    considerations: 'Esta es una estrategia "fuera de etiqueta" pero efectiva solo para sexo planificado. No es para sexo espontáneo y no se recomienda para personas en riesgo a través de sexo vaginal receptivo o para quienes se inyectan drogas. Debe discutir esta estrategia específica con su médico.',
+                    color: 'purple'
+                },
+                {
+                    icon: '💉',
+                    title: 'PrEP Inyectable (Cada 2 Meses)',
+                    brands: 'Apretude®',
+                    how_to_take: 'Una inyección de acción prolongada administrada por un proveedor de atención médica cada dos meses (después de las inyecciones iniciales de inicio).',
+                    side_effects: 'El efecto secundario más común es dolor, hinchazón o enrojecimiento en el lugar de la inyección. Otros efectos menos comunes pueden incluir dolor de cabeza, fiebre o sarpullido.',
+                    considerations: 'Una gran opción para quienes prefieren no tomar una píldora diaria. Requiere citas programadas con un proveedor de atención médica para las inyecciones. Debe estar al día con sus inyecciones para mantenerse protegido.',
+                    color: 'teal'
+                },
+                {
+                    icon: '💉',
+                    title: 'PrEP Inyectable (Dos Veces al Año)',
+                    brands: 'Yeztugo® (Lenacapavir)',
+                    how_to_take: 'Una nueva inyección de acción prolongada administrada por un proveedor de atención médica solo dos veces al año (cada seis meses) después de una dosis de carga inicial de píldoras e inyecciones.',
+                    side_effects: 'Similar a otras inyecciones, las reacciones en el lugar de la inyección son las más comunes. Su médico discutirá el perfil completo de efectos secundarios.',
+                    considerations: 'Ofrece la mayor comodidad con solo dos inyecciones al año. Como opción más nueva, hable con su proveedor para ver si es adecuada para usted.',
+                    color: 'cyan'
+                }
+            ],
+            pep_options: [
+                 {
+                    icon: '💊',
+                    title: 'Régimen de PEP',
+                    brands: 'Generalmente un régimen de 3 fármacos. Puede incluir Biktarvy®, o una combinación de Tivicay® + Truvada®/Descovy®.',
+                    how_to_take: 'Un tratamiento de 28 días de medicamentos contra el VIH que se toma para prevenir la infección después de una posible exposición.',
+                    side_effects: 'Las náuseas y la fatiga son los efectos secundarios más comunes. Efectos menos comunes pueden incluir diarrea o dolor de cabeza. Suelen ser leves y manejables. Su médico puede recetarle medicamentos para ayudar con las náuseas si es necesario.',
+                    considerations: '<strong>El tiempo es crítico.</strong> Debe iniciarse dentro de las 72 horas posteriores a la exposición. Vaya a una sala de emergencias, a una clínica de atención de urgencia o a su médico de inmediato si cree que necesita la PEP. Después de completar el curso de 28 días, necesitará pruebas de seguimiento del VIH a las 4-6 semanas y nuevamente a los 3 meses para confirmar su estado.',
+                    color: 'amber'
+                }
+            ]
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderContent() {
+        const t = translations[currentLanguage];
+        
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key] && typeof t[key] === 'string') {
+                 el.innerHTML = t[key];
+            }
+        });
+
+        renderChecklist('prep-checklist', t.prep_checklist);
+        renderCards('prep-cards-container', t.prep_options);
+        renderCards('pep-cards-container', t.pep_options);
+    }
+
+    function renderChecklist(containerId, data) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        data.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'flex items-start';
+            li.innerHTML = `
+                <svg class="flex-shrink-0 h-6 w-6 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="text-slate-700">${item}</span>
+            `;
+            container.appendChild(li);
+        });
+    }
+
+    function renderCards(containerId, data) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        data.forEach(item => {
+            const card = document.createElement('div');
+            card.className = `bg-white rounded-xl shadow-lg p-6 border-t-4 border-${item.color}-500 flex flex-col`;
+            card.innerHTML = `
+                <div class="flex items-center mb-4">
+                    <span class="text-4xl mr-4">${item.icon}</span>
+                    <div>
+                        <h4 class="text-xl font-bold text-slate-800">${item.title}</h4>
+                        <p class="text-sm font-semibold text-${item.color}-600">${item.brands}</p>
+                    </div>
+                </div>
+                <div class="text-slate-600 space-y-4">
+                    <p><strong class="text-slate-800">How it's taken:</strong> ${item.how_to_take}</p>
+                    <p><strong class="text-slate-800">Common Side Effects:</strong> ${item.side_effects}</p>
+                    <p><strong class="text-slate-800">Special Considerations:</strong> ${item.considerations}</p>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.documentElement.lang = lang;
+        document.querySelectorAll('.js-lang-en').forEach(btn => btn.classList.toggle('active', lang === 'en'));
+        document.querySelectorAll('.js-lang-es').forEach(btn => btn.classList.toggle('active', lang === 'es'));
+        renderContent();
+    }
+    
+    document.querySelectorAll('.js-lang-en').forEach(btn => btn.addEventListener('click', () => changeLanguage('en')));
+    document.querySelectorAll('.js-lang-es').forEach(btn => btn.addEventListener('click', () => changeLanguage('es')));
+    
+    document.querySelectorAll('.js-show-google').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const parentSelector = e.currentTarget.closest('.js-lang-selector');
+            parentSelector.querySelector('.js-native-toggle').classList.add('hidden');
+            const googleToggle = parentSelector.querySelector('.js-google-toggle');
+            googleToggle.classList.remove('hidden');
+            googleToggle.classList.add('flex');
+        });
+    });
+
+    document.querySelectorAll('.js-back-native').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const parentSelector = e.currentTarget.closest('.js-lang-selector');
+            parentSelector.querySelector('.js-native-toggle').classList.remove('hidden');
+            const googleToggle = parentSelector.querySelector('.js-google-toggle');
+            googleToggle.classList.add('hidden');
+            googleToggle.classList.remove('flex');
+            
+            const googleCookie = document.cookie.match(/googtrans=([^\;]+)/);
+            if (googleCookie) {
+                document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+                document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + window.location.hostname;
+            }
+            
+            changeLanguage(currentLanguage);
+            location.reload();
+        });
+    });
+
+    const guidePrepBtn = document.getElementById('guide-prep');
+    const guidePepBtn = document.getElementById('guide-pep');
+    const recommendationDiv = document.getElementById('guide-recommendation');
+
+    guidePrepBtn.addEventListener('click', () => {
+        const t = translations[currentLanguage];
+        recommendationDiv.innerHTML = `<p>${t.guide_prep_recommendation}</p>`;
+        recommendationDiv.className = 'mt-6 p-6 bg-blue-50 border-2 border-blue-200 rounded-lg';
+        document.getElementById('who-is-prep-for').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    guidePepBtn.addEventListener('click', () => {
+        const t = translations[currentLanguage];
+        recommendationDiv.innerHTML = `<p>${t.guide_pep_recommendation}</p>`;
+        recommendationDiv.className = 'mt-6 p-6 bg-amber-50 border-2 border-amber-200 rounded-lg';
+        document.getElementById('pep-section').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    changeLanguage('en');
+
+});
+</script>
+
+</body>
+</html>

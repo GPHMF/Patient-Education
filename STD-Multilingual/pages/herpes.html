@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Patient's Guide to Herpes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0d9488; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple { background-color: white !important; border: 1px solid #9ca3af !important; border-radius: 0.375rem !important; padding: 0.25rem 0.5rem !important; display: inline-block; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #374151 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .info-tab { cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; }
+        .info-tab.active { border-bottom-color: #14b8a6; color: #0f766e; font-weight: 600; }
+        .info-content { display: none; }
+        .info-content.active { display: block; }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../landing.html" class="text-sm font-medium text-teal-600 hover:text-teal-800" data-translate="back_link"></a>
+                    <span class="mx-2 text-slate-300">|</span>
+                    <h1 class="text-lg font-bold text-slate-800" data-translate="header_title"></h1>
+                </div>
+                <div class="flex items-center">
+                    <div id="lang-selector" class="flex items-center shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-600 hover:underline" data-translate="lang_back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl mx-auto">
+            <header class="text-center mb-10">
+                <h2 class="text-4xl font-bold text-slate-900" data-translate="main_title"></h2>
+                <p class="mt-3 text-lg text-slate-600" data-translate="main_subtitle"></p>
+            </header>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="what_is_it_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4" data-translate="what_is_it_desc"></p>
+                    <div class="border-t border-slate-200 mt-4 pt-4">
+                        <div class="border-b border-slate-200 mb-4">
+                            <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+                                <button id="tab-hsv1" class="info-tab py-3 px-1 text-base font-medium" data-translate="hsv1_tab"></button>
+                                <button id="tab-hsv2" class="info-tab py-3 px-1 text-base font-medium" data-translate="hsv2_tab"></button>
+                            </nav>
+                        </div>
+                        <div id="content-hsv1" class="info-content"></div>
+                        <div id="content-hsv2" class="info-content"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="symptoms_title"></h3>
+                <div id="symptoms_content" class="space-y-6"></div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="transmission_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                     <p class="mb-4" data-translate="transmission_desc"></p>
+                     <div class="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-lg">
+                        <p class="font-bold" data-translate="transmission_shedding_title"></p>
+                        <p data-translate="transmission_shedding_desc"></p>
+                     </div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="diagnosis_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4" data-translate="diagnosis_desc"></p>
+                    <div id="diagnosis_tests" class="space-y-4"></div>
+                </div>
+            </section>
+            
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="treatment_title"></h3>
+                <p class="mb-4 text-slate-600" data-translate="treatment_desc"></p>
+                <div id="treatment_content" class="grid md:grid-cols-2 gap-6"></div>
+            </section>
+            
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="living_well_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4" data-translate="living_well_desc"></p>
+                    <div id="living_well_content" class="space-y-3"></div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="complications_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4" data-translate="complications_desc"></p>
+                    <div id="complications_list" class="space-y-3"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="mt-12 border-t border-slate-200 bg-white">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm text-slate-500">
+            <p data-translate="footer_disclaimer"></p>
+            <a href="../landing.html" class="font-semibold text-teal-600 hover:underline mt-2 inline-block" data-translate="footer_link"></a>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                back_link: "← Back to Main Guide",
+                header_title: "Guide to Herpes",
+                lang_back_button: "Back",
+                main_title: "Understanding Genital Herpes",
+                main_subtitle: "A common, lifelong viral infection that is manageable with effective medication. Learn the facts to reduce stigma and take control of your health.",
+                what_is_it_title: "What is Genital Herpes?",
+                what_is_it_desc: "Genital herpes is a common STI caused by two types of the herpes simplex virus (HSV). It's important to know that there is no cure, but highly effective medications are available to manage the condition, reduce symptoms, and lower the risk of transmission to partners.",
+                hsv1_tab: "Herpes Simplex Virus Type 1 (HSV-1)",
+                hsv2_tab: "Herpes Simplex Virus Type 2 (HSV-2)",
+                hsv1_content: "This is the virus that most commonly causes oral herpes (cold sores or fever blisters) around the mouth. However, it is increasingly a cause of genital herpes, transmitted to the genital area through oral-genital sex.",
+                hsv2_content: "This is the virus that most commonly causes genital herpes. It is spread mainly through genital-to-genital sexual contact.",
+                symptoms_title: "Symptoms: Outbreaks and Recurrences",
+                symptoms_first_outbreak_title: "The First Outbreak",
+                symptoms_first_outbreak_desc: "The initial episode is often the most severe. It may begin with flu-like symptoms (fever, body aches) followed by one or more painful blisters or open sores on or around the genitals, rectum, or mouth. These take a few weeks to heal.",
+                symptoms_recurrent_outbreaks_title: "Recurrent Outbreaks",
+                symptoms_recurrent_outbreaks_desc: "After the first outbreak, the virus remains dormant in nearby nerves and can reactivate. These recurrences are typically shorter and less severe. Some people feel a warning sensation like tingling or itching before a new outbreak begins.",
+                symptoms_triggers_title: "Common Outbreak Triggers",
+                symptoms_triggers_desc: "While triggers vary from person to person, some common ones include: stress, illness (like a cold or flu), fatigue, friction or irritation in the genital area, and menstruation.",
+                transmission_title: "How is Herpes Spread?",
+                transmission_desc: "Herpes is spread through direct skin-to-skin contact with an infected area. This can happen during vaginal, anal, or oral sex. Because condoms do not cover all genital skin, they reduce the risk of transmission but do not eliminate it completely.",
+                transmission_shedding_title: "Important: Asymptomatic Viral Shedding",
+                transmission_shedding_desc: "One of the most important things to understand about herpes is that the virus can be released ('shed') from the skin even when there are no sores or symptoms present. This is how many people get herpes from a partner who didn't know they had it.",
+                diagnosis_title: "How Is It Diagnosed?",
+                diagnosis_desc: "The most reliable way to diagnose a genital herpes outbreak is for a healthcare provider to take a sample from a fresh sore. Blood tests are also available but have important limitations.",
+                diagnosis_tests: [
+                    { title: "Swab Test (Viral Culture or PCR)", desc: "A provider takes a sample of fluid from a sore. A PCR test, which looks for the virus's genetic material, is the most accurate method for confirming an active outbreak." },
+                    { title: "Blood Test (Serology)", desc: "This test looks for antibodies to the herpes virus in your blood. It can tell you if you have herpes and which type (HSV-1 or HSV-2). However, it cannot tell you the location of the infection (oral or genital) or when you were infected." }
+                ],
+                treatment_title: "Managing Herpes: Two Treatment Strategies",
+                treatment_desc: "While there is no cure, antiviral medications (like acyclovir, valacyclovir, and famciclovir) are very effective at managing the infection.",
+                treatment_episodic_title: "Episodic Therapy",
+                treatment_episodic_desc: "This involves taking medication at the very first sign of an outbreak. This can shorten the duration of the outbreak and make symptoms less severe. It's best for people who have infrequent outbreaks.",
+                treatment_suppressive_title: "Suppressive Therapy",
+                treatment_suppressive_desc: "This involves taking a lower dose of antiviral medication every day. It is highly effective at preventing or reducing the frequency of outbreaks and significantly reduces the risk of passing the virus to a partner.",
+                living_well_title: "Living Well with Herpes",
+                living_well_desc: "A herpes diagnosis can feel overwhelming, but millions of people live full and healthy lives with it. Managing the emotional side is just as important as managing the physical symptoms.",
+                living_well_content: [
+                    "<strong>Accept your feelings:</strong> It's normal to feel angry, sad, or worried. Allow yourself time to process the diagnosis.",
+                    "<strong>Educate yourself:</strong> Learning the facts about herpes is the best way to combat fear and stigma. You are not 'unclean' or 'damaged'—you have a very common, manageable skin condition.",
+                    "<strong>Talk to your partner(s):</strong> Honesty is crucial. Have an open conversation about your diagnosis, what it means, and how you can have a safe and healthy sex life together (e.g., using condoms and suppressive therapy).",
+                    "<strong>Find support:</strong> You are not alone. Consider talking to a trusted friend, a therapist, or joining a support group. Sharing your experience can be very empowering."
+                ],
+                complications_title: "Potential Complications",
+                complications_desc: "For most healthy adults, genital herpes does not cause serious long-term physical complications. However, there are some important health risks:",
+                complications_list: ["<strong>Neonatal Herpes:</strong> This is a rare but very serious risk. If a pregnant person has an active genital herpes outbreak during delivery, the virus can be passed to the baby, causing a severe and potentially fatal infection. It is crucial to tell your doctor if you have herpes so they can take steps to protect your baby.", "<strong>Increased HIV Risk:</strong> Having active herpes sores creates breaks in the skin, which makes it easier to acquire or transmit HIV during sexual contact."],
+            },
+            es: {
+                back_link: "← Volver a la Guía Principal",
+                header_title: "Guía sobre el Herpes",
+                lang_back_button: "Volver",
+                main_title: "Entendiendo el Herpes Genital",
+                main_subtitle: "Una infección viral común y de por vida que se puede controlar con medicamentos eficaces. Conozca los hechos para reducir el estigma y tomar el control de su salud.",
+                what_is_it_title: "¿Qué es el Herpes Genital?",
+                what_is_it_desc: "El herpes genital es una ITS común causada por dos tipos del virus del herpes simple (VHS). Es importante saber que no tiene cura, pero existen medicamentos muy eficaces para controlar la afección, reducir los síntomas y disminuir el riesgo de transmisión a las parejas.",
+                hsv1_tab: "Virus del Herpes Simple Tipo 1 (VHS-1)",
+                hsv2_tab: "Virus del Herpes Simple Tipo 2 (VHS-2)",
+                hsv1_content: "Este es el virus que más comúnmente causa el herpes oral (herpes labial o ampollas febriles) alrededor de la boca. Sin embargo, es una causa cada vez más frecuente de herpes genital, transmitido al área genital a través del sexo oral-genital.",
+                hsv2_content: "Este es el virus que más comúnmente causa el herpes genital. Se transmite principalmente a través del contacto sexual genital-genital.",
+                symptoms_title: "Síntomas: Brotes y Recurrencias",
+                symptoms_first_outbreak_title: "El Primer Brote",
+                symptoms_first_outbreak_desc: "El episodio inicial suele ser el más grave. Puede comenzar con síntomas parecidos a la gripe (fiebre, dolores corporales) seguidos de una o más ampollas dolorosas o llagas abiertas en o alrededor de los genitales, el recto o la boca. Tardan unas semanas en sanar.",
+                symptoms_recurrent_outbreaks_title: "Brotes Recurrentes",
+                symptoms_recurrent_outbreaks_desc: "Después del primer brote, el virus permanece latente en los nervios cercanos y puede reactivarse. Estas recurrencias suelen ser más cortas y menos graves. Algunas personas sienten una sensación de advertencia como hormigueo o picazón antes de un nuevo brote.",
+                symptoms_triggers_title: "Desencadenantes Comunes de Brotes",
+                symptoms_triggers_desc: "Aunque los desencadenantes varían de persona a persona, algunos comunes incluyen: estrés, enfermedades (como un resfriado o gripe), fatiga, fricción o irritación en el área genital y la menstruación.",
+                transmission_title: "¿Cómo se Propaga el Herpes?",
+                transmission_desc: "El herpes se transmite a través del contacto directo piel con piel con un área infectada. Esto puede ocurrir durante el sexo vaginal, anal u oral. Debido a que los condones no cubren toda la piel genital, reducen el riesgo de transmisión pero no lo eliminan por completo.",
+                transmission_shedding_title: "Importante: Excreción Viral Asintomática",
+                transmission_shedding_desc: "Una de las cosas más importantes que debe entender sobre el herpes es que el virus puede liberarse ('excretarse') de la piel incluso cuando no hay llagas ni síntomas presentes. Así es como muchas personas contraen herpes de una pareja que no sabía que lo tenía.",
+                diagnosis_title: "¿Cómo se Diagnostica?",
+                diagnosis_desc: "La forma más confiable de diagnosticar un brote de herpes genital es que un proveedor de atención médica tome una muestra de una llaga fresca. También existen análisis de sangre, pero tienen limitaciones importantes.",
+                diagnosis_tests: [
+                    { title: "Prueba con Hisopo (Cultivo Viral o PCR)", desc: "Un proveedor toma una muestra de líquido de una llaga. Una prueba de PCR, que busca el material genético del virus, es el método más preciso para confirmar un brote activo." },
+                    { title: "Análisis de Sangre (Serología)", desc: "Esta prueba busca anticuerpos contra el virus del herpes en la sangre. Puede decirle si tiene herpes y de qué tipo (VHS-1 o VHS-2). Sin embargo, no puede decirle la ubicación de la infección (oral o genital) ni cuándo se infectó." }
+                ],
+                treatment_title: "Manejo del Herpes: Dos Estrategias de Tratamiento",
+                treatment_desc: "Aunque no hay cura, los medicamentos antivirales (como aciclovir, valaciclovir y famciclovir) son muy eficaces para controlar la infección.",
+                treatment_episodic_title: "Terapia Episódica",
+                treatment_episodic_desc: "Consiste en tomar medicamentos ante la primera señal de un brote. Esto puede acortar la duración del brote y hacer que los síntomas sean menos graves. Es ideal para personas con brotes poco frecuentes.",
+                treatment_suppressive_title: "Terapia Supresora",
+                treatment_suppressive_desc: "Consiste en tomar una dosis más baja de medicamento antiviral todos los días. Es muy eficaz para prevenir o reducir la frecuencia de los brotes y reduce significativamente el riesgo de transmitir el virus a una pareja.",
+                living_well_title: "Vivir Bien con Herpes",
+                living_well_desc: "Un diagnóstico de herpes puede ser abrumador, pero millones de personas viven vidas plenas y saludables con él. Manejar el lado emocional es tan importante como manejar los síntomas físicos.",
+                living_well_content: [
+                    "<strong>Acepte sus sentimientos:</strong> Es normal sentir ira, tristeza o preocupación. Permítase tiempo para procesar el diagnóstico.",
+                    "<strong>Edúquese:</strong> Aprender los hechos sobre el herpes es la mejor manera de combatir el miedo y el estigma. No está 'sucio' o 'dañado', tiene una afección cutánea muy común y manejable.",
+                    "<strong>Hable con su(s) pareja(s):</strong> La honestidad es crucial. Tenga una conversación abierta sobre su diagnóstico, lo que significa y cómo pueden tener una vida sexual segura y saludable juntos (p. ej., usando condones y terapia supresora).",
+                    "<strong>Encuentre apoyo:</strong> No está solo. Considere hablar con un amigo de confianza, un terapeuta o unirse a un grupo de apoyo. Compartir su experiencia puede ser muy empoderador."
+                ],
+                complications_title: "Posibles Complicaciones",
+                complications_desc: "Para la mayoría de los adultos sanos, el herpes genital no causa complicaciones físicas graves a largo plazo. Sin embargo, existen algunos riesgos importantes para la salud:",
+                complications_list: ["<strong>Herpes Neonatal:</strong> Este es un riesgo raro pero muy grave. Si una persona embarazada tiene un brote de herpes genital activo durante el parto, el virus puede transmitirse al bebé, causando una infección grave y potencialmente mortal. Es crucial que le diga a su médico si tiene herpes para que puedan tomar medidas para proteger a su bebé.", "<strong>Mayor Riesgo de VIH:</strong> Tener llagas de herpes activas crea roturas en la piel, lo que facilita la adquisición o transmisión del VIH durante el contacto sexual."],
+            }
+        };
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            document.getElementById('content-hsv1').innerHTML = `<p>${t.hsv1_content}</p>`;
+            document.getElementById('content-hsv2').innerHTML = `<p>${t.hsv2_content}</p>`;
+            
+            document.getElementById('symptoms_content').innerHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-400">
+                    <h4 class="text-lg font-bold text-blue-700 mb-2">${t.symptoms_first_outbreak_title}</h4>
+                    <p>${t.symptoms_first_outbreak_desc}</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-400">
+                    <h4 class="text-lg font-bold text-green-700 mb-2">${t.symptoms_recurrent_outbreaks_title}</h4>
+                    <p class="mb-3">${t.symptoms_recurrent_outbreaks_desc}</p>
+                    <div class="bg-slate-50 p-3 rounded-md">
+                        <p class="font-semibold text-sm text-slate-700">${t.symptoms_triggers_title}</p>
+                        <p class="text-sm text-slate-600">${t.symptoms_triggers_desc}</p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('diagnosis_tests').innerHTML = t.diagnosis_tests.map(item => `
+                <div class="bg-slate-50 p-4 rounded-lg border-l-4 border-slate-300">
+                    <p class="font-semibold text-slate-800">${item.title}</p>
+                    <p class="text-slate-600 text-sm">${item.desc}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('treatment_content').innerHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-400">
+                    <h4 class="text-lg font-bold text-purple-700 mb-2">${t.treatment_episodic_title}</h4>
+                    <p>${t.treatment_episodic_desc}</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-400">
+                    <h4 class="text-lg font-bold text-indigo-700 mb-2">${t.treatment_suppressive_title}</h4>
+                    <p>${t.treatment_suppressive_desc}</p>
+                </div>
+            `;
+
+            document.getElementById('living_well_content').innerHTML = t.living_well_content.map(item => `
+                <div class="flex items-start">
+                    <span class="text-teal-500 mr-3 mt-1">✓</span>
+                    <p class="text-slate-700">${item}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('complications_list').innerHTML = t.complications_list.map(item => `
+                <div class="flex items-start">
+                    <span class="text-red-500 font-bold mr-3 mt-1">!</span>
+                    <p class="text-slate-700">${item}</p>
+                </div>
+            `).join('');
+        }
+        
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.info-tab');
+            const contents = document.querySelectorAll('.info-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    const contentId = `content-${tab.id.split('-')[1]}`;
+                    document.getElementById(contentId).classList.add('active');
+                });
+            });
+            document.getElementById('tab-hsv1').click();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+        const backToNativeBtn = document.getElementById('back-to-native');
+        
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        showGoogleTranslateBtn.addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        backToNativeBtn.addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        // Initial setup
+        changeLanguage('en');
+        setupTabs();
+    });
+    </script>
+</body>
+</html>

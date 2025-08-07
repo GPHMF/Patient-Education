@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIV & AIDS: Myth vs. Fact</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f8fafc; /* slate-50 */
+            --text-primary: #1e293b; /* slate-800 */
+            --text-secondary: #475569; /* slate-600 */
+            --accent-myth: #dc2626; /* red-600 */
+            --accent-fact: #16a34a; /* green-600 */
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #334155; color: white; }
+
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: var(--text-primary) !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+        
+        .myth-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .myth-card.is-flipped .myth-card-inner {
+            transform: rotateY(180deg);
+        }
+        .myth-card-front, .myth-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .myth-card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-2 flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-bold text-slate-800" data-translate="header_title"></h1>
+            </div>
+            <div class="js-lang-selector flex items-center pl-4 shrink-0">
+                <div class="js-native-toggle flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                        <button class="lang-btn js-lang-en px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button class="lang-btn js-lang-es px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button class="js-show-google ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div class="js-google-toggle hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button class="js-back-native ml-2 text-sm font-semibold text-red-600 hover:underline" data-translate="back_button"></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <section class="text-center mb-12">
+            <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-3" data-translate="main_title"></h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600" data-translate="main_subtitle"></p>
+        </section>
+
+        <section id="myths-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Myth cards will be injected here by JS -->
+        </section>
+
+    </main>
+    
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto py-8 px-4 text-center">
+            <p data-translate="footer_disclaimer"></p>
+            <div class="mt-4">
+                <p class="text-sm text-slate-400" data-translate="footer_source_intro"></p>
+                <div class="flex justify-center space-x-4 mt-2">
+                    <a href="https://www.cdc.gov/hiv/basics/whatishiv.html" target="_blank" class="text-red-300 hover:text-red-200 underline">CDC HIV Basics</a>
+                    <a href="https://www.who.int/news-room/fact-sheets/detail/hiv-aids" target="_blank" class="text-red-300 hover:text-red-200 underline">WHO HIV/AIDS Facts</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const translations = {
+        en: {
+            header_title: "HIV Myth Busting",
+            main_title: "HIV & AIDS: Separating Myth from Fact",
+            main_subtitle: "Misinformation about HIV and AIDS creates fear and stigma. Let's debunk the most common myths with scientific facts. Click on any card to reveal the truth.",
+            back_button: "Back",
+            footer_disclaimer: "This guide provides general information and is not a substitute for professional medical advice. Always consult with your healthcare provider for diagnosis and treatment.",
+            footer_source_intro: "Content is based on information from:",
+            myth_label: "MYTH",
+            fact_label: "FACT",
+            click_to_reveal: "Click to reveal the fact",
+            myths_data: [
+                {
+                    myth: "HIV is a death sentence.",
+                    fact: "This is completely outdated. With modern Antiretroviral Therapy (ART), HIV is a manageable chronic health condition. People with HIV who are on treatment can live long, healthy, and fulfilling lives, with a near-normal life expectancy."
+                },
+                {
+                    myth: "I can get HIV from casual contact (hugging, sharing glasses, toilet seats).",
+                    fact: "Absolutely not. HIV is NOT transmitted through saliva, sweat, tears, or casual contact. You can safely share meals, hug, and use the same facilities as someone living with HIV without any risk."
+                },
+                {
+                    myth: "Mosquitoes can spread HIV.",
+                    fact: "False. HIV is not transmitted by insects. The virus cannot survive or replicate in mosquitoes, so it cannot be passed from one person to another through a bite."
+                },
+                {
+                    myth: "If I'm on treatment, I can stop taking my medicine when I feel better.",
+                    fact: "This is dangerous. ART works by keeping the virus suppressed. If you stop taking your medication, the virus will start replicating again, your viral load will increase, and your immune system will be damaged. You must take your medication every day as prescribed to stay healthy and undetectable."
+                },
+                {
+                    myth: "If both partners have HIV, they don't need to use condoms.",
+                    fact: "It's still recommended to use condoms. You can transmit different strains of HIV to each other, including strains that may be resistant to your current medication (this is called superinfection). Condoms also protect against other STIs."
+                },
+                {
+                    myth: "A positive HIV test means I have AIDS.",
+                    fact: "False. HIV is the virus; AIDS is the most advanced stage of the disease. A positive test means you have the virus. With early diagnosis and consistent treatment, most people with HIV will never develop AIDS."
+                },
+                {
+                    myth: "I'm straight and don't inject drugs, so I can't get HIV.",
+                    fact: "Anyone can get HIV, regardless of sexual orientation, gender, or age. HIV is transmitted through specific activities (like sex without a condom), not by who you are. The majority of new infections globally are from heterosexual contact."
+                },
+                {
+                    myth: "A pregnant person with HIV will automatically pass it to their baby.",
+                    fact: "This is no longer true. With effective ART, a pregnant person can achieve an undetectable viral load, which reduces the risk of transmitting HIV to their baby to less than 1%. This is a major success story in HIV medicine."
+                },
+                {
+                    myth: "There are 'natural' cures for HIV.",
+                    fact: "There is no scientific evidence to support any 'natural' or herbal cure for HIV. The only proven method to control the virus is Antiretroviral Therapy (ART). Stopping ART in favor of unproven remedies is life-threatening."
+                },
+                {
+                    myth: "If I'm on PrEP, I don't need to use condoms.",
+                    fact: "PrEP is highly effective at preventing HIV, but it does not protect against other STIs like syphilis, gonorrhea, or chlamydia. Condoms provide excellent protection against both HIV and other STIs, so using them with PrEP offers more complete sexual health protection."
+                },
+                {
+                    myth: "You can tell if someone has HIV just by looking at them.",
+                    fact: "A person with HIV can look and feel completely healthy, especially when on effective treatment. There are no outward signs of HIV. The only way to know your own or a partner's status is through testing."
+                },
+                {
+                    myth: "U=U (Undetectable = Untransmittable) is just a slogan, not a scientific fact.",
+                    fact: "U=U is one of the most rigorously proven facts in modern medicine, supported by multiple large-scale international studies (like PARTNER 1 & 2) involving thousands of couples. These studies found zero cases of sexual HIV transmission from a partner with a sustained undetectable viral load."
+                },
+                {
+                    myth: "You can't get HIV from oral sex.",
+                    fact: "While the risk is significantly lower than anal or vaginal sex, it is not zero. Transmission is possible, especially if there are cuts, sores, or bleeding gums in the mouth, or if the person performing oral sex has an STI. Using a barrier like a condom or dental dam reduces this risk."
+                },
+                {
+                    myth: "Women with HIV cannot have a healthy, HIV-negative baby.",
+                    fact: "This is untrue. With proper medical care and consistent ART to achieve an undetectable viral load, the risk of transmitting HIV to a baby during pregnancy and childbirth is less than 1%. Women with HIV can and do have healthy, HIV-negative children."
+                },
+                {
+                    myth: "As long as you 'pull out' before ejaculating, you can't transmit HIV.",
+                    fact: "False. Pre-seminal fluid ('pre-cum') can contain HIV and can transmit the virus. The withdrawal method is not an effective strategy for preventing HIV transmission."
+                }
+            ]
+        },
+        es: {
+            header_title: "Desmintiendo Mitos del VIH",
+            main_title: "VIH y SIDA: Separando el Mito de la Realidad",
+            main_subtitle: "La desinformación sobre el VIH y el SIDA crea miedo y estigma. Desmintamos los mitos más comunes con hechos científicos. Haga clic en cualquier tarjeta para revelar la verdad.",
+            back_button: "Volver",
+            footer_disclaimer: "Esta guía proporciona información general y no sustituye el consejo médico profesional. Siempre consulte con su proveedor de atención médica para el diagnóstico y tratamiento.",
+            footer_source_intro: "El contenido se basa en información de:",
+            myth_label: "MITO",
+            fact_label: "REALIDAD",
+            click_to_reveal: "Haga clic para revelar la verdad",
+            myths_data: [
+                {
+                    myth: "El VIH es una sentencia de muerte.",
+                    fact: "Esto está completamente desactualizado. Con la Terapia Antirretroviral (TAR) moderna, el VIH es una condición de salud crónica manejable. Las personas con VIH que están en tratamiento pueden vivir vidas largas, saludables y plenas, con una esperanza de vida casi normal."
+                },
+                {
+                    myth: "Puedo contraer el VIH por contacto casual (abrazos, compartir vasos, asientos de inodoro).",
+                    fact: "Absolutamente no. El VIH NO se transmite a través de la saliva, el sudor, las lágrimas o el contacto casual. Puede compartir comidas, abrazar y usar las mismas instalaciones que alguien que vive con el VIH sin ningún riesgo."
+                },
+                {
+                    myth: "Los mosquitos pueden transmitir el VIH.",
+                    fact: "Falso. El VIH no es transmitido por insectos. El virus no puede sobrevivir ni replicarse en los mosquitos, por lo que no puede pasar de una persona a otra a través de una picadura."
+                },
+                {
+                    myth: "Si estoy en tratamiento, puedo dejar de tomar mi medicina cuando me sienta mejor.",
+                    fact: "Esto es peligroso. La TAR funciona manteniendo el virus suprimido. Si deja de tomar su medicación, el virus comenzará a replicarse nuevamente, su carga viral aumentará y su sistema inmunológico se dañará. Debe tomar su medicación todos los días según lo prescrito para mantenerse saludable e indetectable."
+                },
+                {
+                    myth: "Si ambos en la pareja tienen VIH, no necesitan usar condones.",
+                    fact: "Todavía se recomienda usar condones. Pueden transmitirse diferentes cepas de VIH entre sí, incluidas cepas que pueden ser resistentes a su medicación actual (esto se llama sobreinfección). Los condones también protegen contra otras ITS."
+                },
+                {
+                    myth: "Una prueba de VIH positiva significa que tengo SIDA.",
+                    fact: "Falso. El VIH es el virus; el SIDA es la etapa más avanzada de la enfermedad. Una prueba positiva significa que tiene el virus. Con un diagnóstico temprano y un tratamiento constante, la mayoría de las personas con VIH nunca desarrollarán SIDA."
+                },
+                {
+                    myth: "Soy heterosexual y no me inyecto drogas, así que no puedo contraer el VIH.",
+                    fact: "Cualquier persona puede contraer el VIH, independientemente de su orientación sexual, género o edad. El VIH se transmite a través de actividades específicas (como el sexo sin condón), no por quién es usted. La mayoría de las nuevas infecciones a nivel mundial son por contacto heterosexual."
+                },
+                {
+                    myth: "Una persona embarazada con VIH se lo pasará automáticamente a su bebé.",
+                    fact: "Esto ya no es cierto. Con una TAR eficaz, una persona embarazada puede alcanzar una carga viral indetectable, lo que reduce el riesgo de transmitir el VIH a su bebé a menos del 1%. Esta es una de las grandes historias de éxito en la medicina del VIH."
+                },
+                {
+                    myth: "Existen curas 'naturales' para el VIH.",
+                    fact: "No hay evidencia científica que respalde ninguna cura 'natural' o herbal para el VIH. El único método probado para controlar el virus es la Terapia Antirretroviral (TAR). Dejar la TAR en favor de remedios no probados es una amenaza para la vida."
+                },
+                {
+                    myth: "Si estoy en PrEP, no necesito usar condones.",
+                    fact: "La PrEP es muy eficaz para prevenir el VIH, pero no protege contra otras ITS como la sífilis, la gonorrea o la clamidia. Los condones brindan una excelente protección tanto contra el VIH como contra otras ITS, por lo que usarlos con la PrEP ofrece una protección de salud sexual más completa."
+                },
+                {
+                    myth: "Se puede saber si alguien tiene VIH solo con mirarlo.",
+                    fact: "Una persona con VIH puede verse y sentirse completamente sana, especialmente si sigue un tratamiento eficaz. No hay signos externos del VIH. La única forma de conocer su estado o el de su pareja es mediante una prueba."
+                },
+                {
+                    myth: "I=I (Indetectable = Intransmisible) es solo un eslogan, no un hecho científico.",
+                    fact: "I=I es uno de los hechos más rigurosamente probados en la medicina moderna, respaldado por múltiples estudios internacionales a gran escala (como PARTNER 1 y 2) en los que participaron miles de parejas. Estos estudios encontraron cero casos de transmisión sexual del VIH de una pareja con una carga viral indetectable sostenida."
+                },
+                {
+                    myth: "No se puede contraer el VIH por sexo oral.",
+                    fact: "Aunque el riesgo es significativamente menor que el del sexo anal o vaginal, no es cero. La transmisión es posible, especialmente si hay cortes, llagas o encías sangrantes en la boca, o si la persona que realiza el sexo oral tiene una ITS. Usar una barrera como un condón o una barrera dental reduce este riesgo."
+                },
+                {
+                    myth: "Las mujeres con VIH no pueden tener un bebé sano y sin VIH.",
+                    fact: "Esto es falso. Con la atención médica adecuada y una TAR constante para lograr una carga viral indetectable, el riesgo de transmitir el VIH a un bebé durante el embarazo y el parto es inferior al 1%. Las mujeres con VIH pueden tener y tienen hijos sanos y sin VIH."
+                },
+                {
+                    myth: "Mientras te 'retires' antes de eyacular, no puedes transmitir el VIH.",
+                    fact: "Falso. El líquido preseminal ('pre-eyaculación') puede contener VIH y puede transmitir el virus. El método de retiro no es una estrategia eficaz para prevenir la transmisión del VIH."
+                }
+            ]
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderContent() {
+        const t = translations[currentLanguage];
+        
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key] && typeof t[key] === 'string') {
+                 el.innerHTML = t[key];
+            }
+        });
+        
+        renderMythCards('myths-container', t.myths_data, t.myth_label, t.fact_label, t.click_to_reveal);
+    }
+
+    function renderMythCards(containerId, data, mythLabel, factLabel, clickLabel) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        data.forEach(item => {
+            const cardContainer = document.createElement('div');
+            cardContainer.className = 'myth-card bg-transparent rounded-xl min-h-[18rem] cursor-pointer group';
+            cardContainer.style.perspective = '1000px';
+
+            const cardInner = document.createElement('div');
+            cardInner.className = 'myth-card-inner';
+
+            const cardFront = document.createElement('div');
+            cardFront.className = 'myth-card-front bg-gradient-to-br from-red-50 to-rose-100';
+            cardFront.innerHTML = `
+                <div class="flex flex-col h-full text-center">
+                    <div class="flex-shrink-0 p-4 border-b border-red-200">
+                        <div class="flex items-center justify-center">
+                            <svg class="h-6 w-6 text-red-600 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                            <h4 class="text-lg font-bold text-red-700">${mythLabel}</h4>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex items-center justify-center p-4">
+                        <p class="text-xl font-semibold text-slate-800">${item.myth}</p>
+                    </div>
+                    <div class="flex-shrink-0 p-2 text-xs text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                        ${clickLabel}
+                    </div>
+                </div>
+            `;
+
+            const cardBack = document.createElement('div');
+            cardBack.className = 'myth-card-back bg-gradient-to-br from-green-50 to-emerald-100';
+            cardBack.innerHTML = `
+                <div class="flex flex-col h-full">
+                     <div class="flex-shrink-0 p-4 border-b border-green-200">
+                        <div class="flex items-center">
+                            <svg class="h-6 w-6 text-green-600 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <h4 class="text-lg font-bold text-green-700">${factLabel}</h4>
+                        </div>
+                    </div>
+                    <div class="flex-grow p-4">
+                         <p class="text-slate-700">${item.fact}</p>
+                    </div>
+                </div>
+            `;
+            
+            cardInner.appendChild(cardFront);
+            cardInner.appendChild(cardBack);
+            cardContainer.appendChild(cardInner);
+            container.appendChild(cardContainer);
+
+            cardContainer.addEventListener('click', () => {
+                cardContainer.classList.toggle('is-flipped');
+            });
+        });
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.documentElement.lang = lang;
+        document.querySelectorAll('.js-lang-en').forEach(btn => btn.classList.toggle('active', lang === 'en'));
+        document.querySelectorAll('.js-lang-es').forEach(btn => btn.classList.toggle('active', lang === 'es'));
+        renderContent();
+    }
+    
+    document.querySelectorAll('.js-lang-en').forEach(btn => btn.addEventListener('click', () => changeLanguage('en')));
+    document.querySelectorAll('.js-lang-es').forEach(btn => btn.addEventListener('click', () => changeLanguage('es')));
+    
+    document.querySelectorAll('.js-show-google').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const parentSelector = e.currentTarget.closest('.js-lang-selector');
+            parentSelector.querySelector('.js-native-toggle').classList.add('hidden');
+            const googleToggle = parentSelector.querySelector('.js-google-toggle');
+            googleToggle.classList.remove('hidden');
+            googleToggle.classList.add('flex');
+        });
+    });
+
+    document.querySelectorAll('.js-back-native').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const parentSelector = e.currentTarget.closest('.js-lang-selector');
+            parentSelector.querySelector('.js-native-toggle').classList.remove('hidden');
+            const googleToggle = parentSelector.querySelector('.js-google-toggle');
+            googleToggle.classList.add('hidden');
+            googleToggle.classList.remove('flex');
+            
+            const googleCookie = document.cookie.match(/googtrans=([^\;]+)/);
+            if (googleCookie) {
+                document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+                document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + window.location.hostname;
+            }
+            
+            changeLanguage(currentLanguage);
+            location.reload();
+        });
+    });
+
+    changeLanguage('en');
+
+});
+</script>
+
+</body>
+</html>

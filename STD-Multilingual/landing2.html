@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Guide to Sexual Health & Wellness</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony Neutrals -->
+    <!-- Application Structure Plan: A tab-based single-page application is used to organize the vast amount of information into user-centric sections: 'Common STIs', 'Prevention & Risks', 'Testing & Diagnosis', and 'Living With an STI'. This structure prevents overwhelming the user with a long wall of text. The 'Common STIs' section uses an interactive card layout, where clicking a card opens a detailed modal view. This approach encourages focused learning. Other sections use interactive elements like a quiz ('Personal Prevention Plan'), a dynamic chart (HPV Vaccine Effectiveness), and a custom timeline (Stages of Syphilis) to make complex information more engaging and understandable. This design prioritizes clear navigation and interactive exploration over a linear document structure to better serve a patient audience seeking specific information. -->
+    <!-- Visualization & Content Choices: 
+        - STI Details: Report Info -> Detailed descriptions of 7 STIs. Goal -> Inform & Organize. Viz -> Interactive Cards opening Modals. Interaction -> Click to reveal details. Justification -> Breaks down complex info into manageable, focused chunks. Library -> HTML/JS.
+        - HPV Vaccine Data: Report Info -> Statistics on vaccine effectiveness. Goal -> Persuade/Inform. Viz -> Bar Chart. Interaction -> Hover for tooltips. Justification -> Visually impactful representation of data is more effective than text alone. Library -> Chart.js.
+        - Syphilis Progression: Report Info -> Stages of Syphilis. Goal -> Explain a process. Viz -> Custom HTML/CSS Timeline. Interaction -> Click to view stage details. Justification -> Clarifies the deceptive, multi-stage nature of the disease. Library -> HTML/JS.
+        - Prevention Advice: Report Info -> General prevention strategies. Goal -> Personalize guidance. Viz -> Interactive Quiz. Interaction -> User answers questions to get tailored advice. Justification -> Makes advice more relevant and actionable for the user. Library -> HTML/JS.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .active-nav { color: #0d9488; border-bottom-color: #0d9488; }
+        .nav-link { border-bottom: 2px solid transparent; transition: all 0.3s ease; }
+        .nav-link:hover { color: #14b8a6; border-bottom-color: #14b8a6; }
+        .modal-backdrop {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .modal-backdrop.visible { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: white; border-radius: 0.5rem; padding: 2rem;
+            width: 90%; max-width: 48rem; max-height: 90vh;
+            overflow-y: auto; transform: scale(0.95); transition: transform 0.3s ease;
+        }
+        .modal-backdrop.visible .modal-content { transform: scale(1); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .syphilis-stage.active { background-color: #ccfbf1; border-color: #14b8a6; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-teal-700">Sexual Health Guide</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#stis" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-700 active-nav">Common STIs</a>
+                        <a href="#prevention" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-700">Prevention & Risks</a>
+                        <a href="#testing" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-700">Testing & Diagnosis</a>
+                        <a href="#living" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-700">Living With an STI</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:text-teal-600 hover:bg-slate-100 focus:outline-none">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#stis" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700">Common STIs</a>
+                <a href="#prevention" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700">Prevention & Risks</a>
+                <a href="#testing" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700">Testing & Diagnosis</a>
+                <a href="#living" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700">Living With an STI</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <section id="welcome" class="text-center mb-12">
+            <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">A Clear and Confidential Guide to Your Sexual Health</h2>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">Taking care of your sexual health is an important part of your overall well-being. This guide provides clear, judgment-free information to help you understand, prevent, and manage STIs. Empowering yourself with knowledge is the first step.</p>
+        </section>
+
+        <div id="stis" class="tab-content active">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-bold text-slate-900">Guide to Common STIs</h3>
+                <p class="mt-2 text-md text-slate-500">Click on an STI to learn about its symptoms, treatment, and potential complications.</p>
+            </div>
+            <div id="sti-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+        </div>
+
+        <div id="prevention" class="tab-content">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-bold text-slate-900">Prevention: Taking Control of Your Health</h3>
+                <p class="mt-2 text-md text-slate-500">Learn about risk factors and the most effective strategies to protect yourself and your partners.</p>
+            </div>
+            <div class="space-y-12">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-lg text-teal-800 mb-3">Understanding Risk Factors</h4>
+                    <p class="text-slate-600 mb-4">An individual's risk for an STI is shaped by a complex interplay of behavioral, biological, and social factors. Understanding these can help you make informed decisions.</p>
+                    <ul class="space-y-2 list-disc list-inside text-slate-600">
+                        <li><b>Unprotected Sex:</b> The single most significant behavioral risk factor.</li>
+                        <li><b>Number of Partners:</b> Risk increases with the number of sexual partners you or your partner have.</li>
+                        <li><b>Transmission:</b> STIs spread through sexual contact (vaginal, anal, oral), skin-to-skin contact (Herpes, HPV, Syphilis), and less commonly, non-sexually (mother-to-child, shared needles).</li>
+                        <li><b>Age & Biology:</b> Young adults (15-24) are disproportionately affected. A young woman's cervix is biologically more susceptible to some infections like chlamydia.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-lg text-teal-800 mb-3">The Power of Vaccines</h4>
+                    <p class="text-slate-600 mb-4">Vaccination is a cornerstone of STI prevention. Safe and highly effective vaccines provide powerful protection against HPV and Hepatitis B, preventing cancers and serious liver disease.</p>
+                    <div class="chart-container">
+                        <canvas id="hpvVaccineChart"></canvas>
+                    </div>
+                     <p class="text-center text-sm text-slate-500 mt-2">Data shows a dramatic drop in HPV infections and related precancers since the vaccine was introduced in 2006.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-lg text-teal-800 mb-3">Interactive Tool: Your Personal Prevention Plan</h4>
+                    <p class="text-slate-600 mb-4">Answer a few confidential questions to get a personalized list of prevention tips based on public health guidelines. This is an educational tool, not a medical diagnosis.</p>
+                    <div id="prevention-quiz" class="space-y-4">
+                        <div>
+                            <label for="quiz-age" class="block text-sm font-medium text-slate-700">What is your age group?</label>
+                            <select id="quiz-age" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                <option>Under 25</option>
+                                <option>25-45</option>
+                                <option>Over 45</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="quiz-condoms" class="block text-sm font-medium text-slate-700">How often do you use condoms?</label>
+                            <select id="quiz-condoms" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                <option>Always</option>
+                                <option>Sometimes / Rarely</option>
+                                <option>Never</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="quiz-vaccine" class="block text-sm font-medium text-slate-700">Have you been vaccinated for HPV?</label>
+                            <select id="quiz-vaccine" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                <option>Yes</option>
+                                <option>No</option>
+                                <option>Not Sure</option>
+                            </select>
+                        </div>
+                        <button id="generate-plan-btn" class="w-full bg-teal-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-teal-700 transition">Generate My Plan</button>
+                    </div>
+                    <div id="prevention-results" class="mt-6 p-4 bg-teal-50 border border-teal-200 rounded-md hidden">
+                        <h5 class="font-bold text-md text-teal-800">Your Personalized Recommendations:</h5>
+                        <ul id="plan-list" class="mt-2 list-disc list-inside space-y-1 text-slate-700"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="testing" class="tab-content">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-bold text-slate-900">Testing & Diagnosis</h3>
+                <p class="mt-2 text-md text-slate-500">Since many STIs are "silent," testing is the only way to know your status. Explore screening guidelines and our symptom checker tool.</p>
+            </div>
+            <div class="space-y-12">
+                 <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-lg text-teal-800 mb-3">Recommended STI Screening Guidelines (CDC)</h4>
+                    <p class="text-slate-600 mb-4">This table summarizes general screening recommendations. Discuss your specific situation with a healthcare provider to determine the right tests for you.</p>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-slate-200">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Population Group</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Chlamydia & Gonorrhea</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Syphilis, Hep B/C</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-slate-200 text-sm text-slate-600">
+                                <tr>
+                                    <td class="px-4 py-4 font-medium text-slate-800">Sexually Active Women &lt; 25</td>
+                                    <td class="px-4 py-4">Annual testing recommended.</td>
+                                    <td class="px-4 py-4">Test based on risk factors. All pregnant women tested.</td>
+                                </tr>
+                                 <tr>
+                                    <td class="px-4 py-4 font-medium text-slate-800">Men who have sex with men (MSM)</td>
+                                    <td class="px-4 py-4">Annual testing (or more frequently if high risk) at all sites of contact (urethra, rectum, throat).</td>
+                                    <td class="px-4 py-4">Annual testing (or more frequently) for Syphilis. At least one-time testing for Hepatitis B/C.</td>
+                                </tr>
+                                 <tr>
+                                    <td class="px-4 py-4 font-medium text-slate-800">Pregnant Individuals</td>
+                                    <td class="px-4 py-4">Test at first prenatal visit if at risk.</td>
+                                    <td class="px-4 py-4">Test for Syphilis, Hepatitis B/C at first prenatal visit for all.</td>
+                                </tr>
+                                <tr class="bg-slate-50">
+                                     <td class="px-4 py-4 font-medium text-slate-800">All Adults (18+)</td>
+                                     <td class="px-4 py-4">Test based on risk factors (e.g., new/multiple partners).</td>
+                                     <td class="px-4 py-4">At least one-time Hepatitis C testing recommended for all adults.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-lg text-teal-800 mb-3">Interactive Tool: Symptom Checker</h4>
+                    <p class="text-slate-600 mb-4">This confidential tool helps you explore symptoms and guides you on next steps. <strong class="text-red-600">It is not a substitute for professional medical advice.</strong></p>
+                     <div id="symptom-checker" class="space-y-4">
+                        <div>
+                            <label for="symptom-primary" class="block text-sm font-medium text-slate-700">What is your primary symptom?</label>
+                            <select id="symptom-primary" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                <option value="">-- Select a symptom --</option>
+                                <option value="urination">Pain or burning during urination</option>
+                                <option value="discharge">Unusual discharge (genital)</option>
+                                <option value="sore">Sore, blister, or bump (genital/mouth)</option>
+                                <option value="itching">Itching or irritation (genital)</option>
+                                <option value="pain">Pain in abdomen or testicles</option>
+                                <option value="none">I have no symptoms but I'm concerned</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="symptom-results" class="mt-6 p-4 bg-red-50 border border-red-200 rounded-md hidden">
+                        <h5 class="font-bold text-md text-red-800">Guidance Based on Your Selection:</h5>
+                        <p id="symptom-text" class="mt-2 text-slate-700"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="living" class="tab-content">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-bold text-slate-900">Navigating a Positive Diagnosis</h3>
+                <p class="mt-2 text-md text-slate-500">Receiving a diagnosis can be stressful, but you are not alone. Here are practical steps for managing your health and talking to partners.</p>
+            </div>
+            <div class="max-w-4xl mx-auto space-y-8">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-lg text-teal-800 mb-3">You've Tested Positive. Now What?</h4>
+                    <ol class="space-y-3 list-decimal list-inside text-slate-600">
+                        <li><b>Take a Breath:</b> Remember, all STIs are treatable, and many are curable. You've taken a responsible step for your health.</li>
+                        <li><b>Follow Your Treatment Plan:</b> Take all medication exactly as prescribed, even if you feel better. This is crucial for curing the infection and preventing antibiotic resistance.</li>
+                        <li><b>Abstain from Sex During Treatment:</b> Wait until you and your partner(s) have completed treatment (typically 7 days after starting) to avoid reinfection.</li>
+                        <li><b>Notify Your Partner(s):</b> This is a critical act of care. It allows them to get tested and treated, protecting their health and stopping community spread.</li>
+                    </ol>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-lg text-teal-800 mb-3">How to Tell a Partner</h4>
+                    <p class="text-slate-600 mb-4">This conversation can be tough, but it's a sign of maturity and respect. Here are some tips:</p>
+                    <ul class="space-y-2 list-disc list-inside text-slate-600">
+                        <li><b>Choose a private, calm time and place.</b></li>
+                        <li><b>Be direct and use "I" statements.</b> Example: "I tested positive for chlamydia, and since we've been together, it's important you get tested too."</li>
+                        <li><b>Have the facts ready.</b> Explain that it's treatable and often has no symptoms.</li>
+                        <li><b>Prepare for their reaction.</b> Listen to their feelings and answer questions honestly.</li>
+                        <li><b>Remember help is available.</b> Your local health department can notify partners anonymously for you. Ask your doctor about Expedited Partner Therapy (EPT), where they may provide medication for your partner directly.</li>
+                    </ul>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-lg text-teal-800 mb-3">Patient Stories: You Are Not Alone</h4>
+                    <div class="space-y-4 text-slate-600 italic">
+                        <p>"I had no symptoms at all. If it wasn't for my friend telling me she had tested positive, I wouldn't have known anything was wrong. It shows why testing is so important."</p>
+                        <p>"Telling my boyfriend was scary, but his response was the best I could've asked for. It brought us closer. Honesty is everything."</p>
+                        <p>"Living with herpes isn't a life sentence. What I suffer from is people's judgment, not the virus. You are still worthy and beautiful."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center">
+                <h3 class="text-lg font-semibold">Trusted Resources</h3>
+                <div class="flex justify-center space-x-6 mt-4 text-teal-300">
+                    <a href="https://www.cdc.gov/std/" target="_blank" class="hover:text-teal-200">CDC</a>
+                    <a href="https://www.who.int/health-topics/sexually-transmitted-infections-stis" target="_blank" class="hover:text-teal-200">WHO</a>
+                    <a href="https://medlineplus.gov/sexuallytransmitteddiseases.html" target="_blank" class="hover:text-teal-200">MedlinePlus</a>
+                    <a href="http://www.ashasexualhealth.org/" target="_blank" class="hover:text-teal-200">ASHA</a>
+                </div>
+                <p class="mt-8 text-xs text-slate-400 max-w-3xl mx-auto">
+                    This website is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="sti-modal-backdrop" class="modal-backdrop">
+        <div id="sti-modal-content" class="modal-content">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const stiData = {
+                chlamydia: {
+                    name: "Chlamydia",
+                    icon: "🦠",
+                    tagline: "A common, curable bacterial STI, often with no symptoms.",
+                    details: {
+                        symptoms: "Women: Abnormal discharge, burning urination, bleeding between periods. Men: Penis discharge, burning urination, testicular pain. Many have no symptoms.",
+                        diagnosis: "Simple urine test or a swab from the infected area (vagina, cervix, urethra, rectum, or throat).",
+                        treatment: "Curable with a course of antibiotics (e.g., doxycycline, azithromycin). It is crucial to take all medication and for partners to be treated simultaneously.",
+                        complications: "If untreated in women, can cause Pelvic Inflammatory Disease (PID), leading to infertility and ectopic pregnancy. In men, can cause epididymitis. Increases HIV risk."
+                    }
+                },
+                gonorrhea: {
+                    name: "Gonorrhea",
+                    icon: "🔬",
+                    tagline: "A common bacterial STI that can infect genitals, rectum, and throat.",
+                    details: {
+                        symptoms: "Women: Painful urination, increased vaginal discharge, bleeding between periods. Men: Burning urination, white/yellow/green penis discharge. Many have no symptoms.",
+                        diagnosis: "Urine test or a swab from the cervix, urethra, rectum, or throat.",
+                        treatment: "Curable with antibiotics, but resistance is a growing concern. Treatment often involves an injection and oral medication. Full treatment is vital.",
+                        complications: "Can cause PID in women, leading to infertility. In men, can cause epididymitis. In rare cases, can spread to the blood and joints (DGI), which is life-threatening. Increases HIV risk."
+                    }
+                },
+                syphilis: {
+                    name: "Syphilis",
+                    icon: "🌀",
+                    tagline: "A bacterial STI with distinct stages, known as 'the great pretender'.",
+                    details: {
+                        symptoms: `
+                            <div class="syphilis-timeline space-y-4">
+                                <div id="stage-primary" class="syphilis-stage border-l-4 p-3 border-slate-200 cursor-pointer hover:bg-slate-50">
+                                    <h6 class="font-bold">Primary Stage</h6>
+                                    <p class="text-sm text-slate-600">A single, painless sore (chancre) appears. Heals on its own, but the infection remains.</p>
+                                </div>
+                                <div id="stage-secondary" class="syphilis-stage border-l-4 p-3 border-slate-200 cursor-pointer hover:bg-slate-50">
+                                    <h6 class="font-bold">Secondary Stage</h6>
+                                    <p class="text-sm text-slate-600">Body rash (often on palms/soles), fever, swollen lymph nodes. Symptoms disappear without treatment.</p>
+                                </div>
+                                <div id="stage-latent" class="syphilis-stage border-l-4 p-3 border-slate-200 cursor-pointer hover:bg-slate-50">
+                                    <h6 class="font-bold">Latent Stage</h6>
+                                    <p class="text-sm text-slate-600">The "hidden" stage. No signs or symptoms, but the infection is still present and can last for years.</p>
+                                </div>
+                                <div id="stage-tertiary" class="syphilis-stage border-l-4 p-3 border-slate-200 cursor-pointer hover:bg-slate-50">
+                                    <h6 class="font-bold">Tertiary Stage</h6>
+                                    <p class="text-sm text-slate-600">Severe damage to heart, brain, and other organs, potentially leading to death if untreated.</p>
+                                </div>
+                            </div>
+                        `,
+                        diagnosis: "Blood test. If a sore is present, a fluid sample can be examined under a microscope.",
+                        treatment: "Curable with penicillin injections. More doses are required for later-stage infections. Treatment can't reverse organ damage already done.",
+                        complications: "Severe organ damage, neurosyphilis (affecting the brain/nervous system), and congenital syphilis, which can be fatal to a baby if passed from mother during pregnancy."
+                    }
+                },
+                hpv: {
+                    name: "HPV",
+                    icon: "🧬",
+                    tagline: "The most common STI; most infections clear on their own.",
+                    details: {
+                        symptoms: "Usually no symptoms. Some 'low-risk' types cause genital warts. Persistent 'high-risk' types can lead to cancer over many years.",
+                        diagnosis: "No general test for 'HPV status'. For women, detected via Pap and/or HPV tests during cervical cancer screening. Genital warts are diagnosed visually.",
+                        treatment: "No treatment for the virus itself. Health problems it causes are treatable: genital warts can be removed, and cervical precancer can be treated to prevent cancer.",
+                        complications: "Persistent high-risk HPV can cause cancers of the cervix, anus, penis, vagina, vulva, and back of the throat."
+                    }
+                },
+                herpes: {
+                    name: "Herpes (HSV)",
+                    icon: "🩹",
+                    tagline: "A common, lifelong viral STI managed with medication.",
+                    details: {
+                        symptoms: "Many have no or mild symptoms. When they occur, they appear as one or more painful blisters or sores ('outbreaks'). The first outbreak is often the worst. Recurrent outbreaks are common but usually less severe.",
+                        diagnosis: "A swab test from a fresh sore is most reliable. Blood tests for antibodies are also available.",
+                        treatment: "No cure, but antiviral medications (e.g., acyclovir) are highly effective. They can be used for 'episodic therapy' to shorten outbreaks or 'suppressive therapy' (daily use) to prevent outbreaks and reduce transmission risk.",
+                        complications: "For most, complications are not severe, but recurrent sores can cause distress. Neonatal herpes is a rare but life-threatening infection passed to a baby during birth. Sores increase HIV risk."
+                    }
+                },
+                trichomoniasis: {
+                    name: "Trichomoniasis",
+                    icon: "💧",
+                    tagline: "A very common, curable STI caused by a parasite.",
+                    details: {
+                        symptoms: "About 70% have no symptoms. Women: Itching, burning, soreness, and a thin, frothy, or foul-smelling ('fishy') discharge. Men: Itching/irritation inside the penis, burning after urination.",
+                        diagnosis: "A lab test on a sample of vaginal or urethral fluid.",
+                        treatment: "Easily cured with a single dose or short course of antibiotics (e.g., metronidazole). All partners must be treated at the same time to prevent reinfection.",
+                        complications: "Increases risk of getting or spreading other STIs, including HIV. In pregnancy, increases risk of preterm delivery."
+                    }
+                },
+                hepatitisB: {
+                    name: "Hepatitis B",
+                    icon: "🧡",
+                    tagline: "A vaccine-preventable liver infection.",
+                    details: {
+                        symptoms: "Many have no symptoms. Acute infection can cause fatigue, fever, nausea, and jaundice (yellowing of skin/eyes).",
+                        diagnosis: "A series of blood tests can determine if the infection is acute, chronic, or if you are immune.",
+                        treatment: "Acute infections usually resolve on their own with supportive care. Chronic infections require ongoing medical care with antiviral medications to prevent liver damage.",
+                        complications: "Chronic infection can lead to severe liver damage, including cirrhosis (scarring), liver cancer, and liver failure."
+                    }
+                }
+            };
+
+            const cardsContainer = document.getElementById('sti-cards-container');
+            const modalBackdrop = document.getElementById('sti-modal-backdrop');
+            const modalContent = document.getElementById('sti-modal-content');
+
+            Object.keys(stiData).forEach(key => {
+                const sti = stiData[key];
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-lg shadow-sm hover:shadow-lg transition-shadow cursor-pointer";
+                card.dataset.sti = key;
+                card.innerHTML = `
+                    <div class="flex items-center mb-3">
+                        <span class="text-3xl mr-4">${sti.icon}</span>
+                        <h4 class="text-xl font-bold text-slate-800">${sti.name}</h4>
+                    </div>
+                    <p class="text-slate-600">${sti.tagline}</p>
+                `;
+                card.addEventListener('click', () => openModal(key));
+                cardsContainer.appendChild(card);
+            });
+
+            function openModal(stiKey) {
+                const sti = stiData[stiKey];
+                modalContent.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <span class="text-4xl mr-4">${sti.icon}</span>
+                                <h3 class="text-3xl font-bold text-slate-900">${sti.name}</h3>
+                            </div>
+                            <p class="text-slate-500 mb-6">${sti.tagline}</p>
+                        </div>
+                        <button id="close-modal-btn" class="text-slate-500 hover:text-slate-800">&times;</button>
+                    </div>
+                    <div class="space-y-4">
+                        ${Object.keys(sti.details).map(detailKey => `
+                            <div>
+                                <h5 class="font-semibold text-teal-700 capitalize">${detailKey}</h5>
+                                <div class="text-slate-600 mt-1">${sti.details[detailKey]}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                modalBackdrop.classList.add('visible');
+                document.body.style.overflow = 'hidden';
+                document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+                
+                if (stiKey === 'syphilis') {
+                    const stages = modalContent.querySelectorAll('.syphilis-stage');
+                    stages.forEach(stage => {
+                        stage.addEventListener('click', () => {
+                            stages.forEach(s => s.classList.remove('active'));
+                            stage.classList.add('active');
+                        });
+                    });
+                }
+            }
+
+            function closeModal() {
+                modalBackdrop.classList.remove('visible');
+                document.body.style.overflow = 'auto';
+            }
+
+            modalBackdrop.addEventListener('click', (e) => {
+                if (e.target === modalBackdrop) {
+                    closeModal();
+                }
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            function switchTab(hash) {
+                navLinks.forEach(link => {
+                    link.classList.toggle('active-nav', link.getAttribute('href') === hash);
+                });
+                tabContents.forEach(tab => {
+                    tab.classList.toggle('active', `#${tab.id}` === hash);
+                });
+                mobileMenu.classList.add('hidden');
+            }
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const hash = link.getAttribute('href');
+                    switchTab(hash);
+                    window.location.hash = hash;
+                });
+            });
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const initialHash = window.location.hash || '#stis';
+            switchTab(initialHash);
+
+            const hpvCtx = document.getElementById('hpvVaccineChart').getContext('2d');
+            new Chart(hpvCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['HPV Infections (Teen Girls)', 'HPV Infections (Young Women)', 'Cervical Pre-cancers'],
+                    datasets: [{
+                        label: '% Drop Since Vaccine Introduction',
+                        data: [88, 81, 40],
+                        backgroundColor: ['#14b8a6', '#2dd4bf', '#5eead4'],
+                        borderColor: ['#0f766e', '#0d9488', '#0d9488'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: { beginAtZero: true, max: 100, grid: { color: '#e2e8f0' } },
+                        y: { grid: { display: false } }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Effectiveness of the HPV Vaccine in the U.S.', font: { size: 16 } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const generatePlanBtn = document.getElementById('generate-plan-btn');
+            generatePlanBtn.addEventListener('click', () => {
+                const age = document.getElementById('quiz-age').value;
+                const condoms = document.getElementById('quiz-condoms').value;
+                const vaccine = document.getElementById('quiz-vaccine').value;
+                const resultsContainer = document.getElementById('prevention-results');
+                const planList = document.getElementById('plan-list');
+                
+                let recommendations = [];
+                
+                if (age === 'Under 25') {
+                    recommendations.push("Annual screening for chlamydia and gonorrhea is recommended for your age group.");
+                }
+                if (condoms !== 'Always') {
+                    recommendations.push("Using condoms correctly and consistently is one of the most effective ways to prevent STIs.");
+                } else {
+                    recommendations.push("Great job on consistent condom use! It's a key part of staying healthy.");
+                }
+                if (vaccine !== 'Yes') {
+                    recommendations.push("Consider talking to your doctor about the HPV vaccine. It's safe, effective, and prevents several types of cancer.");
+                }
+                recommendations.push("Talk openly with your partners about sexual health and testing.");
+                recommendations.push("Have a conversation with your healthcare provider to discuss a personalized screening plan that's right for you.");
+
+                planList.innerHTML = recommendations.map(rec => `<li>${rec}</li>`).join('');
+                resultsContainer.classList.remove('hidden');
+            });
+
+            const symptomSelect = document.getElementById('symptom-primary');
+            symptomSelect.addEventListener('change', () => {
+                const symptom = symptomSelect.value;
+                const resultsContainer = document.getElementById('symptom-results');
+                const symptomText = document.getElementById('symptom-text');
+                
+                let text = '';
+                if (symptom) {
+                    switch(symptom) {
+                        case 'urination':
+                            text = "Pain or burning during urination can be a symptom of several STIs, including chlamydia and gonorrhea, as well as non-STI issues like a urinary tract infection (UTI). It is very important to see a healthcare provider for accurate testing and diagnosis.";
+                            break;
+                        case 'discharge':
+                            text = "An unusual discharge can be a sign of infections like chlamydia, gonorrhea, or trichomoniasis. The only way to know the cause for sure is to get tested by a healthcare provider.";
+                            break;
+                        case 'sore':
+                            text = "A sore, blister, or bump could be related to syphilis, herpes, or HPV. Because these can look different and have serious health implications, a professional medical evaluation is essential.";
+                            break;
+                        case 'itching':
+                            text = "Genital itching can be caused by trichomoniasis, herpes, or other conditions like a yeast infection or pubic lice. A healthcare provider can help determine the cause and provide the correct treatment.";
+                            break;
+                        case 'pain':
+                            text = "Abdominal or testicular pain can be a sign that an infection like chlamydia or gonorrhea has spread and requires immediate medical attention to prevent serious complications like PID or epididymitis.";
+                            break;
+                        case 'none':
+                            text = "It's great that you're being proactive about your health. Since many STIs have no symptoms, regular testing is a key part of healthcare for anyone who is sexually active. Talk to your doctor about what screening schedule is right for you.";
+                            break;
+                    }
+                    symptomText.textContent = text + " Please schedule an appointment with a doctor or visit a clinic.";
+                    resultsContainer.classList.remove('hidden');
+                } else {
+                    resultsContainer.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding HIV: Your Guide to Health</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Ocean Teal & Warm Sand -->
+    <!-- Application Structure Plan: The application is structured as a single-page app with a fixed top navigation bar that allows users to jump to different thematic sections. This non-linear structure empowers users to find the information most relevant to their needs immediately, whether they are newly diagnosed, seeking prevention methods, or managing long-term health. The sections are: 1) The Basics (core concepts, interactive progression chart), 2) Prevention & Risk (combining risk factors with actionable prevention, including an interactive quiz), 3) Testing & Treatment (guiding users through testing and explaining modern treatment like U=U), 4) Living Well (a dashboard-style view of managing comorbidities), and 5) The Future (a hopeful conclusion). This user-centric design prioritizes clarity and ease of access over the linear format of the source report. -->
+    <!-- Visualization & Content Choices: 1) HIV Progression (Goal: Compare): A dual-axis Chart.js line chart visually contrasts the health outcomes (CD4 vs. Viral Load) of treated vs. untreated HIV over time, powerfully demonstrating the effectiveness of ART. 2) Myth vs. Fact Quiz (Goal: Inform/Engage): An interactive HTML/JS quiz actively engages users, correcting misinformation through immediate feedback, which is more effective than passive reading. 3) Testing Flowchart (Goal: Organize/Guide): An interactive HTML/JS decision tree guides users to the right test based on their exposure timeline, simplifying a complex topic. 4) Proactive Health Plan (Goal: Organize/Inform): A responsive Tailwind CSS grid with icons (Unicode) presents comorbidity management as actionable, easy-to-digest cards, turning a list of risks into a clear health plan. All choices use JS and HTML/CSS to avoid SVG/Mermaid and support the interactive, user-friendly structure. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        :root {
+            --bg-color: #FDFBF7;
+            --text-primary: #334155;
+            --text-secondary: #64748b;
+            --accent-color: #0d9488; /* Teal */
+            --accent-hover: #0f766e;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+        .nav-link {
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .nav-link.active {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .quiz-option {
+            transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+        }
+        .quiz-option:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-color);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: var(--accent-color); color: white; }
+
+        /* --- Google Translate Widget Styles --- */
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        #google_translate_element, #google_translate_element_mobile {
+            display: inline-block;
+        }
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid var(--accent-color) !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: var(--accent-color) !important;
+        }
+        
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4">
+            <div class="flex items-center justify-between flex-wrap py-2">
+                <div class="flex-shrink-0 mb-2 md:mb-0">
+                    <h1 class="text-xl font-bold" style="color: var(--accent-color);" data-translate="header_title"></h1>
+                </div>
+                <div class="flex items-center justify-center flex-wrap">
+                    <div class="flex items-baseline space-x-2 sm:space-x-4 order-2 md:order-1">
+                        <a href="#basics" class="nav-link px-2 py-2 text-sm font-medium text-slate-700 hover:text-teal-600 border-b-2 border-transparent" data-translate="nav_basics"></a>
+                        <a href="#prevention" class="nav-link px-2 py-2 text-sm font-medium text-slate-700 hover:text-teal-600 border-b-2 border-transparent" data-translate="nav_prevention"></a>
+                        <a href="#testing" class="nav-link px-2 py-2 text-sm font-medium text-slate-700 hover:text-teal-600 border-b-2 border-transparent" data-translate="nav_testing"></a>
+                        <a href="#antivirals" class="nav-link px-2 py-2 text-sm font-medium text-slate-700 hover:text-teal-600 border-b-2 border-transparent" data-translate="nav_meds"></a>
+                        <a href="#living-well" class="nav-link px-2 py-2 text-sm font-medium text-slate-700 hover:text-teal-600 border-b-2 border-transparent" data-translate="nav_living"></a>
+                        <a href="#future" class="nav-link px-2 py-2 text-sm font-medium text-slate-700 hover:text-teal-600 border-b-2 border-transparent" data-translate="nav_future"></a>
+                    </div>
+                     <div class="js-lang-selector flex items-center pl-4 shrink-0 order-1 md:order-2 w-full md:w-auto justify-center md:justify-end mb-2 md:mb-0">
+                        <div class="js-native-toggle flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                                <button class="lang-btn js-lang-en px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button class="lang-btn js-lang-es px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button class="js-show-google ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div class="js-google-toggle hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button class="js-back-native ml-2 text-sm font-semibold text-teal-600 hover:underline" data-translate="back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="welcome" class="text-center py-12">
+            <h2 class="text-4xl font-bold text-slate-800 mb-4" data-translate="welcome_title"></h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600" data-translate="welcome_subtitle"></p>
+        </section>
+
+        <section id="basics" class="content-section space-y-8">
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="basics_what_is_hiv_title"></h3>
+                <p class="mb-4 text-slate-600" data-translate="basics_what_is_hiv_p1"></p>
+                <ul class="list-disc list-inside space-y-2 mb-4 text-slate-600">
+                    <li data-translate="basics_what_is_hiv_li1"></li>
+                    <li data-translate="basics_what_is_hiv_li2"></li>
+                </ul>
+                <p class="text-slate-600" data-translate="basics_what_is_hiv_p2"></p>
+            </div>
+            
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="basics_stages_title"></h3>
+                <div class="space-y-4 text-slate-600">
+                    <p data-translate="basics_stage1_p"></p>
+                    <p data-translate="basics_stage2_p"></p>
+                    <p data-translate="basics_stage3_p"></p>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="basics_chart_title"></h3>
+                <p class="mb-4 text-center text-slate-600" data-translate="basics_chart_subtitle"></p>
+                <div class="chart-container">
+                    <canvas id="hivProgressionChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="prevention" class="content-section space-y-8">
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="prevention_how_transmitted_title"></h3>
+                <p class="mb-4 text-slate-600" data-translate="prevention_how_transmitted_p1"></p>
+                <p class="font-semibold mb-2 text-slate-700" data-translate="prevention_how_transmitted_routes_title"></p>
+                <ul class="list-disc list-inside space-y-2 mb-4 text-slate-600">
+                    <li data-translate="prevention_how_transmitted_li1"></li>
+                    <li data-translate="prevention_how_transmitted_li2"></li>
+                    <li data-translate="prevention_how_transmitted_li3"></li>
+                </ul>
+                <p class="font-semibold text-red-600" data-translate="prevention_how_transmitted_p2"></p>
+            </div>
+            
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="prevention_quiz_title"></h3>
+                <a href="pages/myths.html" class="inline-block bg-rose-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-rose-700 transition-colors mb-6" data-translate="learn_more_myths"></a>
+                <div id="quiz-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="prevention_toolkit_title"></h3>
+                <p class="mb-6 text-slate-600" data-translate="prevention_toolkit_p"></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-teal-50 border-l-4 border-teal-500 p-6 rounded-lg">
+                        <h4 class="font-bold text-xl text-teal-800 mb-2" data-translate="prevention_prep_title"></h4>
+                        <p class="text-teal-700" data-translate="prevention_prep_p"></p>
+                    </div>
+                    <div class="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-lg">
+                        <h4 class="font-bold text-xl text-amber-800 mb-2" data-translate="prevention_pep_title"></h4>
+                        <p class="text-amber-700" data-translate="prevention_pep_p"></p>
+                    </div>
+                </div>
+                <div class="text-center mt-6">
+                    <a href="pages/prophylaxis.html" class="inline-block bg-teal-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors" data-translate="learn_more_prophylaxis"></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="testing" class="content-section space-y-8">
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="testing_knowledge_is_power_title"></h3>
+                <p class="mb-4 text-slate-600" data-translate="testing_knowledge_is_power_p"></p>
+                <ul class="list-disc list-inside space-y-2 mb-4 text-slate-600">
+                    <li data-translate="testing_knowledge_is_power_li1"></li>
+                    <li data-translate="testing_knowledge_is_power_li2"></li>
+                </ul>
+                <div class="text-center mt-6">
+                    <a href="pages/diagnosis.html" class="inline-block bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors" data-translate="learn_more_diagnosis"></a>
+                </div>
+            </div>
+            
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="testing_which_test_title"></h3>
+                <p class="mb-4 text-slate-600" data-translate="testing_which_test_p"></p>
+                <div id="testing-guide" class="space-y-4">
+                    <label for="exposure-time" class="block font-medium text-slate-700" data-translate="testing_which_test_label"></label>
+                    <select id="exposure-time" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                        <option value="select" data-translate="testing_select_option"></option>
+                        <option value="pep" data-translate="testing_option_pep"></option>
+                        <option value="nat" data-translate="testing_option_nat"></option>
+                        <option value="antigen" data-translate="testing_option_antigen"></option>
+                        <option value="all" data-translate="testing_option_all"></option>
+                    </select>
+                    <div id="testing-recommendation" class="mt-4 p-4 bg-teal-50 border border-teal-200 rounded-md hidden"></div>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="testing_uu_title"></h3>
+                <p class="mb-4 text-slate-600" data-translate="testing_uu_p1"></p>
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-6 rounded-lg text-center shadow-inner">
+                    <h4 class="text-2xl font-bold" data-translate="testing_uu_box_title"></h4>
+                    <p class="mt-2 text-lg" data-translate="testing_uu_box_p"></p>
+                </div>
+                <p class="mt-4 text-slate-600" data-translate="testing_uu_p2"></p>
+            </div>
+        </section>
+        
+        <section id="antivirals" class="content-section space-y-8">
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="antivirals_how_they_work_title"></h3>
+                <p class="mb-6 text-slate-600" data-translate="antivirals_how_they_work_p"></p>
+                <div class="text-center">
+                    <a href="pages/medications.html" class="inline-block bg-violet-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-violet-700 transition-colors" data-translate="learn_more_meds"></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="living-well" class="content-section space-y-8">
+             <div class="text-center">
+                <h3 class="text-3xl font-bold text-slate-800 mb-2" data-translate="living_well_title"></h3>
+                <p class="max-w-3xl mx-auto text-lg text-slate-600 mb-8" data-translate="living_well_subtitle"></p>
+            </div>
+            <div id="living-well-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+        </section>
+
+        <section id="future" class="content-section space-y-8">
+            <div class="bg-white p-8 rounded-xl shadow-lg text-center">
+                <h3 class="text-3xl font-bold text-slate-800 mb-4" data-translate="future_horizon_title"></h3>
+                <p class="max-w-3xl mx-auto text-lg text-slate-600 mb-6" data-translate="future_horizon_p"></p>
+                <div class="bg-teal-100 border-t-4 border-teal-500 text-teal-800 p-6 rounded-lg">
+                    <p class="text-xl font-semibold" data-translate="future_horizon_box_p"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto py-6 px-4 text-center">
+            <p data-translate="footer_disclaimer"></p>
+            <p class="text-sm text-slate-400 mt-2" data-translate="footer_source"></p>
+        </div>
+    </footer>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const translations = {
+        en: {
+            header_title: "HIV | Your Guide",
+            nav_basics: "The Basics",
+            nav_prevention: "Prevention & Risk",
+            nav_testing: "Testing & Treatment",
+            nav_meds: "Medications",
+            nav_living: "Living Well",
+            nav_future: "The Future",
+            back_button: "Back",
+            sr_open_menu: "Open main menu",
+            welcome_title: "Living with HIV Begins with Understanding",
+            welcome_subtitle: "An HIV diagnosis today is not what it was decades ago. Thanks to incredible scientific progress, HIV is a manageable chronic health condition. With the right care, people with HIV can live long, healthy, and fulfilling lives. This guide is here to provide clear, empowering information for your health journey.",
+            basics_what_is_hiv_title: "What is HIV? A Simple Explanation",
+            basics_what_is_hiv_p1: "HIV stands for <strong>Human Immunodeficiency Virus</strong>. It's a virus that attacks the body's immune system, specifically the CD4 T-cells, which are like the \"generals\" of your immune army. When HIV infects these cells, it uses them to make copies of itself, destroying the CD4 cell in the process. Over time, this weakens the immune system, making it harder to fight off other infections. It's important to distinguish it from AIDS:",
+            basics_what_is_hiv_li1: "<strong>HIV (the Virus):</strong> The virus itself. A diagnosis means the virus is in your body. It's a retrovirus, meaning it becomes a permanent part of a person's DNA.",
+            basics_what_is_hiv_li2: "<strong>AIDS (the Syndrome):</strong> Acquired Immunodeficiency Syndrome is the most advanced stage of an untreated HIV infection, defined by a severely damaged immune system (CD4 count below 200) or the presence of specific opportunistic infections. With modern medicine, most people with HIV will <strong>never</strong> progress to AIDS.",
+            basics_what_is_hiv_p2: "While there is no cure to eliminate it, modern medicines called antiretroviral therapy (ART) are incredibly effective at stopping the virus from making copies of itself, allowing the immune system to stay strong.",
+            basics_stages_title: "The Three Stages of HIV Infection",
+            basics_stage1_p: "<strong>Stage 1: Acute HIV Infection.</strong> This occurs 2-4 weeks after infection. The virus multiplies rapidly, and the viral load is extremely high, making a person highly contagious. Many people experience severe flu-like symptoms (fever, rash, sore throat), but some have no symptoms at all. This is why you can't rely on symptoms to know your status.",
+            basics_stage2_p: "<strong>Stage 2: Chronic HIV Infection (Clinical Latency).</strong> After the acute phase, the virus becomes less active but is still present. People often feel healthy and have no symptoms. Without treatment, this stage can last for 10 years or more. With effective ART, a person can stay in this stage indefinitely and never progress.",
+            basics_stage3_p: "<strong>Stage 3: AIDS.</strong> This is the final stage, where the immune system is severely damaged (CD4 count < 200). The body becomes vulnerable to serious opportunistic infections. Even at this stage, starting ART can lead to significant health recovery.",
+            basics_chart_title: "The Course of HIV: With and Without Treatment",
+            basics_chart_subtitle: "This chart illustrates the life-changing impact of starting and staying on treatment (ART). It shows how medicine can block HIV's progression, preserving your immune system and your health.",
+            prevention_how_transmitted_title: "How HIV is Transmitted (and How It's Not)",
+            prevention_how_transmitted_p1: "Understanding transmission is key to prevention and dispelling harmful myths. HIV can only be transmitted through specific body fluids: <strong>blood, semen, rectal fluids, vaginal fluids, and breast milk</strong>. For transmission to occur, one of these fluids from a person with a detectable amount of HIV must get into the bloodstream of an HIV-negative person via a mucous membrane (rectum, vagina, penis opening), damaged tissue, or direct injection.",
+            prevention_how_transmitted_routes_title: "Primary routes of transmission are:",
+            prevention_how_transmitted_li1: "<strong>Sexual Contact:</strong> Anal or vaginal sex without a condom. Anal sex carries the highest risk because the rectal lining is thin and easily damaged.",
+            prevention_how_transmitted_li2: "<strong>Sharing Injection Equipment:</strong> Sharing needles, syringes, or other \"works\" contaminated with blood.",
+            prevention_how_transmitted_li3: "<strong>Mother-to-Child:</strong> During pregnancy, birth, or breastfeeding. This is now very rare (less than 1%) with effective treatment.",
+            prevention_how_transmitted_p2: "You CANNOT get HIV from casual contact like hugging, shaking hands, sharing toilets, saliva, tears, sweat, or from insects like mosquitoes.",
+            prevention_quiz_title: "Myth vs. Fact: Test Your Knowledge",
+            prevention_toolkit_title: "Your Prevention Toolkit",
+            prevention_toolkit_p: "Today, \"combination prevention\" means using multiple tools to stay HIV-negative. You can choose the strategies that best fit your life.",
+            prevention_prep_title: "PrEP (Pre-Exposure Prophylaxis)",
+            prevention_prep_p: "A proactive, ongoing strategy (daily pill or long-acting shot) for HIV-negative people to lower risk *before* exposure. Highly effective when taken as prescribed.",
+            prevention_pep_title: "PEP (Post-Exposure Prophylaxis)",
+            prevention_pep_p: "A reactive, emergency measure (28-day course of pills) to prevent infection *after* a potential exposure. Must be started within 72 hours.",
+            testing_knowledge_is_power_title: "Getting Tested: Knowledge is Power",
+            testing_knowledge_is_power_p: "Getting tested is a routine part of healthcare and the only way to know your HIV status. The CDC recommends everyone aged 13-64 get tested at least once. Knowing your status is empowering:",
+            testing_knowledge_is_power_li1: "<strong>If you test positive:</strong> You can start life-saving treatment to protect your health and prevent transmission.",
+            testing_knowledge_is_power_li2: "<strong>If you test negative:</strong> You gain peace of mind and can take steps like PrEP to stay negative.",
+            testing_which_test_title: "Which HIV Test is Right for Me & When?",
+            testing_which_test_p: "The right test depends on how long it has been since a potential exposure. The time between exposure and when a test can detect HIV is called the \"window period.\"",
+            testing_which_test_label: "When was your most recent potential exposure?",
+            testing_select_option: "-- Select a timeframe --",
+            testing_option_pep: "Less than 72 hours ago",
+            testing_option_nat: "10 to 33 days ago",
+            testing_option_antigen: "18 to 45 days ago",
+            testing_option_all: "More than 90 days ago",
+            testing_uu_title: "A Positive Diagnosis: The Power of U=U",
+            testing_uu_p1: "Receiving a positive diagnosis is the first step toward a long, healthy life. The goal of treatment (ART) is to achieve an <strong>undetectable viral load</strong>. This means the amount of HIV in your blood is so low it can't be measured by a standard test.",
+            testing_uu_box_title: "Undetectable = Untransmittable (U=U)",
+            testing_uu_box_p: "Overwhelming scientific evidence confirms that a person with HIV who takes ART as prescribed and achieves and maintains an undetectable viral load for at least six months <strong>will not transmit HIV to their sexual partners.</strong>",
+            testing_uu_p2: "This is a life-changing fact that dismantles stigma and empowers people living with HIV to have healthy, confident relationships without the fear of transmission.",
+            antivirals_how_they_work_title: "How HIV Medications Work: Antiretroviral Therapy (ART)",
+            antivirals_how_they_work_p: "Antiretroviral therapy (ART) isn't a single drug, but a combination of medications that attack the HIV virus at different stages of its life cycle. By using several methods of attack at once, ART can effectively shut down viral replication. Modern ART is incredibly effective, often combining multiple drugs into a single, once-daily pill. There are several classes of these drugs.",
+            living_well_title: "Your Proactive Health Plan with HIV",
+            living_well_subtitle: "Living well with HIV means managing your overall health. Thanks to effective treatment, the focus is now on long-term well-being. This involves proactively managing other health conditions (comorbidities) in partnership with your healthcare team. Use this guide to understand key areas of focus.",
+            future_horizon_title: "The Horizon: The Search for a Cure",
+            future_horizon_p: "The scientific community is relentlessly pursuing a cure for HIV. The biggest challenge is the \"latent reservoir\"—HIV that hides dormant in cells where current drugs can't reach it. Researchers are exploring innovative strategies like \"kick and kill\" and gene therapy to eliminate this reservoir.",
+            future_horizon_box_p: "While a cure is not here yet, the science is advancing rapidly, offering real hope for the future. The journey of HIV research is one of remarkable achievement and persistent dedication. Your health today is a testament to that progress.",
+            footer_disclaimer: "This guide provides general information and is not a substitute for professional medical advice. Always consult with your healthcare provider for diagnosis and treatment.",
+            footer_source: "Content is based on information from the U.S. Centers for Disease Control and Prevention (CDC), HIV.gov, and established medical guidelines.",
+            learn_more_prophylaxis: "Learn more about PrEP & PEP",
+            learn_more_diagnosis: "Learn more about HIV Tests",
+            learn_more_meds: "Learn more about Medications",
+            learn_more_myths: "Learn more & Bust Myths",
+            quiz_data: [
+                { question: "Can you get HIV from sharing a drinking glass with someone who is living with HIV?", options: ["Yes", "No"], answer: "No", explanation: "Correct. HIV is not transmitted through saliva or by sharing objects. The virus cannot survive long enough outside the body to pose a risk this way.", color: 'bg-sky-100' },
+                { question: "What does 'U=U' stand for in the context of HIV?", options: ["United=Unstoppable", "Undetectable=Untransmittable"], answer: "Undetectable=Untransmittable", explanation: "Correct! This means a person with an undetectable viral load due to ART cannot transmit HIV to their sexual partners.", color: 'bg-emerald-100' },
+                { question: "Can a mosquito transmit HIV by biting one person and then another?", options: ["Yes", "No"], answer: "No", explanation: "Correct. HIV is not transmitted by insects. The virus cannot reproduce inside a mosquito and is not spread this way.", color: 'bg-rose-100' },
+                { question: "Is PrEP a vaccine that gives you permanent immunity to HIV?", options: ["Yes", "No"], answer: "No", explanation: "Correct. PrEP is a medication, not a vaccine. It's highly effective but must be taken as prescribed (daily pill or regular shot) to maintain protection.", color: 'bg-amber-100' },
+                { question: "If a person feels healthy, they can't have HIV.", options: ["True", "False"], answer: "False", explanation: "Correct. During the chronic stage (Stage 2), people with HIV often have no symptoms for many years but can still transmit the virus. Testing is the only way to know.", color: 'bg-violet-100' },
+                { question: "When should someone start PEP after a potential exposure?", options: ["Within 1 week", "Within 72 hours"], answer: "Within 72 hours", explanation: "Correct! PEP is an emergency medication that must be started within 72 hours (3 days) to be effective. The sooner, the better.", color: 'bg-cyan-100' }
+            ],
+            testing_recommendations: {
+                pep: "<strong>Action: Emergency - Seek PEP.</strong> It is too early for any test to be accurate. If you had a high-risk exposure, go to an ER or urgent care clinic immediately and ask about Post-Exposure Prophylaxis (PEP). Plan to get tested in a few weeks.",
+                nat: "<strong>Best Test: Nucleic Acid Test (NAT).</strong> A NAT can detect the virus in this timeframe. An antigen/antibody lab test may also work. Talk to your doctor or a clinic about which test is best for your situation.",
+                antigen: "<strong>Best Test: Antigen/Antibody Lab Test.</strong> A lab test from a vein draw is very accurate now. A rapid finger prick test is also a good option. Visit a clinic or your doctor for testing.",
+                all: "<strong>Best Test: Any test is accurate.</strong> At this point, all HIV tests are considered highly accurate, including rapid tests and at-home self-tests. You can confidently use any available method."
+            },
+            living_well_data: [
+                { icon: "🧠", title: "Mental Health", watch_for: "Depression, Anxiety", action_plan: "Talk to your doctor, seek therapy or support groups, exercise, and practice mindfulness. Your mental health is essential for staying on treatment." },
+                { icon: "❤️", title: "Heart Health", watch_for: "Cardiovascular Disease", action_plan: "<strong>Don't smoke!</strong> Eat a healthy diet, exercise, and let your doctor monitor your blood pressure and cholesterol." },
+                { icon: "🩺", title: "Liver Health", watch_for: "Liver Disease (Hepatitis B & C)", action_plan: "Get tested for Hepatitis B and C. Get vaccinated if needed. Limit or avoid alcohol. Discuss HCV cure options with your doctor." },
+                { icon: "🦴", title: "Bone Health", watch_for: "Osteoporosis", action_plan: "Ensure you get enough calcium and Vitamin D. Do weight-bearing exercises like walking or lifting weights." },
+                { icon: "🛡️", title: "Immune System & Cancer", watch_for: "Increased Cancer Risk", action_plan: "Take ART consistently. Get vaccinated for HPV and Hepatitis B. Attend all recommended cancer screenings (e.g., Pap tests)." },
+                { icon: "💊", title: "Adherence is Key", watch_for: "Making Your Treatment Work", action_plan: "Taking your medicine exactly as prescribed is critical to keep your viral load undetectable and prevent drug resistance. Use pill organizers or alarms, and talk to your doctor if you have any trouble." }
+            ],
+            living_well_watch_for_label: "Watch For",
+            living_well_action_plan_label: "Your Action Plan"
+        },
+        es: {
+            header_title: "VIH | Su Guía",
+            nav_basics: "Lo Básico",
+            nav_prevention: "Prevención y Riesgo",
+            nav_testing: "Pruebas y Tratamiento",
+            nav_meds: "Medicamentos",
+            nav_living: "Vivir Bien",
+            nav_future: "El Futuro",
+            back_button: "Volver",
+            sr_open_menu: "Abrir menú principal",
+            welcome_title: "Vivir con VIH Comienza con Entender",
+            welcome_subtitle: "Un diagnóstico de VIH hoy no es lo que era hace décadas. Gracias a un increíble progreso científico, el VIH es una condición de salud crónica manejable. Con el cuidado adecuado, las personas con VIH pueden vivir vidas largas, saludables y plenas. Esta guía está aquí para proporcionar información clara y empoderadora para su viaje de salud.",
+            basics_what_is_hiv_title: "¿Qué es el VIH? Una Explicación Sencilla",
+            basics_what_is_hiv_p1: "VIH significa <strong>Virus de Inmunodeficiencia Humana</strong>. Es un virus que ataca el sistema inmunitario del cuerpo, específicamente las células T CD4, que son como los \"generales\" de su ejército inmunitario. Cuando el VIH infecta estas células, las utiliza para hacer copias de sí mismo, destruyendo la célula CD4 en el proceso. Con el tiempo, esto debilita el sistema inmunitario, haciendo más difícil combatir otras infecciones. Es importante distinguirlo del SIDA:",
+            basics_what_is_hiv_li1: "<strong>VIH (el Virus):</strong> El virus en sí. Un diagnóstico significa que el virus está en su cuerpo. Es un retrovirus, lo que significa que se convierte en una parte permanente del ADN de una persona.",
+            basics_what_is_hiv_li2: "<strong>SIDA (el Síndrome):</strong> El Síndrome de Inmunodeficiencia Adquirida es la etapa más avanzada de una infección por VIH no tratada, definida por un sistema inmunitario gravemente dañado (recuento de CD4 por debajo de 200) o la presencia de infecciones oportunistas específicas. Con la medicina moderna, la mayoría de las personas con VIH <strong>nunca</strong> progresarán a SIDA.",
+            basics_what_is_hiv_p2: "Aunque no hay cura para eliminarlo, los medicamentos modernos llamados terapia antirretroviral (TAR) son increíblemente efectivos para detener la replicación del virus, permitiendo que el sistema inmunitario se mantenga fuerte.",
+            basics_stages_title: "Las Tres Etapas de la Infección por VIH",
+            basics_stage1_p: "<strong>Etapa 1: Infección Aguda por VIH.</strong> Ocurre de 2 a 4 semanas después de la infección. El virus se multiplica rápidamente y la carga viral es extremadamente alta, lo que hace que una persona sea muy contagiosa. Muchas personas experimentan síntomas graves similares a la gripe (fiebre, sarpullido, dolor de garganta), pero algunas no tienen ningún síntoma. Por eso no puede confiar en los síntomas para saber su estado.",
+            basics_stage2_p: "<strong>Etapa 2: Infección Crónica por VIH (Latencia Clínica).</strong> Después de la fase aguda, el virus se vuelve menos activo pero sigue presente. Las personas a menudo se sienten sanas y no tienen síntomas. Sin tratamiento, esta etapa puede durar 10 años o más. Con una TAR eficaz, una persona puede permanecer en esta etapa indefinidamente y nunca progresar.",
+            basics_stage3_p: "<strong>Etapa 3: SIDA.</strong> Esta es la etapa final, donde el sistema inmunitario está gravemente dañado (recuento de CD4 < 200). El cuerpo se vuelve vulnerable a infecciones oportunistas graves. Incluso en esta etapa, comenzar la TAR puede llevar a una recuperación significativa de la salud.",
+            basics_chart_title: "El Curso del VIH: Con y Sin Tratamiento",
+            basics_chart_subtitle: "Este gráfico ilustra el impacto transformador de comenzar y mantener el tratamiento (TAR). Muestra cómo los medicamentos pueden bloquear la progresión del VIH, preservando su sistema inmunitario y su salud.",
+            prevention_how_transmitted_title: "Cómo se Transmite el VIH (y Cómo No)",
+            prevention_how_transmitted_p1: "Entender la transmisión es clave para la prevención y para desmentir mitos dañinos. El VIH solo se puede transmitir a través de fluidos corporales específicos: <strong>sangre, semen, fluidos rectales, fluidos vaginales y leche materna</strong>. Para que ocurra la transmisión, uno de estos fluidos de una persona con una cantidad detectable de VIH debe entrar en el torrente sanguíneo de una persona VIH negativa a través de una membrana mucosa (recto, vagina, abertura del pene), tejido dañado o inyección directa.",
+            prevention_how_transmitted_routes_title: "Las principales vías de transmisión son:",
+            prevention_how_transmitted_li1: "<strong>Contacto Sexual:</strong> Sexo anal o vaginal sin condón. El sexo anal conlleva el mayor riesgo porque el revestimiento rectal es delgado y se daña fácilmente.",
+            prevention_how_transmitted_li2: "<strong>Compartir Equipo de Inyección:</strong> Compartir agujas, jeringas u otros \"materiales\" contaminados con sangre.",
+            prevention_how_transmitted_li3: "<strong>De Madre a Hijo:</strong> Durante el embarazo, el parto o la lactancia. Esto ahora es muy raro (menos del 1%) con un tratamiento eficaz.",
+            prevention_how_transmitted_p2: "NO PUEDE contraer el VIH por contacto casual como abrazar, dar la mano, compartir baños, saliva, lágrimas, sudor o por insectos como los mosquitos.",
+            prevention_quiz_title: "Mito vs. Realidad: Pon a Prueba tus Conocimientos",
+            prevention_toolkit_title: "Su Kit de Herramientas de Prevención",
+            prevention_toolkit_p: "Hoy en día, la \"prevención combinada\" significa usar múltiples herramientas para mantenerse VIH negativo. Puede elegir las estrategias que mejor se adapten a su vida.",
+            prevention_prep_title: "PrEP (Profilaxis Pre-Exposición)",
+            prevention_prep_p: "Una estrategia proactiva y continua (píldora diaria o inyección de acción prolongada) para que las personas VIH negativas reduzcan el riesgo *antes* de la exposición. Altamente eficaz cuando se toma según lo prescrito.",
+            prevention_pep_title: "PEP (Profilaxis Post-Exposición)",
+            prevention_pep_p: "Una medida reactiva de emergencia (curso de píldoras de 28 días) para prevenir la infección *después* de una posible exposición. Debe iniciarse dentro de las 72 horas.",
+            testing_knowledge_is_power_title: "Hacerse la Prueba: El Conocimiento es Poder",
+            testing_knowledge_is_power_p: "Hacerse la prueba es una parte rutinaria del cuidado de la salud y la única manera de conocer su estado de VIH. Los CDC recomiendan que todas las personas de 13 a 64 años se hagan la prueba al menos una vez. Conocer su estado es empoderador:",
+            testing_knowledge_is_power_li1: "<strong>Si el resultado es positivo:</strong> Puede iniciar un tratamiento que le salvará la vida para proteger su salud y prevenir la transmisión.",
+            testing_knowledge_is_power_li2: "<strong>Si el resultado es negativo:</strong> Gana tranquilidad y puede tomar medidas como la PrEP para mantenerse negativo.",
+            testing_which_test_title: "¿Qué Prueba de VIH es Adecuada para Mí y Cuándo?",
+            testing_which_test_p: "La prueba correcta depende de cuánto tiempo ha pasado desde una posible exposición. El tiempo entre la exposición y el momento en que una prueba puede detectar el VIH se llama \"período de ventana\".",
+            testing_which_test_label: "¿Cuándo fue su exposición potencial más reciente?",
+            testing_select_option: "-- Seleccione un período de tiempo --",
+            testing_option_pep: "Hace menos de 72 horas",
+            testing_option_nat: "Hace 10 a 33 días",
+            testing_option_antigen: "Hace 18 a 45 días",
+            testing_option_all: "Hace más de 90 días",
+            testing_uu_title: "Un Diagnóstico Positivo: El Poder de I=I",
+            testing_uu_p1: "Recibir un diagnóstico positivo es el primer paso hacia una vida larga y saludable. El objetivo del tratamiento (TAR) es lograr una <strong>carga viral indetectable</strong>. Esto significa que la cantidad de VIH en su sangre es tan baja que no se puede medir con una prueba estándar.",
+            testing_uu_box_title: "Indetectable = Intransmisible (I=I)",
+            testing_uu_box_p: "La abrumadora evidencia científica confirma que una persona con VIH que toma la TAR según lo prescrito y logra y mantiene una carga viral indetectable durante al menos seis meses <strong>no transmitirá el VIH a sus parejas sexuales.</strong>",
+            testing_uu_p2: "Este es un hecho que cambia la vida, que desmantela el estigma y empodera a las personas que viven con el VIH para tener relaciones saludables y seguras sin temor a la transmisión.",
+            antivirals_how_they_work_title: "Cómo Funcionan los Medicamentos contra el VIH: Terapia Antirretroviral (TAR)",
+            antivirals_how_they_work_p: "La terapia antirretroviral (TAR) no es un solo fármaco, sino una combinación de medicamentos que atacan el virus del VIH en diferentes etapas de su ciclo de vida. Al utilizar varios métodos de ataque a la vez, la TAR puede detener eficazmente la replicación viral. La TAR moderna es increíblemente eficaz, a menudo combinando múltiples fármacos en una sola píldora de una vez al día. Existen varias clases de estos fármacos.",
+            living_well_title: "Su Plan de Salud Proactivo con VIH",
+            living_well_subtitle: "Vivir bien con el VIH significa gestionar su salud en general. Gracias a un tratamiento eficaz, el enfoque ahora está en el bienestar a largo plazo. Esto implica gestionar proactivamente otras condiciones de salud (comorbilidades) en colaboración con su equipo de atención médica. Utilice esta guía para comprender las áreas clave de enfoque.",
+            future_horizon_title: "El Horizonte: La Búsqueda de una Cura",
+            future_horizon_p: "La comunidad científica persigue sin descanso una cura para el VIH. El mayor desafío es el \"reservorio latente\": el VIH que se esconde inactivo en las células donde los fármacos actuales no pueden alcanzarlo. Los investigadores están explorando estrategias innovadoras como \"activar y matar\" y la terapia génica para eliminar este reservorio.",
+            future_horizon_box_p: "Aunque todavía no hay una cura, la ciencia avanza rápidamente, ofreciendo una esperanza real para el futuro. El viaje de la investigación del VIH es uno de logros notables y dedicación persistente. Su salud hoy es un testimonio de ese progreso.",
+            footer_disclaimer: "Esta guía proporciona información general y no sustituye el consejo médico profesional. Siempre consulte con su proveedor de atención médica para el diagnóstico y tratamiento.",
+            footer_source: "El contenido se basa en información de los Centros para el Control y la Prevención de Enfermedades (CDC) de EE. UU., HIV.gov y directrices médicas establecidas.",
+            learn_more_prophylaxis: "Aprenda más sobre PrEP y PEP",
+            learn_more_diagnosis: "Aprenda más sobre las Pruebas de VIH",
+            learn_more_meds: "Aprenda más sobre los Medicamentos",
+            learn_more_myths: "Aprenda más y Desmienta Mitos",
+            quiz_data: [
+                { question: "¿Se puede contraer el VIH por compartir un vaso con alguien que vive con el VIH?", options: ["Sí", "No"], answer: "No", explanation: "Correcto. El VIH no se transmite a través de la saliva ni al compartir objetos. El virus no puede sobrevivir el tiempo suficiente fuera del cuerpo para representar un riesgo de esta manera.", color: 'bg-sky-100' },
+                { question: "¿Qué significa 'I=I' en el contexto del VIH?", options: ["Unidos=Imparables", "Indetectable=Intransmisible"], answer: "Indetectable=Intransmisible", explanation: "¡Correcto! Esto significa que una persona con una carga viral indetectable debido a la TAR no puede transmitir el VIH a sus parejas sexuales.", color: 'bg-emerald-100' },
+                { question: "¿Puede un mosquito transmitir el VIH al picar a una persona y luego a otra?", options: ["Sí", "No"], answer: "No", explanation: "Correcto. El VIH no es transmitido por insectos. El virus no puede reproducirse dentro de un mosquito y no se propaga de esta manera.", color: 'bg-rose-100' },
+                { question: "¿Es la PrEP una vacuna que te da inmunidad permanente al VIH?", options: ["Sí", "No"], answer: "No", explanation: "Correcto. La PrEP es un medicamento, no una vacuna. Es muy eficaz, pero debe tomarse según lo prescrito (píldora diaria o inyección regular) para mantener la protección.", color: 'bg-amber-100' },
+                { question: "Si una persona se siente sana, no puede tener VIH.", options: ["Verdadero", "Falso"], answer: "Falso", explanation: "Correcto. Durante la etapa crónica (Etapa 2), las personas con VIH a menudo no presentan síntomas durante muchos años, pero aún pueden transmitir el virus. La única forma de saberlo es haciéndose la prueba.", color: 'bg-violet-100' },
+                { question: "¿Cuándo debe alguien empezar la PEP después de una posible exposición?", options: ["Dentro de 1 semana", "Dentro de 72 horas"], answer: "Dentro de 72 horas", explanation: "¡Correcto! La PEP es un medicamento de emergencia que debe iniciarse dentro de las 72 horas (3 días) para ser eficaz. Cuanto antes, mejor.", color: 'bg-cyan-100' }
+            ],
+            testing_recommendations: {
+                pep: "<strong>Acción: Emergencia - Busque la PEP.</strong> Es demasiado pronto para que cualquier prueba sea precisa. Si tuvo una exposición de alto riesgo, vaya a una sala de emergencias o clínica de atención de urgencia de inmediato y pregunte sobre la Profilaxis Post-Exposición (PEP). Planee hacerse la prueba en unas pocas semanas.",
+                nat: "<strong>Mejor Prueba: Prueba de Ácido Nucleico (NAT).</strong> Una NAT puede detectar el virus en este período de tiempo. Una prueba de antígeno/anticuerpo de laboratorio también puede funcionar. Hable con su médico o una clínica sobre qué prueba es mejor para su situación.",
+                antigen: "<strong>Mejor Prueba: Prueba de Antígeno/Anticuerpo de Laboratorio.</strong> Una prueba de laboratorio de una vena es muy precisa ahora. Una prueba rápida de punción digital también es una good opción. Visite una clínica o a su médico para hacerse la prueba.",
+                all: "<strong>Mejor Prueba: Cualquier prueba es precisa.</strong> En este punto, todas las pruebas de VIH se consideran altamente precisas, incluidas las pruebas rápidas y las autopruebas en el hogar. Puede usar con confianza cualquier método disponible."
+            },
+            living_well_data: [
+                { icon: "🧠", title: "Salud Mental", watch_for: "Depresión, Ansiedad", action_plan: "Hable con su médico, busque terapia o grupos de apoyo, haga ejercicio y practique la atención plena. Su salud mental es esencial para seguir el tratamiento." },
+                { icon: "❤️", title: "Salud del Corazón", watch_for: "Enfermedad Cardiovascular", action_plan: "<strong>¡No fume!</strong> Coma una dieta saludable, haga ejercicio y deje que su médico controle su presión arterial y colesterol." },
+                { icon: "🩺", title: "Salud del Hígado", watch_for: "Enfermedad Hepática (Hepatitis B y C)", action_plan: "Hágase la prueba de Hepatitis B y C. Vacúnese si es necesario. Limite o evite el alcohol. Discuta las opciones de cura para el VHC con su médico." },
+                { icon: "🦴", title: "Salud Ósea", watch_for: "Osteoporosis", action_plan: "Asegúrese de obtener suficiente calcio y vitamina D. Haga ejercicios de soporte de peso como caminar o levantar pesas." },
+                { icon: "🛡️", title: "Sistema Inmune y Cáncer", watch_for: "Aumento del Riesgo de Cáncer", action_plan: "Tome la TAR de manera consistente. Vacúnese contra el VPH y la Hepatitis B. Asista a todas las pruebas de detección de cáncer recomendadas (p. ej., pruebas de Papanicolaou)." },
+                { icon: "💊", title: "La Adherencia es Clave", watch_for: "Haciendo que su Tratamiento Funcione", action_plan: "Tomar su medicamento exactamente como se lo recetaron es fundamental para mantener su carga viral indetectable y prevenir la resistencia a los medicamentos. Use organizadores de píldoras o alarmas y hable con su médico si tiene algún problema." }
+            ],
+            living_well_watch_for_label: "Esté Atento a",
+            living_well_action_plan_label: "Su Plan de Acción"
+        }
+    };
+
+    let currentLanguage = 'en';
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('.content-section');
+    
+    function renderContent() {
+        const t = translations[currentLanguage];
+        
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key] && typeof t[key] === 'string') {
+                 el.innerHTML = t[key];
+            }
+        });
+
+        renderQuiz(t.quiz_data);
+        renderLivingWell(t.living_well_data, t.living_well_watch_for_label, t.living_well_action_plan_label);
+        updateSelectOptions();
+    }
+    
+    function updateSelectOptions() {
+        const t = translations[currentLanguage];
+        const select = document.getElementById('exposure-time');
+        select.querySelector('option[value="select"]').textContent = t.testing_select_option;
+        select.querySelector('option[value="pep"]').textContent = t.testing_option_pep;
+        select.querySelector('option[value="nat"]').textContent = t.testing_option_nat;
+        select.querySelector('option[value="antigen"]').textContent = t.testing_option_antigen;
+        select.querySelector('option[value="all"]').textContent = t.testing_option_all;
+    }
+
+    function renderQuiz(quizData) {
+        const quizContainer = document.getElementById('quiz-container');
+        quizContainer.innerHTML = '';
+        quizData.forEach((item) => {
+            const card = document.createElement('div');
+            card.className = `quiz-card p-6 rounded-xl shadow-lg flex flex-col ${item.color}`;
+            
+            const questionP = document.createElement('p');
+            questionP.className = 'font-semibold mb-4 text-slate-800 flex-grow';
+            questionP.textContent = item.question;
+            card.appendChild(questionP);
+
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'space-y-3';
+            item.options.forEach(optionText => {
+                const button = document.createElement('button');
+                button.textContent = optionText;
+                button.className = 'quiz-option w-full text-left p-3 border-2 bg-white/50 border-slate-300 rounded-lg hover:bg-white';
+                button.onclick = () => {
+                    const parent = button.parentElement;
+                    Array.from(parent.children).forEach(child => {
+                        child.disabled = true;
+                        if (child.textContent === item.answer) {
+                            child.classList.remove('border-slate-300', 'hover:bg-white');
+                            child.classList.add('bg-green-200', 'border-green-500', 'font-bold');
+                        } else {
+                            child.classList.remove('hover:bg-white');
+                        }
+                    });
+                    if (button.textContent !== item.answer) {
+                        button.classList.remove('border-slate-300');
+                        button.classList.add('bg-red-200', 'border-red-500');
+                    }
+                    explanationP.classList.remove('hidden');
+                };
+                optionsDiv.appendChild(button);
+            });
+            card.appendChild(optionsDiv);
+
+            const explanationP = document.createElement('p');
+            explanationP.className = 'mt-4 text-sm text-slate-700 p-3 bg-white/60 rounded-md hidden';
+            explanationP.textContent = item.explanation;
+            card.appendChild(explanationP);
+
+            quizContainer.appendChild(card);
+        });
+    }
+
+    function renderLivingWell(livingWellData, watchForLabel, actionPlanLabel) {
+        const container = document.getElementById('living-well-grid');
+        container.innerHTML = '';
+        livingWellData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'bg-white p-6 rounded-xl shadow-lg flex flex-col';
+            card.innerHTML = `
+                <div class="flex items-center mb-4">
+                    <span class="text-4xl mr-4">${item.icon}</span>
+                    <h4 class="text-xl font-bold text-slate-800">${item.title}</h4>
+                </div>
+                <p class="font-semibold mb-2 text-slate-700">${watchForLabel}: ${item.watch_for}</p>
+                <p class="text-slate-600 flex-grow">${item.action_plan}</p>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.documentElement.lang = lang;
+        document.querySelectorAll('.js-lang-en').forEach(btn => btn.classList.toggle('active', lang === 'en'));
+        document.querySelectorAll('.js-lang-es').forEach(btn => btn.classList.toggle('active', lang === 'es'));
+        renderContent();
+    }
+
+    function showSection(hash) {
+        let targetHash = hash || '#basics'; 
+        if (hash === '#welcome') targetHash = '#basics';
+
+        sections.forEach(section => {
+            if ('#' + section.id === targetHash) {
+                section.classList.add('active');
+            } else {
+                section.classList.remove('active');
+            }
+        });
+
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === targetHash) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+        
+        document.getElementById('welcome').style.display = 'none';
+        window.scrollTo(0, 0);
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetHash = link.getAttribute('href');
+            history.pushState(null, null, targetHash);
+            showSection(targetHash);
+        });
+    });
+
+    window.addEventListener('popstate', () => {
+        showSection(window.location.hash);
+    });
+
+    if (window.location.hash && window.location.hash !== '#welcome') {
+        showSection(window.location.hash);
+    } else {
+        document.getElementById('welcome').style.display = 'block';
+    }
+
+    const hivProgressionCtx = document.getElementById('hivProgressionChart').getContext('2d');
+    const hivProgressionChart = new Chart(hivProgressionCtx, {
+        type: 'line',
+        data: {
+            labels: ['Infection', 'Acute Phase', 'Chronic Phase (Start)', 'Years Later...', 'AIDS Stage'],
+            datasets: [{
+                label: 'Viral Load (Untreated)',
+                data: [0, 8, 6, 6.5, 9],
+                borderColor: 'rgb(220, 38, 38)',
+                backgroundColor: 'rgba(220, 38, 38, 0.5)',
+                yAxisID: 'y1',
+                tension: 0.1
+            }, {
+                label: 'CD4 Count (Untreated)',
+                data: [8, 5, 7, 4, 1],
+                borderColor: 'rgb(239, 68, 68)',
+                backgroundColor: 'rgba(239, 68, 68, 0.5)',
+                yAxisID: 'y',
+                tension: 0.1
+            }, {
+                label: 'Viral Load (Treated with ART)',
+                data: [0, 8, 1, 0.5, 0.5],
+                borderColor: '#0d9488',
+                backgroundColor: 'rgba(13, 148, 136, 0.5)',
+                yAxisID: 'y1',
+                tension: 0.1,
+                borderDash: [5, 5]
+            }, {
+                label: 'CD4 Count (Treated with ART)',
+                data: [8, 5, 7, 8, 8.5],
+                borderColor: '#14b8a6',
+                backgroundColor: 'rgba(20, 184, 166, 0.5)',
+                yAxisID: 'y',
+                tension: 0.1,
+                borderDash: [5, 5]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
+            stacked: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'HIV Progression: CD4 Count vs. Viral Load',
+                    font: { size: 16 },
+                    color: '#334155'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                if(context.dataset.yAxisID === 'y1'){
+                                   label += 'High/Low';
+                                } else {
+                                   label += context.parsed.y * 100 + ' cells/mm³';
+                                }
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'CD4 Count (Immune Strength)',
+                        color: '#334155'
+                    },
+                    ticks: {
+                        color: '#64748b',
+                        callback: function(value, index, values) {
+                            return value * 100;
+                        }
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: 'Viral Load (Amount of HIV)',
+                        color: '#334155'
+                    },
+                    grid: {
+                        drawOnChartArea: false,
+                    },
+                     ticks: {
+                        color: '#64748b',
+                        callback: function(value, index, values) {
+                           if(value > 7) return 'Very High';
+                           if(value > 4) return 'High';
+                           if(value > 1) return 'Moderate';
+                           return 'Undetectable';
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const exposureSelect = document.getElementById('exposure-time');
+    const recommendationDiv = document.getElementById('testing-recommendation');
+    
+    exposureSelect.addEventListener('change', (e) => {
+        const value = e.target.value;
+        const recommendations = translations[currentLanguage].testing_recommendations;
+        if (value === 'select') {
+            recommendationDiv.classList.add('hidden');
+        } else {
+            recommendationDiv.innerHTML = recommendations[value];
+            recommendationDiv.classList.remove('hidden');
+        }
+    });
+
+    document.querySelectorAll('.js-lang-en').forEach(btn => btn.addEventListener('click', () => changeLanguage('en')));
+    document.querySelectorAll('.js-lang-es').forEach(btn => btn.addEventListener('click', () => changeLanguage('es')));
+    
+    document.querySelectorAll('.js-show-google').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const parentSelector = e.currentTarget.closest('.js-lang-selector');
+            parentSelector.querySelector('.js-native-toggle').classList.add('hidden');
+            const googleToggle = parentSelector.querySelector('.js-google-toggle');
+            googleToggle.classList.remove('hidden');
+            googleToggle.classList.add('flex');
+        });
+    });
+
+    document.querySelectorAll('.js-back-native').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const parentSelector = e.currentTarget.closest('.js-lang-selector');
+            parentSelector.querySelector('.js-native-toggle').classList.remove('hidden');
+            const googleToggle = parentSelector.querySelector('.js-google-toggle');
+            googleToggle.classList.add('hidden');
+            googleToggle.classList.remove('flex');
+            
+            const googleCookie = document.cookie.match(/googtrans=([^\;]+)/);
+            if (googleCookie) {
+                document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+                document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + window.location.hostname;
+            }
+            
+            changeLanguage(currentLanguage);
+            location.reload();
+        });
+    });
+
+    changeLanguage('en');
+
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Patient's Guide to Trichomoniasis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0d9488; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple { background-color: white !important; border: 1px solid #9ca3af !important; border-radius: 0.375rem !important; padding: 0.25rem 0.5rem !important; display: inline-block; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #374151 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .symptom-tab { cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; }
+        .symptom-tab.active { border-bottom-color: #14b8a6; color: #0f766e; font-weight: 600; }
+        .symptom-content { display: none; }
+        .symptom-content.active { display: block; }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../landing.html" class="text-sm font-medium text-teal-600 hover:text-teal-800" data-translate="back_link"></a>
+                    <span class="mx-2 text-slate-300">|</span>
+                    <h1 class="text-lg font-bold text-slate-800" data-translate="header_title"></h1>
+                </div>
+                <div class="flex items-center">
+                    <div id="lang-selector" class="flex items-center shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-600 hover:underline" data-translate="lang_back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl mx-auto">
+            <header class="text-center mb-10">
+                <h2 class="text-4xl font-bold text-slate-900" data-translate="main_title"></h2>
+                <p class="mt-3 text-lg text-slate-600" data-translate="main_subtitle"></p>
+            </header>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="symptoms_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="w-full md:w-1/2 text-center">
+                            <p class="text-6xl font-bold text-teal-500" data-translate="symptoms_infographic_number"></p>
+                            <p class="text-lg font-semibold text-slate-700 mt-2" data-translate="symptoms_infographic_text"></p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-slate-600" data-translate="symptoms_desc"></p>
+                        </div>
+                    </div>
+                    <div class="mt-6 border-t border-slate-200 pt-6">
+                        <div class="border-b border-slate-200 mb-4">
+                            <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+                                <button id="tab-women" class="symptom-tab py-3 px-1 text-base font-medium" data-translate="symptoms_tab_women"></button>
+                                <button id="tab-men" class="symptom-tab py-3 px-1 text-base font-medium" data-translate="symptoms_tab_men"></button>
+                            </nav>
+                        </div>
+                        <div id="content-women" class="symptom-content"></div>
+                        <div id="content-men" class="symptom-content"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="transmission_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                     <p data-translate="transmission_desc"></p>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="diagnosis_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4" data-translate="diagnosis_desc"></p>
+                    <div id="diagnosis_tests" class="space-y-4"></div>
+                </div>
+            </section>
+            
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="treatment_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="bg-teal-50 border-l-4 border-teal-500 text-teal-800 p-4 mb-6" role="alert">
+                        <p class="font-bold" data-translate="treatment_good_news"></p>
+                        <p data-translate="treatment_good_news_desc"></p>
+                    </div>
+                    <div id="treatment_steps" class="space-y-4"></div>
+                     <div class="mt-6 border-t pt-6">
+                         <h4 class="text-lg font-bold text-slate-800 mb-3" data-translate="treatment_partner_title"></h4>
+                         <p class="mb-4" data-translate="treatment_partner_desc"></p>
+                         <div class="bg-slate-100 p-4 rounded-lg">
+                            <p class="font-semibold text-slate-700" data-translate="treatment_ept_title"></p>
+                            <p class="text-sm text-slate-600" data-translate="treatment_ept_desc"></p>
+                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="complications_title"></h3>
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-lg shadow-md">
+                    <p class="mb-4 text-red-900" data-translate="complications_desc"></p>
+                    <div id="complications_list" class="space-y-4"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="mt-12 border-t border-slate-200 bg-white">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm text-slate-500">
+            <p data-translate="footer_disclaimer"></p>
+            <a href="../landing.html" class="font-semibold text-teal-600 hover:underline mt-2 inline-block" data-translate="footer_link"></a>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                back_link: "← Back to Main Guide",
+                header_title: "Guide to Trichomoniasis",
+                lang_back_button: "Back",
+                main_title: "Understanding Trichomoniasis ('Trich')",
+                main_subtitle: "The most common curable STI worldwide. Learn about this parasitic infection and why treating partners is key.",
+                symptoms_title: "Signs and Symptoms",
+                symptoms_infographic_number: "~70%",
+                symptoms_infographic_text: "of people with trich have NO symptoms.",
+                symptoms_desc: "Trichomoniasis is caused by a tiny parasite. Most people who have it don't know it because they have no symptoms. If symptoms do appear, they can range from mild irritation to severe inflammation and usually show up within a month of infection.",
+                symptoms_tab_women: "For Women",
+                symptoms_tab_men: "For Men",
+                symptoms_women_list: ["Itching, burning, redness, or soreness of the genitals", "Discomfort with urination or sex", "A change in vaginal discharge: it can become thin, frothy, and have a strong, unusual 'fishy' odor. The color may be clear, white, yellow, or greenish."],
+                symptoms_men_list: ["Itching or irritation inside the penis", "Burning after urination or ejaculation", "Some discharge from the penis (less common)"],
+                transmission_title: "How is Trichomoniasis Spread?",
+                transmission_desc: "The parasite is passed from an infected person to another person during sex. In women, the most commonly infected part of the body is the lower genital tract (vulva, vagina, cervix, or urethra). In men, the most commonly infected body part is the inside of the penis (urethra).",
+                diagnosis_title: "How Is It Diagnosed?",
+                diagnosis_desc: "Since symptoms are often absent or can be mistaken for other conditions like a yeast infection, the only way to know for sure if you have trichomoniasis is to get tested.",
+                diagnosis_tests: [
+                    { title: "Lab Test", desc: "A healthcare provider can diagnose the infection by taking a sample of vaginal fluid (in women) or urethral fluid (in men) and examining it under a microscope for the parasite. More sensitive and accurate laboratory tests, such as nucleic acid amplification tests (NAAT), are also available and are often preferred." }
+                ],
+                treatment_title: "How Is It Treated?",
+                treatment_good_news: "Good news: Trichomoniasis is easily cured.",
+                treatment_good_news_desc: "Treatment is simple and effective with a course of prescription antibiotic medication.",
+                treatment_steps: [
+                    { title: "Antibiotic Medication", desc: "Your doctor will prescribe an antibiotic, most commonly metronidazole or tinidazole. These are usually given as a single large dose or as a multi-day course of pills." },
+                    { title: "Treat All Partners", desc: "It is critical that you and all of your recent sexual partners are treated at the same time. This prevents you from passing the infection back and forth to each other, a cycle known as reinfection." },
+                    { title: "Wait to Have Sex", desc: "You should not have sex until you and your partner(s) have all finished treatment and any symptoms have gone away (usually about a week)." },
+                    { title: "Get Re-tested", desc: "Reinfection with trichomoniasis is very common. The CDC recommends that women who have been treated get tested again within 3 months of their treatment to make sure they haven't been reinfected." }
+                ],
+                treatment_partner_title: "Partner Treatment: Why It's Essential",
+                treatment_partner_desc: "If your partners aren't treated, you can get the infection again. It's a cycle that can only be stopped if everyone gets treated.",
+                treatment_ept_title: "What is Expedited Partner Therapy (EPT)?",
+                treatment_ept_desc: "In some cases, your doctor can provide a prescription or medication for your partner without examining them first. This is called EPT and it's a safe and easy way to make sure your partner gets treated quickly. Ask your doctor if this is an option.",
+                complications_title: "Potential Complications",
+                complications_desc: "Untreated trichomoniasis can lead to several health complications and make you more vulnerable to other infections.",
+                complications_list: [
+                    { title: "Increased HIV Risk", desc: "The genital inflammation caused by trichomoniasis can make it easier to get or spread HIV." },
+                    { title: "Issues in Pregnancy", desc: "Having trichomoniasis during pregnancy increases the risk of delivering the baby prematurely (preterm birth) and having a baby with a low birth weight." },
+                    { title: "Other Infections", desc: "Trichomoniasis can increase the risk of getting other STIs. In women, it has been linked to a higher risk of Pelvic Inflammatory Disease (PID) if other infections are present. In men, it can sometimes lead to prostatitis (inflammation of the prostate gland)." }
+                ],
+            },
+            es: {
+                back_link: "← Volver a la Guía Principal",
+                header_title: "Guía sobre la Tricomoniasis",
+                lang_back_button: "Volver",
+                main_title: "Entendiendo la Tricomoniasis ('Trico')",
+                main_subtitle: "La ITS curable más común en todo el mundo. Aprenda sobre esta infección parasitaria y por qué el tratamiento de las parejas es clave.",
+                symptoms_title: "Signos y Síntomas",
+                symptoms_infographic_number: "~70%",
+                symptoms_infographic_text: "de las personas con trico NO tienen síntomas.",
+                symptoms_desc: "La tricomoniasis es causada por un parásito diminuto. La mayoría de las personas que la tienen no lo saben porque no presentan síntomas. Si aparecen síntomas, pueden variar desde una irritación leve hasta una inflamación severa y generalmente aparecen dentro de un mes después de la infección.",
+                symptoms_tab_women: "Para Mujeres",
+                symptoms_tab_men: "Para Hombres",
+                symptoms_women_list: ["Picazón, ardor, enrojecimiento o dolor en los genitales", "Molestias al orinar o durante las relaciones sexuales", "Un cambio en el flujo vaginal: puede volverse fino, espumoso y tener un olor fuerte e inusual a 'pescado'. El color puede ser transparente, blanco, amarillo o verdoso."],
+                symptoms_men_list: ["Picazón o irritación dentro del pene", "Ardor después de orinar o eyacular", "Algo de secreción del pene (menos común)"],
+                transmission_title: "¿Cómo se Propaga la Tricomoniasis?",
+                transmission_desc: "El parásito se transmite de una persona infectada a otra durante las relaciones sexuales. En las mujeres, la parte del cuerpo más comúnmente infectada es el tracto genital inferior (vulva, vagina, cérvix o uretra). En los hombres, la parte del cuerpo más comúnmente infectada es el interior del pene (uretra).",
+                diagnosis_title: "¿Cómo se Diagnostica?",
+                diagnosis_desc: "Dado que los síntomas a menudo están ausentes o pueden confundirse con otras afecciones como una infección por hongos, la única forma de saber con certeza si tiene tricomoniasis es hacerse la prueba.",
+                diagnosis_tests: [
+                    { title: "Prueba de Laboratorio", desc: "Un proveedor de atención médica puede diagnosticar la infección tomando una muestra de fluido vaginal (en mujeres) o fluido uretral (en hombres) y examinándola bajo un microscopio en busca del parásito. También existen pruebas de laboratorio más sensibles y precisas, como las pruebas de amplificación de ácidos nucleicos (NAAT), que a menudo son las preferidas." }
+                ],
+                treatment_title: "¿Cómo se Trata?",
+                treatment_good_news: "Buenas noticias: La tricomoniasis se cura fácilmente.",
+                treatment_good_news_desc: "El tratamiento es simple y efectivo con un ciclo de medicamentos antibióticos recetados.",
+                treatment_steps: [
+                    { title: "Medicamento Antibiótico", desc: "Su médico le recetará un antibiótico, más comúnmente metronidazol o tinidazol. Generalmente se administran en una única dosis grande o en un ciclo de píldoras de varios días." },
+                    { title: "Tratar a Todas las Parejas", desc: "Es fundamental que usted y todas sus parejas sexuales recientes reciban tratamiento al mismo tiempo. Esto evita que se transmitan la infección de un lado a otro, un ciclo conocido como reinfección." },
+                    { title: "Esperar para Tener Relaciones Sexuales", desc: "No debe tener relaciones sexuales hasta que usted y su(s) pareja(s) hayan terminado el tratamiento y cualquier síntoma haya desaparecido (generalmente alrededor de una semana)." },
+                    { title: "Volver a Hacerse la Prueba", desc: "La reinfección con tricomoniasis es muy común. Los CDC recomiendan que las mujeres que han sido tratadas se vuelvan a hacer la prueba dentro de los 3 meses posteriores a su tratamiento para asegurarse de que no se hayan reinfectado." }
+                ],
+                treatment_partner_title: "Tratamiento de la Pareja: Por Qué es Esencial",
+                treatment_partner_desc: "Si sus parejas no reciben tratamiento, usted puede volver a contraer la infección. Es un ciclo que solo puede detenerse si todos reciben tratamiento.",
+                treatment_ept_title: "¿Qué es la Terapia Acelerada para Parejas (EPT)?",
+                treatment_ept_desc: "En algunos casos, su médico puede proporcionar una receta o medicamentos para su pareja sin examinarlos primero. Esto se llama EPT y es una forma segura y fácil de asegurarse de que su pareja reciba tratamiento rápidamente. Pregúntele a su médico si esta es una opción.",
+                complications_title: "Posibles Complicaciones",
+                complications_desc: "La tricomoniasis no tratada puede provocar varias complicaciones de salud y hacerlo más vulnerable a otras infecciones.",
+                complications_list: [
+                    { title: "Mayor Riesgo de VIH", desc: "La inflamación genital causada por la tricomoniasis puede facilitar la adquisición o propagación del VIH." },
+                    { title: "Problemas en el Embarazo", desc: "Tener tricomoniasis durante el embarazo aumenta el riesgo de dar a luz al bebé prematuramente (parto prematuro) y de tener un bebé con bajo peso al nacer." },
+                    { title: "Otras Infecciones", desc: "La tricomoniasis puede aumentar el riesgo de contraer otras ITS. En las mujeres, se ha relacionado con un mayor riesgo de Enfermedad Inflamatoria Pélvica (EIP) si hay otras infecciones presentes. En los hombres, a veces puede provocar prostatitis (inflamación de la glándula prostática)." }
+                ],
+            }
+        };
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            document.getElementById('content-women').innerHTML = `<ul class="list-disc list-inside space-y-2 text-slate-600">${t.symptoms_women_list.map(item => `<li>${item}</li>`).join('')}</ul>`;
+            document.getElementById('content-men').innerHTML = `<ul class="list-disc list-inside space-y-2 text-slate-600">${t.symptoms_men_list.map(item => `<li>${item}</li>`).join('')}</ul>`;
+            
+            document.getElementById('diagnosis_tests').innerHTML = t.diagnosis_tests.map(item => `
+                <div class="bg-slate-50 p-4 rounded-lg border-l-4 border-slate-300">
+                    <p class="font-semibold text-slate-800">${item.title}</p>
+                    <p class="text-slate-600 text-sm">${item.desc}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('treatment_steps').innerHTML = t.treatment_steps.map(item => `
+                <div class="flex items-start">
+                    <span class="text-teal-500 font-bold text-xl mr-3 mt-0.5">→</span>
+                    <div>
+                        <p class="font-semibold text-slate-800">${item.title}</p>
+                        <p class="text-slate-600">${item.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('complications_list').innerHTML = t.complications_list.map(item => `
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-red-800 mb-1">${item.title}</h4>
+                    <p class="text-sm text-slate-700">${item.desc}</p>
+                </div>
+            `).join('');
+        }
+        
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.symptom-tab');
+            const contents = document.querySelectorAll('.symptom-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    const contentId = `content-${tab.id.split('-')[1]}`;
+                    document.getElementById(contentId).classList.add('active');
+                });
+            });
+            document.getElementById('tab-women').click();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+        const backToNativeBtn = document.getElementById('back-to-native');
+        
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        showGoogleTranslateBtn.addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        backToNativeBtn.addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        // Initial setup
+        changeLanguage('en');
+        setupTabs();
+    });
+    </script>
+</body>
+</html>

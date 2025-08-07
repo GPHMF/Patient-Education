@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Patient's Guide to Syphilis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0d9488; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple { background-color: white !important; border: 1px solid #9ca3af !important; border-radius: 0.375rem !important; padding: 0.25rem 0.5rem !important; display: inline-block; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #374151 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .stage-tab { cursor: pointer; transition: all 0.2s; border-left: 4px solid #e2e8f0; }
+        .stage-tab:hover { background-color: #f1f5f9; }
+        .stage-tab.active { border-left-color: #14b8a6; background-color: #f0fdfa; }
+        .stage-content { display: none; }
+        .stage-content.active { display: block; }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../landing.html" class="text-sm font-medium text-teal-600 hover:text-teal-800" data-translate="back_link"></a>
+                    <span class="mx-2 text-slate-300">|</span>
+                    <h1 class="text-lg font-bold text-slate-800" data-translate="header_title"></h1>
+                </div>
+                <div class="flex items-center">
+                    <div id="lang-selector" class="flex items-center shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-600 hover:underline" data-translate="lang_back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl mx-auto">
+            <header class="text-center mb-10">
+                <h2 class="text-4xl font-bold text-slate-900" data-translate="main_title"></h2>
+                <p class="mt-3 text-lg text-slate-600" data-translate="main_subtitle"></p>
+            </header>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="stages_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4" data-translate="stages_desc"></p>
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div id="stages-nav" class="md:w-1/3 space-y-2">
+                        </div>
+                        <div id="stages-content-container" class="md:w-2/3 bg-slate-50 p-4 rounded-md">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="transmission_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                     <p data-translate="transmission_desc"></p>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="diagnosis_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4" data-translate="diagnosis_desc"></p>
+                    <div id="diagnosis_tests" class="space-y-4"></div>
+                </div>
+            </section>
+            
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="treatment_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4" data-translate="treatment_desc"></p>
+                    <div class="bg-teal-50 border-l-4 border-teal-500 text-teal-800 p-4 rounded-lg mb-6">
+                        <p class="font-bold" data-translate="treatment_important_title"></p>
+                        <p data-translate="treatment_important_desc"></p>
+                    </div>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-lg mb-6">
+                        <p class="font-bold" data-translate="treatment_reaction_title"></p>
+                        <p data-translate="treatment_reaction_desc"></p>
+                    </div>
+                     <div class="border-t pt-6">
+                         <h4 class="text-lg font-bold text-slate-800 mb-3" data-translate="treatment_partner_title"></h4>
+                         <p data-translate="treatment_partner_desc"></p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="complications_title"></h3>
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-lg shadow-md">
+                    <p class="mb-4 text-red-900" data-translate="complications_desc"></p>
+                    <div id="complications_list" class="space-y-4"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="mt-12 border-t border-slate-200 bg-white">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm text-slate-500">
+            <p data-translate="footer_disclaimer"></p>
+            <a href="../landing.html" class="font-semibold text-teal-600 hover:underline mt-2 inline-block" data-translate="footer_link"></a>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                back_link: "← Back to Main Guide",
+                header_title: "Guide to Syphilis",
+                lang_back_button: "Back",
+                main_title: "Understanding Syphilis",
+                main_subtitle: "A serious bacterial STI that progresses in stages. Learn about its deceptive symptoms and why early, simple treatment is critical.",
+                stages_title: "The Stages of Syphilis: A Deceptive Progression",
+                stages_desc: "Syphilis is often called 'the great pretender' because its symptoms can mimic other diseases and they can come and go. It's crucial to understand that even when symptoms disappear, the infection is still in your body and requires treatment.",
+                stages: [
+                    { id: "primary", title: "Primary Stage", time: "3-12 weeks after infection", desc: "The first sign is a single, firm, round, and painless sore called a <strong>chancre</strong>. It appears where the bacteria entered the body (genitals, anus, mouth). Because it's painless, it can be easily missed. The chancre heals on its own, but the infection remains." },
+                    { id: "secondary", title: "Secondary Stage", time: "Weeks to months later", desc: "This stage is marked by a non-itchy skin rash, often on the palms of the hands and soles of the feet. Other symptoms can include fever, swollen lymph nodes, sore throat, and wart-like sores. These symptoms will also disappear without treatment." },
+                    { id: "latent", title: "Latent Stage", time: "Can last for years", desc: "This is the 'hidden' stage where there are no signs or symptoms. The bacteria remain in the body, and without treatment, the infection can progress to the final, most destructive stage." },
+                    { id: "tertiary", title: "Tertiary Stage", time: "10-30 years after infection", desc: "If never treated, syphilis can cause severe damage to the heart, brain, and nervous system (neurosyphilis), leading to paralysis, blindness, dementia, and death. This damage is irreversible." }
+                ],
+                transmission_title: "How is Syphilis Spread?",
+                transmission_desc: "Syphilis is spread by direct contact with a syphilis sore (chancre) during vaginal, anal, or oral sex. Sores can occur on or around the penis, vagina, anus, or in the rectum, on the lips, or in the mouth. It can also be passed from a pregnant person to their unborn baby.",
+                diagnosis_title: "How Is It Diagnosed?",
+                diagnosis_desc: "A healthcare provider can diagnose syphilis using a few different methods, most commonly with a two-step blood testing process:",
+                diagnosis_tests: [
+                    { title: "Screening Blood Test (RPR or VDRL)", desc: "This is the first step. These tests look for antibodies that your body produces in response to the damage caused by the infection. They are highly effective for screening but can sometimes be positive for other reasons." },
+                    { title: "Confirmatory Blood Test (TP-PA or FTA-ABS)", desc: "If the screening test is positive, a second, more specific test is done to confirm the diagnosis. This test looks for antibodies that specifically target the syphilis bacteria itself." },
+                    { title: "Fluid or Tissue Sample", desc: "If a sore is present, your doctor can take a sample from it to look for the syphilis bacteria under a microscope. This provides a direct diagnosis." }
+                ],
+                treatment_title: "How Is It Treated?",
+                treatment_desc: "Yes, syphilis is completely curable with antibiotics. The right treatment, however, depends on the stage of the infection.",
+                treatment_important_title: "Penicillin: The Gold Standard",
+                treatment_important_desc: "Penicillin injections are the recommended treatment for all stages of syphilis. For early-stage syphilis (primary, secondary, or early latent), a single injection is usually enough to cure the infection. For later stages, more doses are needed. It is critical to get treated as soon as possible to prevent long-term damage.",
+                treatment_reaction_title: "What to Expect After Treatment: Jarisch-Herxheimer Reaction",
+                treatment_reaction_desc: "Within the first 24 hours after your first penicillin shot, you might experience a temporary reaction that includes fever, chills, headache, and muscle aches. This is called the Jarisch-Herxheimer reaction. It is a normal response caused by your immune system reacting to the dying bacteria. It is not an allergic reaction to the penicillin and usually goes away on its own within a day.",
+                treatment_partner_title: "Partner Treatment is Crucial",
+                treatment_partner_desc: "You must inform your sexual partner(s) so they can be tested and treated. If they are not treated, you can get the infection again. Your local health department can help you notify partners anonymously if needed.",
+                complications_title: "The Dangers of Untreated Syphilis",
+                complications_desc: "If left untreated, syphilis can cause devastating and permanent damage throughout the body. The most serious complications include:",
+                complications_list: [
+                    { title: "Neurosyphilis and Ocular Syphilis", desc: "The infection can invade the nervous system at any stage. <strong>Neurosyphilis</strong> can cause severe headaches, muscle weakness, paralysis, numbness, and dementia. <strong>Ocular Syphilis</strong> can affect the eyes, causing vision changes, floaters, and even permanent blindness." },
+                    { title: "Congenital Syphilis", desc: "This is one of the most tragic outcomes. An infected pregnant person can pass the infection to their baby, which can lead to miscarriage, stillbirth, or severe health problems for the newborn, including deformed bones, developmental delays, and death. This is why prenatal screening for syphilis is a critical part of care for all pregnant people." },
+                    { title: "Increased HIV Risk", desc: "The sores caused by syphilis make it much easier to get or transmit HIV." }
+                ],
+            },
+            es: {
+                back_link: "← Volver a la Guía Principal",
+                header_title: "Guía sobre la Sífilis",
+                lang_back_button: "Volver",
+                main_title: "Entendiendo la Sífilis",
+                main_subtitle: "Una grave ITS bacteriana que progresa en etapas. Aprenda sobre sus síntomas engañosos y por qué un tratamiento temprano y simple es fundamental.",
+                stages_title: "Las Etapas de la Sífilis: Una Progresión Engañosa",
+                stages_desc: "A la sífilis a menudo se le llama 'la gran imitadora' porque sus síntomas pueden parecerse a los de otras enfermedades y pueden aparecer y desaparecer. Es crucial entender que incluso cuando los síntomas desaparecen, la infección sigue en su cuerpo y requiere tratamiento.",
+                stages: [
+                    { id: "primary", title: "Etapa Primaria", time: "3-12 semanas después de la infección", desc: "La primera señal es una única llaga firme, redonda e indolora llamada <strong>chancro</strong>. Aparece donde la bacteria entró en el cuerpo (genitales, ano, boca). Como no duele, puede pasar desapercibida fácilmente. El chancro se cura por sí solo, pero la infección permanece." },
+                    { id: "secondary", title: "Etapa Secundaria", time: "Semanas a meses después", desc: "Esta etapa se caracteriza por una erupción cutánea que no pica, a menudo en las palmas de las manos y las plantas de los pies. Otros síntomas pueden incluir fiebre, ganglios linfáticos inflamados, dolor de garganta y llagas similares a verrugas. Estos síntomas también desaparecerán sin tratamiento." },
+                    { id: "latent", title: "Etapa Latente", time: "Puede durar años", desc: "Esta es la etapa 'oculta' donde no hay signos ni síntomas. La bacteria permanece en el cuerpo y, sin tratamiento, la infección puede progresar a la etapa final y más destructiva." },
+                    { id: "tertiary", title: "Etapa Terciaria", time: "10-30 años después de la infección", desc: "Si nunca se trata, la sífilis puede causar graves daños al corazón, cerebro y sistema nervioso (neurosífilis), lo que lleva a parálisis, ceguera, demencia y muerte. Este daño es irreversible." }
+                ],
+                transmission_title: "¿Cómo se Propaga la Sífilis?",
+                transmission_desc: "La sífilis se transmite por contacto directo con una llaga de sífilis (chancro) durante las relaciones sexuales vaginales, anales u orales. Las llagas pueden aparecer en o alrededor del pene, la vagina, el ano, o en el recto, en los labios o en la boca. También puede transmitirse de una persona embarazada a su bebé por nacer.",
+                diagnosis_title: "¿Cómo se Diagnostica?",
+                diagnosis_desc: "Un proveedor de atención médica puede diagnosticar la sífilis utilizando algunos métodos diferentes, más comúnmente con un proceso de análisis de sangre de dos pasos:",
+                diagnosis_tests: [
+                    { title: "Análisis de Sangre de Detección (RPR o VDRL)", desc: "Este es el primer paso. Estas pruebas buscan anticuerpos que su cuerpo produce en respuesta al daño causado por la infección. Son muy eficaces para la detección, pero a veces pueden dar positivo por otras razones." },
+                    { title: "Análisis de Sangre Confirmatorio (TP-PA o FTA-ABS)", desc: "Si la prueba de detección es positiva, se realiza una segunda prueba más específica para confirmar el diagnóstico. Esta prueba busca anticuerpos que atacan específicamente a la bacteria de la sífilis." },
+                    { title: "Muestra de Fluido o Tejido", desc: "Si hay una llaga presente, su médico puede tomar una muestra de ella para buscar la bacteria de la sífilis bajo un microscopio. Esto proporciona un diagnóstico directo." }
+                ],
+                treatment_title: "¿Cómo se Trata?",
+                treatment_desc: "Sí, la sífilis es completamente curable con antibióticos. Sin embargo, el tratamiento correcto depende de la etapa de la infección.",
+                treatment_important_title: "Penicilina: El Estándar de Oro",
+                treatment_important_desc: "Las inyecciones de penicilina son el tratamiento recomendado para todas las etapas de la sífilis. Para la sífilis en etapa temprana (primaria, secundaria o latente temprana), una sola inyección suele ser suficiente para curar la infección. Para etapas posteriores, se necesitan más dosis. Es fundamental recibir tratamiento lo antes posible para prevenir daños a largo plazo.",
+                treatment_reaction_title: "Qué Esperar Después del Tratamiento: Reacción de Jarisch-Herxheimer",
+                treatment_reaction_desc: "Dentro de las primeras 24 horas después de su primera inyección de penicilina, podría experimentar una reacción temporal que incluye fiebre, escalofríos, dolor de cabeza y dolores musculares. Esto se llama la reacción de Jarisch-Herxheimer. Es una respuesta normal causada por su sistema inmunológico que reacciona a las bacterias moribundas. No es una reacción alérgica a la penicilina y generalmente desaparece por sí sola en un día.",
+                treatment_partner_title: "El Tratamiento de la Pareja es Crucial",
+                treatment_partner_desc: "Debe informar a su(s) pareja(s) sexual(es) para que puedan hacerse la prueba y recibir tratamiento. Si no reciben tratamiento, usted puede volver a contraer la infección. Su departamento de salud local puede ayudarle a notificar a sus parejas de forma anónima si es necesario.",
+                complications_title: "Los Peligros de la Sífilis no Tratada",
+                complications_desc: "Si no se trata, la sífilis puede causar daños devastadores y permanentes en todo el cuerpo. Las complicaciones más graves incluyen:",
+                complications_list: [
+                    { title: "Neurosífilis y Sífilis Ocular", desc: "La infección puede invadir el sistema nervioso en cualquier etapa. La <strong>Neurosífilis</strong> puede causar dolores de cabeza severos, debilidad muscular, parálisis, entumecimiento y demencia. La <strong>Sífilis Ocular</strong> puede afectar los ojos, causando cambios en la visión, moscas volantes e incluso ceguera permanente." },
+                    { title: "Sífilis Congénita", desc: "Este es uno de los resultados más trágicos. Una persona embarazada infectada puede transmitir la infección a su bebé, lo que puede provocar un aborto espontáneo, muerte fetal o graves problemas de salud para el recién nacido, como huesos deformes, retrasos en el desarrollo y la muerte." },
+                    { title: "Mayor Riesgo de VIH", desc: "Las llagas causadas por la sífilis facilitan mucho la adquisición o transmisión del VIH." }
+                ],
+            }
+        };
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            renderStages(t);
+            
+            document.getElementById('diagnosis_tests').innerHTML = t.diagnosis_tests.map(item => `
+                <div class="bg-slate-50 p-4 rounded-lg border-l-4 border-slate-300">
+                    <p class="font-semibold text-slate-800">${item.title}</p>
+                    <p class="text-slate-600 text-sm">${item.desc}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('complications_list').innerHTML = t.complications_list.map(item => `
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-red-800 mb-1">${item.title}</h4>
+                    <p class="text-sm text-slate-700">${item.desc}</p>
+                </div>
+            `).join('');
+        }
+        
+        function renderStages(t) {
+            const navContainer = document.getElementById('stages-nav');
+            const contentContainer = document.getElementById('stages-content-container');
+            
+            navContainer.innerHTML = t.stages.map(stage => `
+                <div class="stage-tab p-4" data-stage="${stage.id}">
+                    <p class="font-bold text-slate-800">${stage.title}</p>
+                    <p class="text-sm text-slate-500">${stage.time}</p>
+                </div>
+            `).join('');
+
+            contentContainer.innerHTML = t.stages.map(stage => `
+                <div id="content-${stage.id}" class="stage-content">
+                    <p class="text-slate-700">${stage.desc}</p>
+                </div>
+            `).join('');
+
+            setupStageTabs();
+        }
+
+        function setupStageTabs() {
+            const tabs = document.querySelectorAll('.stage-tab');
+            const contents = document.querySelectorAll('.stage-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const stageId = tab.dataset.stage;
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(`content-${stageId}`).classList.add('active');
+                });
+            });
+            document.querySelector('.stage-tab').click(); // Activate the first tab
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+        const backToNativeBtn = document.getElementById('back-to-native');
+        
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        showGoogleTranslateBtn.addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        backToNativeBtn.addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        // Initial setup
+        changeLanguage('en');
+    });
+    </script>
+</body>
+</html>

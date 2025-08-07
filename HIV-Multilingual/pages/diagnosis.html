@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIV Testing: Your Guide to Diagnostic Tests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f8fafc; /* slate-50 */
+            --text-primary: #1e293b; /* slate-800 */
+            --text-secondary: #475569; /* slate-600 */
+            --accent-color: #4f46e5; /* indigo-600 */
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #334155; color: white; }
+
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .goog-te-gadget-simple {
+            background-color: white !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0.5rem !important;
+            display: inline-block;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span {
+            color: var(--text-primary) !important;
+        }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+            display: none;
+        }
+        .flowchart-box {
+            border: 2px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            position: relative;
+        }
+        .flowchart-arrow {
+            position: relative;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        .flowchart-arrow::after {
+            content: '↓';
+            font-size: 2rem;
+            color: var(--text-secondary);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-2 flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-bold text-slate-800" data-translate="header_title"></h1>
+            </div>
+            <div class="js-lang-selector flex items-center pl-4 shrink-0">
+                <div class="js-native-toggle flex items-center">
+                    <div class="flex rounded-lg border border-gray-300 p-0.5 bg-white">
+                        <button class="lang-btn js-lang-en px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                        <button class="lang-btn js-lang-es px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                    </div>
+                    <button class="js-show-google ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                    </button>
+                </div>
+                <div class="js-google-toggle hidden items-center">
+                    <div id="google_translate_element"></div>
+                    <button class="js-back-native ml-2 text-sm font-semibold text-indigo-600 hover:underline" data-translate="back_button"></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <section class="text-center mb-12">
+            <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-3" data-translate="main_title"></h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600" data-translate="main_subtitle"></p>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="why_test_title"></h3>
+                <p class="text-slate-600 mb-4" data-translate="why_test_p1"></p>
+                <ul id="why-test-list" class="space-y-3">
+                    <!-- List items injected by JS -->
+                </ul>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="who_test_title"></h3>
+                <p class="text-slate-600 mb-4" data-translate="who_test_p1"></p>
+                <ul id="who-test-list" class="space-y-3">
+                    <!-- List items injected by JS -->
+                </ul>
+            </div>
+        </section>
+
+        <section id="tests-section" class="mb-12">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-indigo-700" data-translate="tests_section_title"></h3>
+                <p class="max-w-2xl mx-auto text-slate-600 mt-2" data-translate="tests_section_subtitle"></p>
+            </div>
+            <div id="tests-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                <!-- Test cards will be injected here by JS -->
+            </div>
+        </section>
+
+        <section id="results-section" class="mb-12">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-slate-800" data-translate="results_section_title"></h3>
+                <p class="max-w-2xl mx-auto text-slate-600 mt-2" data-translate="results_section_subtitle"></p>
+            </div>
+            <div id="results-flowchart" class="bg-white rounded-xl shadow-lg p-8">
+                <!-- Flowchart will be injected here by JS -->
+            </div>
+        </section>
+        
+        <section id="after-positive-section">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-indigo-700" data-translate="after_positive_title"></h3>
+                <p class="max-w-2xl mx-auto text-slate-600 mt-2" data-translate="after_positive_subtitle"></p>
+            </div>
+            <div id="after-positive-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                <!-- Post-diagnosis test cards will be injected here by JS -->
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-slate-800 text-white mt-16">
+        <div class="container mx-auto py-8 px-4 text-center">
+            <p data-translate="footer_disclaimer"></p>
+            <div class="mt-4">
+                <p class="text-sm text-slate-400" data-translate="footer_source_intro"></p>
+                <div class="flex justify-center space-x-4 mt-2">
+                    <a href="https://www.cdc.gov/hiv/basics/testing.html" target="_blank" class="text-indigo-300 hover:text-indigo-200 underline">CDC Testing Info</a>
+                    <a href="https://hivinfo.nih.gov/understanding-hiv/fact-sheets/hiv-testing" target="_blank" class="text-indigo-300 hover:text-indigo-200 underline">HIV.gov Testing</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const translations = {
+        en: {
+            header_title: "HIV Testing Guide",
+            main_title: "Your Guide to HIV Diagnostic Tests",
+            main_subtitle: "Getting tested is the only way to know your HIV status. This guide explains the different types of tests, who should get tested, and how to understand your results.",
+            why_test_title: "Why Get Tested?",
+            why_test_p1: "Knowing your HIV status is a critical step in taking care of your health. It empowers you to make informed decisions, regardless of the result.",
+            why_test_list: [
+                "<strong>For Your Health:</strong> If you test positive, you can start life-saving treatment (ART) immediately to protect your immune system and live a long, healthy life.",
+                "<strong>For Your Partners:</strong> Knowing your status allows you to take steps to protect your sexual and drug-using partners.",
+                "<strong>For Peace of Mind:</strong> If you test negative, you can be confident in your status and take steps like PrEP to stay negative.",
+                "<strong>For Public Health:</strong> Widespread testing is essential to ending the HIV epidemic. When people know their status, they can get the care they need to prevent further transmission."
+            ],
+            who_test_title: "Who Should Get Tested?",
+            who_test_p1: "The CDC has clear recommendations for HIV testing:",
+            who_test_list: [
+                "<strong>Everyone:</strong> All individuals aged 13 to 64 should be tested at least once as part of routine healthcare.",
+                "<strong>People with Risk Factors:</strong> You should be tested at least once a year if you have had more than one sexual partner, have a partner with HIV, or share injection drug equipment.",
+                "<strong>Sexually Active Gay & Bisexual Men:</strong> More frequent testing (every 3 to 6 months) may be recommended.",
+                "<strong>Pregnant People:</strong> All pregnant individuals should be tested for HIV so they can take steps to protect their baby if they are positive."
+            ],
+            tests_section_title: "Types of HIV Tests",
+            tests_section_subtitle: "Different tests can detect HIV at different times after exposure. This time is called the 'window period'.",
+            test_options: [
+                {
+                    icon: '🩸',
+                    title: 'Antibody Tests (Rapid & Self-Tests)',
+                    what_it_looks_for: 'Looks for antibodies to HIV, which are proteins your body makes to fight the virus.',
+                    sample_type: 'Usually from an oral fluid swab or a finger prick blood sample.',
+                    window_period: '23 to 90 days after exposure.',
+                    clinical_utility: 'Excellent for routine screening and convenient testing at home or in community settings. A positive result always requires a follow-up lab test for confirmation.',
+                    color: 'pink'
+                },
+                {
+                    icon: '🧬',
+                    title: 'Antigen/Antibody Tests (Lab & Rapid)',
+                    what_it_looks_for: 'Looks for both HIV antibodies and a part of the virus called the p24 antigen.',
+                    sample_type: 'A blood draw from a vein for lab tests; a finger prick for rapid tests.',
+                    window_period: '18 to 45 days (lab test) or 18 to 90 days (rapid test) after exposure.',
+                    clinical_utility: 'This is the recommended standard screening test in labs because it can detect infection earlier than an antibody-only test. It is used for routine screening and to confirm initial positive rapid tests.',
+                    color: 'violet'
+                },
+                {
+                    icon: '🔬',
+                    title: 'Nucleic Acid Tests (NAT)',
+                    what_it_looks_for: 'Looks directly for the virus’s genetic material (RNA) in the blood.',
+                    sample_type: 'A blood draw from a vein. This test can only be done in a laboratory.',
+                    window_period: '10 to 33 days after exposure.',
+                    clinical_utility: 'This is the earliest-detecting test. It is used for people with a very recent high-risk exposure and symptoms, to confirm positive results from other tests, or to monitor treatment effectiveness (viral load).',
+                    color: 'sky'
+                },
+                {
+                    icon: '🏠',
+                    title: 'At-Home Self-Tests',
+                    what_it_looks_for: 'These are antibody tests that you perform entirely on your own.',
+                    sample_type: 'Typically an oral fluid swab. You get your results in about 20 minutes.',
+                    window_period: '23 to 90 days. Since it is an antibody test, it has a longer window period.',
+                    clinical_utility: 'Provides a convenient and private option for testing. It is crucial to follow the instructions exactly. If the test is positive, you must see a healthcare provider for a confirmatory lab test.',
+                    color: 'green'
+                }
+            ],
+            results_section_title: "Understanding Your Test Results",
+            results_section_subtitle: "The HIV testing process is designed to be extremely accurate. Here’s how doctors interpret the results.",
+            results_flowchart: {
+                start_title: "Step 1: Initial HIV Test",
+                start_desc: "(Rapid Test or Lab Screening Test)",
+                result_negative_title: "Result: Negative",
+                result_negative_desc: "No evidence of HIV was found. If you have had no new exposures within the test's window period, you can be confident you are HIV-negative.",
+                result_positive_title: "Result: Preliminary Positive",
+                result_positive_desc: "The initial test reacted. This does NOT mean you have HIV. A follow-up, confirmatory test is required.",
+                follow_up_title: "Step 2: Confirmatory Test",
+                follow_up_desc: "(A different, highly sensitive lab test is performed on the same blood sample or a new one)",
+                confirmed_positive_title: "Result: Confirmed Positive",
+                confirmed_positive_desc: "This means you are living with HIV. The next step is to connect with a healthcare provider to start treatment (ART) as soon as possible.",
+                confirmed_negative_title: "Result: Negative",
+                confirmed_negative_desc: "This means the first test was a false positive. You do not have HIV."
+            },
+            after_positive_title: "After a Positive Diagnosis: Your First Medical Tests",
+            after_positive_subtitle: "Once HIV is confirmed, your doctor will order several baseline tests to get a complete picture of your health and guide your treatment plan.",
+            after_positive_options: [
+                {
+                    icon: '📈',
+                    title: 'Viral Load (HIV RNA)',
+                    why_it_is_done: 'This measures how much HIV is in your blood. It is the key indicator of how active the virus is.',
+                    what_it_tells_the_doctor: 'Your starting viral load helps the doctor see how your body is responding to the virus. After you start treatment, this test is used to confirm that the medicine is working and that you have become undetectable.',
+                    color: 'rose'
+                },
+                {
+                    icon: '🛡️',
+                    title: 'CD4 Cell Count',
+                    why_it_is_done: 'This measures the number of CD4 cells, giving a snapshot of your immune system\'s health.',
+                    what_it_tells_the_doctor: 'Your baseline CD4 count shows how much damage, if any, the virus has already done to your immune system. It helps assess your risk for opportunistic infections and tracks your immune recovery on treatment.',
+                    color: 'amber'
+                },
+                {
+                    icon: '🔑',
+                    title: 'Drug Resistance Test (Genotype)',
+                    why_it_is_done: 'This test checks if the strain of HIV you have is resistant to any specific HIV medications.',
+                    what_it_tells_the_doctor: 'This is like a "lock and key" test. It helps your doctor choose the most effective combination of drugs for your first treatment regimen, avoiding any medications that the virus might already be able to resist.',
+                    color: 'lime'
+                },
+                {
+                    icon: '🩺',
+                    title: 'Baseline Health Screenings',
+                    why_it_is_done: 'To check your overall health and screen for common coinfections and other conditions.',
+                    what_it_tells_the_doctor: 'This includes tests for other STIs (like syphilis, gonorrhea, chlamydia), Hepatitis B and C, and basic blood work to check your kidney and liver function, blood sugar, and cholesterol before starting treatment.',
+                    color: 'cyan'
+                }
+            ],
+            back_button: "Back",
+            footer_disclaimer: "This guide provides general information and is not a substitute for professional medical advice. Always consult with your healthcare provider for diagnosis and to understand your personal test results.",
+            footer_source_intro: "Content is based on information from:"
+        },
+        es: {
+            header_title: "Guía de Pruebas de VIH",
+            main_title: "Su Guía de Pruebas Diagnósticas de VIH",
+            main_subtitle: "Hacerse la prueba es la única manera de saber su estado de VIH. Esta guía explica los diferentes tipos de pruebas, quién debe hacerse la prueba y cómo entender sus resultados.",
+            why_test_title: "¿Por Qué Hacerse la Prueba?",
+            why_test_p1: "Conocer su estado de VIH es un paso fundamental para cuidar su salud. Le empodera para tomar decisiones informadas, sin importar el resultado.",
+            why_test_list: [
+                "<strong>Por Su Salud:</strong> Si el resultado es positivo, puede comenzar un tratamiento vital (TAR) de inmediato para proteger su sistema inmunológico y vivir una vida larga y saludable.",
+                "<strong>Por Sus Parejas:</strong> Conocer su estado le permite tomar medidas para proteger a sus parejas sexuales y de uso de drogas.",
+                "<strong>Por Tranquilidad:</strong> Si el resultado es negativo, puede estar seguro de su estado y tomar medidas como la PrEP para mantenerse negativo.",
+                "<strong>Por la Salud Pública:</strong> Las pruebas generalizadas son esenciales para poner fin a la epidemia de VIH. Cuando las personas conocen su estado, pueden recibir la atención que necesitan para prevenir futuras transmisiones."
+            ],
+            who_test_title: "¿Quién Debería Hacerse la Prueba?",
+            who_test_p1: "Los CDC tienen recomendaciones claras para las pruebas de VIH:",
+            who_test_list: [
+                "<strong>Todos:</strong> Todas las personas de 13 a 64 años deben hacerse la prueba al menos una vez como parte de la atención médica de rutina.",
+                "<strong>Personas con Factores de Riesgo:</strong> Debe hacerse la prueba al menos una vez al año si ha tenido más de una pareja sexual, tiene una pareja con VIH o comparte equipo de inyección de drogas.",
+                "<strong>Hombres Gay y Bisexuales Sexualmente Activos:</strong> Se pueden recomendar pruebas más frecuentes (cada 3 a 6 meses).",
+                "<strong>Personas Embarazadas:</strong> Todas las personas embarazadas deben hacerse la prueba del VIH para poder tomar medidas para proteger a su bebé si son positivas."
+            ],
+            tests_section_title: "Tipos de Pruebas de VIH",
+            tests_section_subtitle: "Diferentes pruebas pueden detectar el VIH en diferentes momentos después de la exposición. Este tiempo se llama el 'período de ventana'.",
+            test_options: [
+                {
+                    icon: '🩸',
+                    title: 'Pruebas de Anticuerpos (Rápidas y Autopruebas)',
+                    what_it_looks_for: 'Busca anticuerpos contra el VIH, que son proteínas que su cuerpo produce para combatir el virus.',
+                    sample_type: 'Generalmente de una muestra de fluido oral o una muestra de sangre por punción en el dedo.',
+                    window_period: '23 a 90 días después de la exposición.',
+                    clinical_utility: 'Excelentes para la detección de rutina y pruebas convenientes en casa o en entornos comunitarios. Un resultado positivo siempre requiere una prueba de laboratorio de seguimiento para su confirmación.',
+                    color: 'pink'
+                },
+                {
+                    icon: '🧬',
+                    title: 'Pruebas de Antígeno/Anticuerpo (Laboratorio y Rápidas)',
+                    what_it_looks_for: 'Busca tanto los anticuerpos del VIH como una parte del virus llamada antígeno p24.',
+                    sample_type: 'Una extracción de sangre de una vena para pruebas de laboratorio; una punción en el dedo para pruebas rápidas.',
+                    window_period: '18 a 45 días (prueba de laboratorio) o 18 a 90 días (prueba rápida) después de la exposición.',
+                    clinical_utility: 'Esta es la prueba de detección estándar recomendada en los laboratorios porque puede detectar la infección antes que una prueba de solo anticuerpos. Se utiliza para la detección de rutina y para confirmar pruebas rápidas iniciales positivas.',
+                    color: 'violet'
+                },
+                {
+                    icon: '🔬',
+                    title: 'Pruebas de Ácido Nucleico (NAT)',
+                    what_it_looks_for: 'Busca directamente el material genético del virus (ARN) en la sangre.',
+                    sample_type: 'Una extracción de sangre de una vena. Esta prueba solo se puede realizar en un laboratorio.',
+                    window_period: '10 a 33 días después de la exposición.',
+                    clinical_utility: 'Esta es la prueba de detección más temprana. Se utiliza para personas con una exposición de alto riesgo muy reciente y con síntomas, para confirmar resultados positivos de otras pruebas o para monitorear la efectividad del tratamiento (carga viral).',
+                    color: 'sky'
+                },
+                {
+                    icon: '🏠',
+                    title: 'Autopruebas en el Hogar',
+                    what_it_looks_for: 'Estas son pruebas de anticuerpos que usted realiza completamente por su cuenta.',
+                    sample_type: 'Típicamente una muestra de fluido oral. Obtiene sus resultados en unos 20 minutos.',
+                    window_period: '23 a 90 días. Dado que es una prueba de anticuerpos, tiene un período de ventana más largo.',
+                    clinical_utility: 'Proporciona una opción conveniente y privada para la prueba. Es crucial seguir las instrucciones exactamente. Si la prueba es positiva, debe consultar a un proveedor de atención médica para una prueba de laboratorio de confirmación.',
+                    color: 'green'
+                }
+            ],
+            results_section_title: "Entendiendo los Resultados de su Prueba",
+            results_section_subtitle: "El proceso de prueba del VIH está diseñado para ser extremadamente preciso. Así es como los médicos interpretan los resultados.",
+            results_flowchart: {
+                start_title: "Paso 1: Prueba Inicial de VIH",
+                start_desc: "(Prueba Rápida o Prueba de Detección de Laboratorio)",
+                result_negative_title: "Resultado: Negativo",
+                result_negative_desc: "No se encontró evidencia de VIH. Si no ha tenido nuevas exposiciones dentro del período de ventana de la prueba, puede estar seguro de que es VIH negativo.",
+                result_positive_title: "Resultado: Positivo Preliminar",
+                result_positive_desc: "La prueba inicial reaccionó. Esto NO significa que tenga VIH. Se requiere una prueba de confirmación de seguimiento.",
+                follow_up_title: "Paso 2: Prueba de Confirmación",
+                follow_up_desc: "(Se realiza una prueba de laboratorio diferente y altamente sensible en la misma muestra de sangre o en una nueva)",
+                confirmed_positive_title: "Resultado: Positivo Confirmado",
+                confirmed_positive_desc: "Esto significa que vive con el VIH. El siguiente paso es conectarse con un proveedor de atención médica para comenzar el tratamiento (TAR) lo antes posible.",
+                confirmed_negative_title: "Resultado: Negativo",
+                confirmed_negative_desc: "Esto significa que la primera prueba fue un falso positivo. Usted no tiene VIH."
+            },
+            after_positive_title: "Después de un Diagnóstico Positivo: Sus Primeras Pruebas Médicas",
+            after_positive_subtitle: "Una vez que se confirma el VIH, su médico ordenará varias pruebas de referencia para obtener una imagen completa de su salud y guiar su plan de tratamiento.",
+            after_positive_options: [
+                {
+                    icon: '📈',
+                    title: 'Carga Viral (ARN del VIH)',
+                    why_it_is_done: 'Esto mide la cantidad de VIH en su sangre. Es el indicador clave de cuán activo está el virus.',
+                    what_it_tells_the_doctor: 'Su carga viral inicial ayuda al médico a ver cómo está respondiendo su cuerpo al virus. Después de comenzar el tratamiento, esta prueba se usa para confirmar que el medicamento está funcionando y que se ha vuelto indetectable.',
+                    color: 'rose'
+                },
+                {
+                    icon: '🛡️',
+                    title: 'Recuento de Células CD4',
+                    why_it_is_done: 'Esto mide el número de células CD4, dando una instantánea de la salud de su sistema inmunológico.',
+                    what_it_tells_the_doctor: 'Su recuento de CD4 de referencia muestra cuánto daño, si lo hay, ya ha causado el virus a su sistema inmunológico. Ayuda a evaluar su riesgo de infecciones oportunistas y rastrea su recuperación inmunológica con el tratamiento.',
+                    color: 'amber'
+                },
+                {
+                    icon: '🔑',
+                    title: 'Prueba de Resistencia a los Medicamentos (Genotipo)',
+                    why_it_is_done: 'Esta prueba verifica si la cepa de VIH que tiene es resistente a algún medicamento específico contra el VIH.',
+                    what_it_tells_the_doctor: 'Esto es como una prueba de "cerradura y llave". Ayuda a su médico a elegir la combinación de medicamentos más efectiva para su primer régimen de tratamiento, evitando cualquier medicamento al que el virus ya pueda resistir.',
+                    color: 'lime'
+                },
+                {
+                    icon: '🩺',
+                    title: 'Exámenes de Salud de Referencia',
+                    why_it_is_done: 'Para verificar su salud general y detectar coinfecciones comunes y otras afecciones.',
+                    what_it_tells_the_doctor: 'Esto incluye pruebas para otras ITS (como sífilis, gonorrea, clamidia), Hepatitis B y C, y análisis de sangre básicos para verificar la función de sus riñones e hígado, el azúcar en la sangre y el colesterol antes de comenzar el tratamiento.',
+                    color: 'cyan'
+                }
+            ],
+            back_button: "Volver",
+            footer_disclaimer: "Esta guía proporciona información general y no sustituye el consejo médico profesional. Siempre consulte con su proveedor de atención médica para el diagnóstico y para entender los resultados de sus pruebas personales.",
+            footer_source_intro: "El contenido se basa en información de:"
+        }
+    };
+
+    let currentLanguage = 'en';
+
+    function renderContent() {
+        const t = translations[currentLanguage];
+        
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (t[key] && typeof t[key] === 'string') {
+                 el.innerHTML = t[key];
+            }
+        });
+        
+        renderList('why-test-list', t.why_test_list);
+        renderList('who-test-list', t.who_test_list);
+        renderTestCards('tests-cards-container', t.test_options);
+        renderFlowchart('results-flowchart', t.results_flowchart);
+        renderAfterPositiveCards('after-positive-cards-container', t.after_positive_options);
+    }
+
+    function renderList(containerId, data) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        data.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'flex items-start';
+            li.innerHTML = `
+                <svg class="flex-shrink-0 h-6 w-6 text-indigo-500 mr-2 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-slate-700">${item}</span>
+            `;
+            container.appendChild(li);
+        });
+    }
+
+    function renderTestCards(containerId, data) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        data.forEach(item => {
+            const card = document.createElement('div');
+            card.className = `bg-white rounded-xl shadow-lg p-6 border-t-4 border-${item.color}-500 flex flex-col`;
+            card.innerHTML = `
+                <div class="flex items-center mb-4">
+                    <span class="text-4xl mr-4">${item.icon}</span>
+                    <div>
+                        <h4 class="text-xl font-bold text-slate-800">${item.title}</h4>
+                    </div>
+                </div>
+                <div class="text-slate-600 space-y-4">
+                    <p><strong class="text-slate-800">What it looks for:</strong> ${item.what_it_looks_for}</p>
+                    <p><strong class="text-slate-800">Sample Type:</strong> ${item.sample_type}</p>
+                    <p><strong class="text-slate-800">Window Period:</strong> ${item.window_period}</p>
+                    <p><strong class="text-slate-800">Clinical Utility:</strong> ${item.clinical_utility}</p>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+    
+    function renderAfterPositiveCards(containerId, data) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        data.forEach(item => {
+            const card = document.createElement('div');
+            card.className = `bg-white rounded-xl shadow-lg p-6 border-t-4 border-${item.color}-500 flex flex-col`;
+            card.innerHTML = `
+                <div class="flex items-center mb-4">
+                    <span class="text-4xl mr-4">${item.icon}</span>
+                    <div>
+                        <h4 class="text-xl font-bold text-slate-800">${item.title}</h4>
+                    </div>
+                </div>
+                <div class="text-slate-600 space-y-4">
+                    <p><strong class="text-slate-800">Why it's done:</strong> ${item.why_it_is_done}</p>
+                    <p><strong class="text-slate-800">What it tells the doctor:</strong> ${item.what_it_tells_the_doctor}</p>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function renderFlowchart(containerId, data) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = `
+            <div class="flowchart-box bg-indigo-50 border-indigo-200">
+                <h4 class="font-bold text-lg text-indigo-800">${data.start_title}</h4>
+                <p class="text-sm text-indigo-700">${data.start_desc}</p>
+            </div>
+            <div class="flowchart-arrow"></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <div class="flowchart-box bg-green-50 border-green-200 h-full">
+                        <h4 class="font-bold text-lg text-green-800">${data.result_negative_title}</h4>
+                        <p class="text-sm text-green-700">${data.result_negative_desc}</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="flowchart-box bg-yellow-50 border-yellow-200">
+                        <h4 class="font-bold text-lg text-yellow-800">${data.result_positive_title}</h4>
+                        <p class="text-sm text-yellow-700">${data.result_positive_desc}</p>
+                    </div>
+                    <div class="flowchart-arrow"></div>
+                    <div class="flowchart-box bg-slate-50 border-slate-200">
+                        <h4 class="font-bold text-lg text-slate-800">${data.follow_up_title}</h4>
+                        <p class="text-sm text-slate-700">${data.follow_up_desc}</p>
+                    </div>
+                    <div class="flowchart-arrow"></div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                         <div class="flowchart-box bg-green-50 border-green-200 h-full">
+                            <h4 class="font-bold text-lg text-green-800">${data.confirmed_negative_title}</h4>
+                            <p class="text-sm text-green-700">${data.confirmed_negative_desc}</p>
+                        </div>
+                        <div class="flowchart-box bg-red-50 border-red-200 h-full">
+                            <h4 class="font-bold text-lg text-red-800">${data.confirmed_positive_title}</h4>
+                            <p class="text-sm text-red-700">${data.confirmed_positive_desc}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function changeLanguage(lang) {
+        currentLanguage = lang;
+        document.documentElement.lang = lang;
+        document.querySelectorAll('.js-lang-en').forEach(btn => btn.classList.toggle('active', lang === 'en'));
+        document.querySelectorAll('.js-lang-es').forEach(btn => btn.classList.toggle('active', lang === 'es'));
+        renderContent();
+    }
+    
+    document.querySelectorAll('.js-lang-en').forEach(btn => btn.addEventListener('click', () => changeLanguage('en')));
+    document.querySelectorAll('.js-lang-es').forEach(btn => btn.addEventListener('click', () => changeLanguage('es')));
+    
+    document.querySelectorAll('.js-show-google').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const parentSelector = e.currentTarget.closest('.js-lang-selector');
+            parentSelector.querySelector('.js-native-toggle').classList.add('hidden');
+            const googleToggle = parentSelector.querySelector('.js-google-toggle');
+            googleToggle.classList.remove('hidden');
+            googleToggle.classList.add('flex');
+        });
+    });
+
+    document.querySelectorAll('.js-back-native').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const parentSelector = e.currentTarget.closest('.js-lang-selector');
+            parentSelector.querySelector('.js-native-toggle').classList.remove('hidden');
+            const googleToggle = parentSelector.querySelector('.js-google-toggle');
+            googleToggle.classList.add('hidden');
+            googleToggle.classList.remove('flex');
+            
+            const googleCookie = document.cookie.match(/googtrans=([^\;]+)/);
+            if (googleCookie) {
+                document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
+                document.cookie = 'googtrans=/en/en; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=.' + window.location.hostname;
+            }
+            
+            changeLanguage(currentLanguage);
+            location.reload();
+        });
+    });
+
+    changeLanguage('en');
+
+});
+</script>
+
+</body>
+</html>

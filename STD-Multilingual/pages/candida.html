@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Patient's Guide to Candidiasis (Yeast Infection)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .lang-btn { transition: background-color 0.2s, color 0.2s; }
+        .lang-btn.active { background-color: #0d9488; color: white; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+        .goog-te-gadget-simple { background-color: white !important; border: 1px solid #9ca3af !important; border-radius: 0.375rem !important; padding: 0.25rem 0.5rem !important; display: inline-block; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; }
+        .goog-te-gadget-simple span, .goog-te-gadget-simple .goog-te-menu-value span { color: #374151 !important; }
+        .goog-te-gadget-simple .goog-te-menu-value span:last-child { display: none; }
+        .symptom-tab { cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; }
+        .symptom-tab.active { border-bottom-color: #14b8a6; color: #0f766e; font-weight: 600; }
+        .symptom-content { display: none; }
+        .symptom-content.active { display: block; }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../landing.html" class="text-sm font-medium text-teal-600 hover:text-teal-800" data-translate="back_link"></a>
+                    <span class="mx-2 text-slate-300">|</span>
+                    <h1 class="text-lg font-bold text-slate-800" data-translate="header_title"></h1>
+                </div>
+                <div class="flex items-center">
+                    <div id="lang-selector" class="flex items-center shrink-0">
+                        <div id="native-lang-toggle" class="flex items-center">
+                            <div class="flex rounded-lg border border-gray-300 p-0.5">
+                                <button id="lang-en" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">EN</button>
+                                <button id="lang-es" class="lang-btn px-3 py-1 text-sm font-semibold rounded-md">ES</button>
+                            </div>
+                            <button id="show-google-translate" class="ml-2 p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16l-4.25-4.25M19.5 19.5l-4.25-4.25M19.5 19.5l4.25-4.25M19.5 19.5l-4.25 4.25M12 3c-1.242 0-2.48.21-3.634.618m-4.242 4.242A8.964 8.964 0 003 12c0 1.242.21 2.48.618 3.634m4.242 4.242A8.964 8.964 0 0012 21c1.242 0 2.48-.21 3.634-.618m4.242-4.242A8.964 8.964 0 0021 12c0-1.242-.21-2.48-.618-3.634m-4.242-4.242A8.964 8.964 0 0012 3z" /></svg>
+                            </button>
+                        </div>
+                        <div id="google-lang-toggle" class="hidden items-center">
+                            <div id="google_translate_element"></div>
+                            <button id="back-to-native" class="ml-2 text-sm font-semibold text-teal-600 hover:underline" data-translate="lang_back_button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl mx-auto">
+            <header class="text-center mb-10">
+                <h2 class="text-4xl font-bold text-slate-900" data-translate="main_title"></h2>
+                <p class="mt-3 text-lg text-slate-600" data-translate="main_subtitle"></p>
+            </header>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="what_is_it_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p data-translate="what_is_it_desc"></p>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="symptoms_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="border-b border-slate-200 mb-4">
+                        <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+                            <button id="tab-women" class="symptom-tab py-3 px-1 text-base font-medium" data-translate="symptoms_tab_women"></button>
+                            <button id="tab-men" class="symptom-tab py-3 px-1 text-base font-medium" data-translate="symptoms_tab_men"></button>
+                        </nav>
+                    </div>
+                    <div id="content-women" class="symptom-content"></div>
+                    <div id="content-men" class="symptom-content"></div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="causes_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                     <p class="mb-4" data-translate="causes_desc"></p>
+                     <div id="causes_list" class="grid md:grid-cols-2 gap-4"></div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="diagnosis_title"></h3>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p data-translate="diagnosis_desc"></p>
+                </div>
+            </section>
+            
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="treatment_title"></h3>
+                <p class="mb-4 text-slate-600" data-translate="treatment_desc"></p>
+                <div id="treatment_content" class="space-y-6"></div>
+            </section>
+
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="complications_title"></h3>
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-lg shadow-md">
+                    <p class="mb-4 text-red-900" data-translate="complications_desc"></p>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="text-2xl font-bold text-slate-800 mb-4" data-translate="prevention_title"></h3>
+                <div class="bg-teal-50 border-l-4 border-teal-500 text-teal-800 p-6 rounded-lg shadow-md">
+                    <div id="prevention_list" class="space-y-3"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="mt-12 border-t border-slate-200 bg-white">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm text-slate-500">
+            <p data-translate="footer_disclaimer"></p>
+            <a href="../landing.html" class="font-semibold text-teal-600 hover:underline mt-2 inline-block" data-translate="footer_link"></a>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,zh-CN,hi,ar,fr,ru,pt,bn,de,ja,id,tr,ko,vi,it,pl,nl,th,el,sv,iw,fa,ro,uk,ur,sw,tl,ms,ha',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                back_link: "← Back to Main Guide",
+                header_title: "Guide to Candidiasis",
+                lang_back_button: "Back",
+                main_title: "Understanding Candidiasis (Yeast Infection)",
+                main_subtitle: "A very common fungal infection and the most common cause of vaginitis. Learn about its causes, symptoms, and treatment options.",
+                what_is_it_title: "What is Candidiasis?",
+                what_is_it_desc: "Candidiasis is a fungal infection caused by a type of yeast called <em>Candida</em>. This yeast normally lives in and on our bodies (like in the mouth, throat, gut, and vagina) without causing any problems. However, if the environment changes in a way that encourages the yeast to grow out of control, it can cause an infection. The most common type is a vaginal yeast infection, but it can also affect the penis, throat, and other areas.",
+                symptoms_title: "Signs and Symptoms",
+                symptoms_tab_women: "Vaginal Candidiasis",
+                symptoms_tab_men: "Penile Candidiasis (Balanitis)",
+                symptoms_women_list: ["Genital itching, burning, and irritation", "Redness and swelling of the vulva", "Pain during urination or sex", "A thick, white, odor-free vaginal discharge with a cottage cheese-like appearance"],
+                symptoms_men_list: ["Itching, burning, and redness on the head of the penis", "A moist rash, sometimes with small white spots", "A thick, white discharge under the foreskin", "Pain and irritation"],
+                causes_title: "Causes and Risk Factors",
+                causes_desc: "A yeast infection is not typically considered an STI, as it can occur in people who are not sexually active. It's caused by an overgrowth of yeast that is already present in the body. However, it can sometimes be passed between sexual partners. Factors that can disrupt the natural balance and lead to an overgrowth include:",
+                causes_list: [
+                    "<strong>Antibiotic Use:</strong> Antibiotics can kill the 'good' bacteria that normally keep yeast in check.",
+                    "<strong>Hormonal Changes:</strong> Pregnancy, birth control pills, and the normal menstrual cycle can alter hormone levels.",
+                    "<strong>Uncontrolled Diabetes:</strong> High blood sugar levels can feed the yeast.",
+                    "<strong>Weakened Immune System:</strong> Conditions like HIV or treatments like chemotherapy can reduce the body's ability to fight infection.",
+                    "<strong>Lifestyle Factors:</strong> Wearing tight, non-breathable clothing, using scented feminine products, or douching can create a favorable environment for yeast growth."
+                ],
+                diagnosis_title: "How Is It Diagnosed?",
+                diagnosis_desc: "A healthcare provider can often diagnose a yeast infection based on your symptoms and a physical exam. To confirm the diagnosis, they may take a small sample of discharge to examine under a microscope. It's important to get a professional diagnosis, especially the first time you have symptoms, to rule out other conditions like bacterial vaginosis or trichomoniasis, which can have similar symptoms but require different treatment.",
+                treatment_title: "How Is It Treated?",
+                treatment_desc: "Yeast infections are very treatable. The right treatment depends on the severity and frequency of your infections. Partner treatment is not usually necessary unless your partner also has symptoms.",
+                treatment_simple_title: "For Simple Infections",
+                treatment_simple_desc: "For mild, infrequent vaginal yeast infections, many effective over-the-counter (OTC) antifungal creams, ointments, or suppositories are available. A single-dose oral antifungal pill (like fluconazole) may also be prescribed.",
+                treatment_complicated_title: "For Complicated or Recurrent Infections",
+                treatment_complicated_desc: "If your symptoms are severe, or you have four or more yeast infections in a year, your doctor will likely recommend a longer course of treatment. This might include a multi-dose oral medication or a longer course of vaginal therapy, sometimes followed by a maintenance plan to prevent recurrence.",
+                complications_title: "Potential Complications",
+                complications_desc: "For most people, yeast infections are easily treated and do not cause long-term problems. However, in individuals with severely weakened immune systems (such as those undergoing chemotherapy or with advanced HIV), the <em>Candida</em> fungus can potentially enter the bloodstream and cause a serious, systemic infection called invasive candidiasis.",
+                prevention_title: "Tips for Prevention",
+                prevention_list: [
+                    "Wear breathable cotton underwear and avoid tight-fitting pants.",
+                    "Change out of wet clothes, like swimsuits or workout gear, as soon as possible.",
+                    "Avoid douching and using scented feminine products, which can disrupt the natural balance of the vagina.",
+                    "If you have diabetes, keeping your blood sugar levels well-managed is key.",
+                    "Wipe from front to back after using the toilet to prevent spreading bacteria."
+                ]
+            },
+            es: {
+                back_link: "← Volver a la Guía Principal",
+                header_title: "Guía sobre la Candidiasis",
+                lang_back_button: "Volver",
+                main_title: "Entendiendo la Candidiasis (Infección por Hongos)",
+                main_subtitle: "Una infección fúngica muy común y la causa más frecuente de vaginitis. Aprenda sobre sus causas, síntomas y opciones de tratamiento.",
+                what_is_it_title: "¿Qué es la Candidiasis?",
+                what_is_it_desc: "La candidiasis es una infección fúngica causada por un tipo de levadura llamada <em>Candida</em>. Esta levadura normalmente vive en y sobre nuestros cuerpos (como en la boca, garganta, intestino y vagina) sin causar ningún problema. Sin embargo, si el ambiente cambia de una manera que fomenta el crecimiento descontrolado de la levadura, puede causar una infección. El tipo más común es la infección vaginal por hongos, pero también puede afectar el pene, la garganta y otras áreas.",
+                symptoms_title: "Signos y Síntomas",
+                symptoms_tab_women: "Candidiasis Vaginal",
+                symptoms_tab_men: "Candidiasis Peneana (Balanitis)",
+                symptoms_women_list: ["Picazón, ardor e irritación genital", "Enrojecimiento e hinchazón de la vulva", "Dolor al orinar o durante las relaciones sexuales", "Una secreción vaginal espesa, blanca y sin olor con una apariencia similar al requesón"],
+                symptoms_men_list: ["Picazón, ardor y enrojecimiento en la cabeza del pene", "Una erupción húmeda, a veces con pequeñas manchas blancas", "Una secreción espesa y blanca debajo del prepucio", "Dolor e irritación"],
+                causes_title: "Causas y Factores de Riesgo",
+                causes_desc: "Una infección por hongos no se considera típicamente una ITS, ya que puede ocurrir en personas que no son sexualmente activas. Es causada por un crecimiento excesivo de levadura que ya está presente en el cuerpo. Sin embargo, a veces puede transmitirse entre parejas sexuales. Los factores que pueden alterar el equilibrio natural y provocar un crecimiento excesivo incluyen:",
+                causes_list: [
+                    "<strong>Uso de Antibióticos:</strong> Los antibióticos pueden matar las bacterias 'buenas' que normalmente mantienen a raya a la levadura.",
+                    "<strong>Cambios Hormonales:</strong> El embarazo, las píldoras anticonceptivas y el ciclo menstrual normal pueden alterar los niveles hormonales.",
+                    "<strong>Diabetes no Controlada:</strong> Los niveles altos de azúcar en la sangre pueden alimentar a la levadura.",
+                    "<strong>Sistema Inmunológico Debilitado:</strong> Condiciones como el VIH o tratamientos como la quimioterapia pueden reducir la capacidad del cuerpo para combatir infecciones.",
+                    "<strong>Factores de Estilo de Vida:</strong> Usar ropa ajustada y no transpirable, usar productos femeninos perfumados o las duchas vaginales pueden crear un ambiente favorable para el crecimiento de la levadura."
+                ],
+                diagnosis_title: "¿Cómo se Diagnostica?",
+                diagnosis_desc: "Un proveedor de atención médica a menudo puede diagnosticar una infección por hongos basándose en sus síntomas y un examen físico. Para confirmar el diagnóstico, pueden tomar una pequeña muestra de secreción para examinarla bajo un microscopio. Es importante obtener un diagnóstico profesional, especialmente la primera vez que tiene síntomas, para descartar otras afecciones como la vaginosis bacteriana o la tricomoniasis, que pueden tener síntomas similares pero requieren un tratamiento diferente.",
+                treatment_title: "¿Cómo se Trata?",
+                treatment_desc: "Las infecciones por hongos son muy tratables. El tratamiento adecuado depende de la gravedad y la frecuencia de sus infecciones. El tratamiento de la pareja no suele ser necesario a menos que su pareja también tenga síntomas.",
+                treatment_simple_title: "Para Infecciones Simples",
+                treatment_simple_desc: "Para infecciones vaginales por hongos leves y poco frecuentes, hay muchas cremas, ungüentos o supositorios antimicóticos eficaces de venta libre (OTC). También se puede recetar una píldora antimicótica oral de dosis única (como fluconazol).",
+                treatment_complicated_title: "Para Infecciones Complicadas o Recurrentes",
+                treatment_complicated_desc: "Si sus síntomas son graves, o si tiene cuatro o más infecciones por hongos en un año, su médico probablemente le recomendará un tratamiento más prolongado. Esto podría incluir un medicamento oral de varias dosis o un ciclo más largo de terapia vaginal, a veces seguido de un plan de mantenimiento para prevenir la recurrencia.",
+                complications_title: "Posibles Complicaciones",
+                complications_desc: "Para la mayoría de las personas, las infecciones por hongos se tratan fácilmente y no causan problemas a largo plazo. Sin embargo, en personas con sistemas inmunitarios gravemente debilitados (como las que reciben quimioterapia o con VIH avanzado), el hongo <em>Candida</em> puede entrar potencialmente en el torrente sanguíneo y causar una infección grave y sistémica llamada candidiasis invasiva.",
+                prevention_title: "Consejos para la Prevención",
+                prevention_list: [
+                    "Use ropa interior de algodón transpirable y evite los pantalones ajustados.",
+                    "Cámbiese la ropa mojada, como trajes de baño o ropa de ejercicio, lo antes posible.",
+                    "Evite las duchas vaginales y el uso de productos femeninos perfumados, que pueden alterar el equilibrio natural de la vagina.",
+                    "Si tiene diabetes, es clave mantener bien controlados sus niveles de azúcar en la sangre.",
+                    "Límpiese de adelante hacia atrás después de usar el baño para evitar la propagación de bacterias."
+                ]
+            }
+        };
+
+        function renderContent() {
+            const t = translations[currentLanguage];
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (t[key]) el.innerHTML = t[key];
+            });
+            
+            document.getElementById('content-women').innerHTML = `<ul class="list-disc list-inside space-y-2 text-slate-600">${t.symptoms_women_list.map(item => `<li>${item}</li>`).join('')}</ul>`;
+            document.getElementById('content-men').innerHTML = `<ul class="list-disc list-inside space-y-2 text-slate-600">${t.symptoms_men_list.map(item => `<li>${item}</li>`).join('')}</ul>`;
+            
+            document.getElementById('causes_list').innerHTML = t.causes_list.map(item => `
+                <div class="bg-slate-50 p-4 rounded-lg">
+                    <p class="text-slate-700">${item}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('treatment_content').innerHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-400">
+                    <h4 class="text-lg font-bold text-purple-700 mb-2">${t.treatment_simple_title}</h4>
+                    <p>${t.treatment_simple_desc}</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-400">
+                    <h4 class="text-lg font-bold text-indigo-700 mb-2">${t.treatment_complicated_title}</h4>
+                    <p>${t.treatment_complicated_desc}</p>
+                </div>
+            `;
+
+            document.getElementById('prevention_list').innerHTML = t.prevention_list.map(item => `
+                <div class="flex items-start">
+                    <span class="text-teal-600 mr-3 mt-1">✓</span>
+                    <p>${item}</p>
+                </div>
+            `).join('');
+        }
+        
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.symptom-tab');
+            const contents = document.querySelectorAll('.symptom-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    const contentId = `content-${tab.id.split('-')[1]}`;
+                    document.getElementById(contentId).classList.add('active');
+                });
+            });
+            document.getElementById('tab-women').click();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            renderContent();
+        }
+
+        const nativeLangToggle = document.getElementById('native-lang-toggle');
+        const googleLangToggle = document.getElementById('google-lang-toggle');
+        const showGoogleTranslateBtn = document.getElementById('show-google-translate');
+        const backToNativeBtn = document.getElementById('back-to-native');
+        
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        document.getElementById('lang-es').addEventListener('click', () => changeLanguage('es'));
+        
+        showGoogleTranslateBtn.addEventListener('click', () => {
+            nativeLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('flex');
+        });
+
+        backToNativeBtn.addEventListener('click', () => {
+            nativeLangToggle.classList.remove('hidden');
+            googleLangToggle.classList.add('hidden');
+            googleLangToggle.classList.remove('flex');
+            const gTranslateFrame = document.querySelector('.goog-te-banner-frame');
+            if (gTranslateFrame) gTranslateFrame.style.display = 'none';
+            changeLanguage(currentLanguage);
+        });
+
+        // Initial setup
+        changeLanguage('en');
+        setupTabs();
+    });
+    </script>
+</body>
+</html>
